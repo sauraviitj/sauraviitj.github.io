@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Saurav Chowdhury | AI Engineer</title>
+
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono&family=Fraunces&family=Geist&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg: #0d0f0e;
+  --surface: #141614;
+  --border: rgba(255,255,255,0.07);
+  --text: #e8eae6;
+  --muted: #7a7d77;
+  --green: #4ade80;
+  --radius: 10px;
+}
+
+/* RESET */
+* {
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Geist', sans-serif;
+}
+
+/* HEADER */
+.header {
+  padding: 1rem 2rem;
+  border-bottom: 1px solid var(--border);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap: 20px;
+}
+
+.logo {
+  font-family: 'DM Mono';
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.nav a {
+  margin-left:20px;
+  text-decoration:none;
+  color:var(--muted);
+  font-size:13px;
+  transition: 0.2s;
+}
+
+.nav a:hover {
+  color: var(--green);
+}
+
+/* CONTACT */
+.contact {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.contact a,
+.contact .email {
+  font-family: 'DM Mono';
+  font-size: 11px;
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.contact a:hover {
+  color: var(--green);
+}
+
+/* HERO */
+.hero {
+  padding: 3rem 2rem 1.5rem; /* tighter but not cramped */
+  max-width:900px;
+  margin:auto;
+}
+
+.hero-container {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:40px;
+}
+
+.hero-text {
+  flex:1;
+}
+
+.hero h1 {
+  font-family:'Fraunces', serif;
+  font-size: clamp(1.8rem,4vw,2.4rem); /* reduced dominance */
+}
+
+.hero span {
+  color: var(--green);
+}
+
+.hero p {
+  color: var(--muted);
+  margin-top:0.8rem;
+  line-height:1.6;
+}
+
+.hero-img img {
+  width:220px;
+  height:220px;
+  border-radius:50%;
+  object-fit:cover;
+}
+
+/* SPLIT SECTION */
+.main-split {
+  max-width: 1100px;
+  margin: 2rem auto 3rem; /* balanced spacing */
+  padding: 0 2rem;
+  display: flex;
+  gap: 60px;
+  align-items: center;
+}
+
+/* QUOTE */
+.quote-section {
+  flex:1;
+  margin-top: 1rem;
+}
+
+.quote-text {
+  font-family:'Fraunces', serif;
+  font-size: clamp(1.6rem, 3vw, 2.2rem); /* strong presence */
+  line-height:1.3;
+  color: #f5f5f5; /* slightly brighter */
+}
+.header-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); box-shadow: 0 0 10px var(--green); animation: pulse 2s ease-in-out infinite; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+.highlight {
+  color: #60a5fa;
+}
+
+.quote-author {
+  margin-top:1.2rem;
+  font-family:'DM Mono';
+  color:#facc15;
+}
+
+/* ABOUT */
+.about-minimal {
+  flex:1;
+  margin-top: 1.5rem;
+}
+
+.about-minimal h2 {
+  font-family:'DM Mono';
+  font-size:12px;
+  color:var(--green);
+  margin-bottom:1rem;
+  letter-spacing:0.1em;
+}
+
+.about-minimal p {
+  margin-bottom:1rem;
+  line-height:1.6;
+}
+
+.muted-line {
+  color: var(--muted);
+  font-size:13px;
+}
+
+/* NLP SECTION */
+.section {
+  max-width:900px;
+  margin:2rem auto;
+  padding:2rem;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+}
+
+.section h2 {
+  font-family:'DM Mono';
+  font-size:12px;
+  color:var(--green);
+  margin-bottom:1rem;
+}
+
+.card {
+  padding:1rem;
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+}
+
+.link {
+  color: var(--green);
+  text-decoration:none;
+}
+
+.link:hover {
+  text-decoration:underline;
+}
+
+/* FOOTER */
+.footer {
+  text-align:center;
+  padding:2rem;
+  color:var(--muted);
+  font-size:12px;
+}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .hero-container {
+    flex-direction:column;
+    text-align:center;
+  }
+
+  .main-split {
+    flex-direction:column;
+    gap:30px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header class="header">
+<div class="header-dot"></div>
+  <div class="logo">SAURAV CHOWDHURY</div>
+
+  <div class="nav">
+    <a href="#about">About</a>
+    <a href="https://scholar.google.com/citations?user=64Uu5VoAAAAJ&hl=en">Publications</a>
+    <a href="https://medium.com/@sauravchowdhury16.sc">Vlogs</a>
+    <a href="nlp.html">NLP Prep</a>
+  </div>
+
+  <div class="contact">
+    <span class="email">sauravchowdhury16.sc@gmail.com</span>
+    <a href="https://www.linkedin.com/in/saurav-chowdhury-a193b3117/" target="_blank">LinkedIn</a>
+    <a href="https://github.com/sauraviitj" target="_blank">GitHub</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-container">
+
+    <div class="hero-text">
+      <h1>Saurav <span>Chowdhury</span></h1>
+      <p>AI Engineer · Legal AI · NLP Systems</p>
+      <p>
+        Building intelligent systems in NLP, Legal AI, and multimodal deep learning.
+        Focused on real-world impact through Large Language Models.
+      </p>
+    </div>
+
+    <div class="hero-img">
+      <img src="profile.png" alt="Saurav">
+    </div>
+
+  </div>
+</section>
+
+<section class="main-split">
+
+  <div class="quote-section">
+    <p class="quote-text">
+      “The art of doing mathematics is finding that 
+      <span class="highlight">special case</span>
+      that contains all the germs of generality.”
+    </p>
+    <p class="quote-author">— David Hilbert</p>
+  </div>
+
+  <div class="about-minimal" id="about">
+    <h2>ABOUT</h2>
+
+    <p>
+      RamanuxLabs builds intelligent systems at the intersection of language and mathematics.
+    </p>
+
+    <p>
+      Focused on domain-specific NLP, large language models, and retrieval-based architectures.
+    </p>
+
+    <p>
+      Grounded in the belief that intelligence is not magic, but structure.
+    </p>
+
+    <p class="muted-line">
+      Legal AI · NLP Systems · Mathematics
+    </p>
+
+  </div>
+
+</section>
+
+<section class="section" id="nlp">
+  <h2>NLP INTERVIEW PREP</h2>
+
+  <div class="card">
+    <a href="nlp.html" style="color:var(--green);">
+      Open NLP Interview Questions →
+    </a>
+  </div>
+
+</section>
+
+<div class="footer">
+  © 2026 Saurav Chowdhury
+</div>
+
+</body>
+</html>

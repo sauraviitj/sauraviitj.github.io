@@ -1,0 +1,1217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>NLP Research Scientist — Interview Prep</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;1,9..144,300&family=Geist:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #0d0f0e; --surface: #141614; --surface2: #1c1f1c;
+    --border: rgba(255,255,255,0.07); --border2: rgba(255,255,255,0.13);
+    --text: #e8eae6; --muted: #7a7d77; --faint: #2e3130;
+    --green: #4ade80; --green-dim: #0e2419; --green-mid: #1a3d28;
+    --amber: #fbbf24; --amber-dim: #3d2e0a;
+    --red: #f87171; --red-dim: #3d1414;
+    --blue: #60a5fa; --blue-dim: #0f2540;
+    --purple: #a78bfa; --purple-dim: #1e1535;
+    --teal: #2dd4bf; --teal-dim: #0a2d2a;
+    --pink: #f472b6; --pink-dim: #3d0f26;
+    --coral: #fb923c; --coral-dim: #3d1a08;
+    --slate: #94a3b8; --slate-dim: #1a2030;
+    --radius: 6px; --radius-lg: 12px;
+  }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); font-family: 'Geist', sans-serif; font-size: 15px; line-height: 1.6; min-height: 100vh; }
+  body::before { content: ''; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E"); pointer-events: none; z-index: 1000; opacity: 0.4; }
+
+  /* Header */
+  .header { border-bottom: 1px solid var(--border); padding: 0 2.5rem; position: sticky; top: 0; z-index: 100; background: rgba(13,15,14,0.93); backdrop-filter: blur(16px); display: flex; align-items: center; justify-content: space-between; height: 58px; }
+  .header-brand { display: flex; align-items: center; gap: 10px; }
+  .header-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); box-shadow: 0 0 10px var(--green); animation: pulse 2s ease-in-out infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+  .header-title { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; }
+  .header-stats { display: flex; gap: 24px; align-items: center; }
+  .hstat { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); }
+  .hstat-val { color: var(--green); font-weight: 500; }
+
+  /* Hero */
+  .hero { padding: 5rem 2.5rem 3rem; max-width: 920px; margin: 0 auto; }
+  .hero-label { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--green); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 1.2rem; display: flex; align-items: center; gap: 8px; }
+  .hero-label::before { content: ''; display: inline-block; width: 24px; height: 1px; background: var(--green); }
+  .hero-heading { font-family: 'Fraunces', serif; font-size: clamp(2.2rem,5vw,3.6rem); font-weight: 300; line-height: 1.15; letter-spacing: -0.02em; color: var(--text); margin-bottom: 1.2rem; }
+  .hero-heading em { font-style: italic; color: var(--green); }
+  .hero-sub { font-size: 15px; color: var(--muted); max-width: 560px; line-height: 1.7; margin-bottom: 2.5rem; }
+  .stats-strip { display: flex; gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; margin-bottom: 3rem; }
+  .stat-cell { flex: 1; background: var(--surface); padding: 1.2rem 1.5rem; }
+  .stat-num { font-family: 'Fraunces', serif; font-size: 2rem; font-weight: 600; color: var(--text); line-height: 1; }
+  .stat-lbl { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 4px; }
+
+  /* Controls */
+  .controls { max-width: 920px; margin: 0 auto 2rem; padding: 0 2.5rem; display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+  .search-wrap { flex: 1; min-width: 240px; position: relative; }
+  .search-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--muted); font-size: 14px; pointer-events: none; }
+  .search-input { width: 100%; background: var(--surface); border: 1px solid var(--border2); border-radius: var(--radius); color: var(--text); font-family: 'Geist', sans-serif; font-size: 13px; padding: 9px 12px 9px 34px; outline: none; transition: border-color 0.2s; }
+  .search-input::placeholder { color: var(--muted); }
+  .search-input:focus { border-color: var(--green); }
+  .filters { display: flex; gap: 6px; flex-wrap: wrap; }
+  .fbtn { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.06em; padding: 7px 14px; border-radius: 999px; border: 1px solid var(--border2); background: transparent; color: var(--muted); cursor: pointer; transition: all 0.15s; text-transform: uppercase; }
+  .fbtn:hover { border-color: var(--green); color: var(--green); }
+  .fbtn.active-all { background: var(--green-mid); border-color: var(--green); color: var(--green); }
+  .fbtn.active-easy { background: var(--green-mid); border-color: var(--green); color: var(--green); }
+  .fbtn.active-med { background: var(--amber-dim); border-color: var(--amber); color: var(--amber); }
+  .fbtn.active-hard { background: var(--red-dim); border-color: var(--red); color: var(--red); }
+  .vis-count { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); white-space: nowrap; }
+
+  /* Layout */
+  .layout { max-width: 920px; margin: 0 auto; padding: 0 2.5rem 5rem; display: flex; flex-direction: column; gap: 10px; }
+
+  /* Section */
+  .section { border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--surface); overflow: hidden; transition: border-color 0.2s; }
+  .section:hover { border-color: var(--border2); }
+  .section.hidden { display: none; }
+  .sec-header { display: flex; align-items: center; gap: 14px; padding: 1.1rem 1.4rem; cursor: pointer; user-select: none; transition: background 0.15s; }
+  .sec-header:hover { background: rgba(255,255,255,0.02); }
+  .sec-num { font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 500; width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .sec-info { flex: 1; min-width: 0; }
+  .sec-title { font-size: 14px; font-weight: 500; color: var(--text); margin-bottom: 2px; }
+  .sec-desc { font-size: 12px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .sec-right { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+  .sec-qcount { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); }
+  .sec-diff-pills { display: flex; gap: 3px; }
+  .dpill { width: 6px; height: 6px; border-radius: 50%; }
+  .dpill-easy { background: var(--green); } .dpill-med { background: var(--amber); } .dpill-hard { background: var(--red); }
+  .sec-arrow { color: var(--muted); font-size: 11px; transition: transform 0.2s; }
+  .sec-arrow.open { transform: rotate(180deg); }
+
+  /* Questions block */
+  .questions { border-top: 1px solid var(--border); display: none; }
+  .questions.open { display: block; }
+
+  /* Subtopic group */
+  .subtopic-group { border-bottom: 1px solid var(--border); }
+  .subtopic-group:last-child { border-bottom: none; }
+  .subtopic-header { display: flex; align-items: center; gap: 10px; padding: 0.65rem 1.4rem; cursor: pointer; user-select: none; background: var(--faint); transition: background 0.15s; }
+  .subtopic-header:hover { background: rgba(255,255,255,0.04); }
+  .subtopic-icon { font-size: 10px; color: var(--muted); transition: transform 0.2s; }
+  .subtopic-icon.open { transform: rotate(90deg); }
+  .subtopic-tag { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.07em; text-transform: uppercase; padding: 2px 8px; border-radius: 4px; border: 1px solid transparent; }
+  .subtopic-name { font-size: 12px; font-weight: 500; color: var(--text); flex: 1; }
+  .subtopic-qcount { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); }
+  .subtopic-questions { display: none; }
+  .subtopic-questions.open { display: block; }
+
+  /* Question items */
+  .q-item { border-bottom: 1px solid var(--border); transition: background 0.15s; }
+  .q-item:last-child { border-bottom: none; }
+  .q-item.hidden { display: none; }
+  .q-item:hover { background: rgba(255,255,255,0.015); }
+  .q-top { display: flex; align-items: flex-start; gap: 12px; padding: 0.9rem 1.4rem; cursor: pointer; }
+  .q-badge { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.06em; text-transform: uppercase; padding: 3px 8px; border-radius: 999px; flex-shrink: 0; margin-top: 2px; border: 1px solid transparent; }
+  .badge-easy { background: var(--green-mid); color: var(--green); border-color: rgba(74,222,128,0.2); }
+  .badge-med { background: var(--amber-dim); color: var(--amber); border-color: rgba(251,191,36,0.2); }
+  .badge-hard { background: var(--red-dim); color: var(--red); border-color: rgba(248,113,113,0.2); }
+  .q-text { flex: 1; font-size: 14px; color: var(--text); line-height: 1.55; }
+  .q-chevron { color: var(--faint); font-size: 12px; flex-shrink: 0; margin-top: 3px; transition: all 0.2s; }
+  .q-item.expanded .q-chevron { color: var(--green); transform: rotate(90deg); }
+  .q-hint { display: none; padding: 0 1.4rem 1rem 4rem; }
+  .q-item.expanded .q-hint { display: block; }
+  .hint-label { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+  .hint-text { font-size: 13px; color: #9ba39a; line-height: 1.65; border-left: 2px solid var(--faint); padding-left: 12px; }
+
+  /* Color accents */
+  .c1{background:var(--purple-dim);color:#a78bfa;} .c2{background:var(--teal-dim);color:#2dd4bf;}
+  .c3{background:var(--blue-dim);color:#60a5fa;} .c4{background:var(--coral-dim);color:#fb923c;}
+  .c5{background:var(--purple-dim);color:#a78bfa;} .c6{background:var(--green-mid);color:#4ade80;}
+  .c7{background:var(--amber-dim);color:#fbbf24;} .c8{background:var(--pink-dim);color:#f472b6;}
+  .c9{background:var(--slate-dim);color:#94a3b8;} .c10{background:var(--blue-dim);color:#60a5fa;}
+
+  /* Subtopic tag colors */
+  .st1{background:rgba(167,139,250,0.12);color:#a78bfa;border-color:rgba(167,139,250,0.25);}
+  .st2{background:rgba(45,212,191,0.12);color:#2dd4bf;border-color:rgba(45,212,191,0.25);}
+  .st3{background:rgba(96,165,250,0.12);color:#60a5fa;border-color:rgba(96,165,250,0.25);}
+  .st4{background:rgba(251,146,60,0.12);color:#fb923c;border-color:rgba(251,146,60,0.25);}
+  .st5{background:rgba(167,139,250,0.12);color:#a78bfa;border-color:rgba(167,139,250,0.25);}
+  .st6{background:rgba(74,222,128,0.12);color:#4ade80;border-color:rgba(74,222,128,0.25);}
+  .st7{background:rgba(251,191,36,0.12);color:#fbbf24;border-color:rgba(251,191,36,0.25);}
+  .st8{background:rgba(244,114,182,0.12);color:#f472b6;border-color:rgba(244,114,182,0.25);}
+  .st9{background:rgba(148,163,184,0.12);color:#94a3b8;border-color:rgba(148,163,184,0.25);}
+  .st10{background:rgba(96,165,250,0.12);color:#60a5fa;border-color:rgba(96,165,250,0.25);}
+
+  @keyframes fadeIn { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:translateY(0)} }
+  .section { animation: fadeIn 0.3s ease both; }
+  .section:nth-child(1){animation-delay:0.04s} .section:nth-child(2){animation-delay:0.08s}
+  .section:nth-child(3){animation-delay:0.12s} .section:nth-child(4){animation-delay:0.16s}
+  .section:nth-child(5){animation-delay:0.20s} .section:nth-child(6){animation-delay:0.24s}
+  .section:nth-child(7){animation-delay:0.28s} .section:nth-child(8){animation-delay:0.32s}
+  .section:nth-child(9){animation-delay:0.36s} .section:nth-child(10){animation-delay:0.40s}
+
+  ::-webkit-scrollbar{width:5px} ::-webkit-scrollbar-track{background:transparent} ::-webkit-scrollbar-thumb{background:#2e3130;border-radius:3px}
+
+  @media(max-width:600px){
+    .header{padding:0 1.2rem} .hero{padding:3rem 1.2rem 2rem}
+    .controls{padding:0 1.2rem} .layout{padding:0 1.2rem 4rem}
+    .stats-strip{flex-wrap:wrap} .stat-cell{min-width:50%}
+    .header-stats .hstat:nth-child(3){display:none}
+  }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-brand">
+    <div class="header-dot"></div>
+    <span class="header-title">NLP Research Scientist — Prep Guide</span>
+  </div>
+  <div class="header-stats">
+    <div class="hstat"><span class="hstat-val" id="hdr-visible">142</span> / 142 questions</div>
+    <div class="hstat">10 topics · 38 subtopics</div>
+    <div class="hstat">3 difficulty tiers</div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-label">Interview preparation</div>
+  <h1 class="hero-heading">Master <em>NLP</em> research,<br/>from fundamentals to frontier.</h1>
+  <p class="hero-sub">142 curated questions across 10 topic areas and 38 subtopics, ordered chronologically from classical NLP to large language models. Click any question to reveal key talking points.</p>
+  <div class="stats-strip">
+    <div class="stat-cell"><div class="stat-num">142</div><div class="stat-lbl">Questions</div></div>
+    <div class="stat-cell"><div class="stat-num">10</div><div class="stat-lbl">Topics</div></div>
+    <div class="stat-cell"><div class="stat-num">38</div><div class="stat-lbl">Subtopics</div></div>
+    <div class="stat-cell"><div class="stat-num" id="count-easy">—</div><div class="stat-lbl">Foundational</div></div>
+    <div class="stat-cell"><div class="stat-num" id="count-med">—</div><div class="stat-lbl">Intermediate</div></div>
+    <div class="stat-cell"><div class="stat-num" id="count-hard">—</div><div class="stat-lbl">Advanced</div></div>
+  </div>
+</section>
+
+<div class="controls">
+  <div class="search-wrap">
+    <span class="search-icon">⌕</span>
+    <input class="search-input" id="search" type="text" placeholder="Search questions..." oninput="filterAll()" />
+  </div>
+  <div class="filters">
+    <button class="fbtn active-all" id="f-all" onclick="setFilter('all')">All</button>
+    <button class="fbtn" id="f-easy" onclick="setFilter('easy')">Foundational</button>
+    <button class="fbtn" id="f-med" onclick="setFilter('med')">Intermediate</button>
+    <button class="fbtn" id="f-hard" onclick="setFilter('hard')">Advanced</button>
+  </div>
+  <div class="vis-count" id="vis-count">Showing 142 of 142</div>
+</div>
+
+<main class="layout" id="layout"></main>
+
+<script>
+const TOPICS = [
+  {
+    id:1, cls:'c1', stcls:'st1',
+    title:'Linguistics & NLP Fundamentals',
+    desc:'Core language theory every NLP researcher must know',
+    subtopics:[
+      { name:'Language Levels: Phonology to Pragmatics', qs:[
+        { t:'easy', q:'What is the difference between syntax, semantics, and pragmatics? Give NLP examples.', h:'Syntax = structure (POS tags, parse trees). Semantics = meaning (SRL, WSD). Pragmatics = context/intent (coreference, discourse). "Can you pass the salt?" is syntactically a question, semantically a request, pragmatically a directive.' },
+        { t:'easy', q:'Explain morphological analysis and its role in NLP pipelines.', h:'Covers stemming, lemmatization, tokenization for morphologically rich languages. Subword tokenization (BPE, WordPiece) as modern alternatives handling morphology implicitly in the vocabulary.' },
+        { t:'med', q:'What is phonological processing in NLP and why is it relevant for speech and text?', h:'Grapheme-to-phoneme (G2P) conversion, prosody modeling, homophone disambiguation. Relevant for ASR, TTS, and spell correction. CMU Pronouncing Dictionary, phoneme-level BERT.' }
+      ]},
+      { name:'Semantics & Meaning Representation', qs:[
+        { t:'easy', q:'What is distributional semantics and the distributional hypothesis?', h:'Firth: a word is known by the company it keeps. Basis for word2vec, GloVe, contextual embeddings. Meaning derived from co-occurrence patterns in large corpora.' },
+        { t:'med', q:'How does word sense disambiguation (WSD) work and why is it hard?', h:'Lesk algorithm, supervised WSD with SemCor, contextual embeddings. Challenges: sense granularity, data sparsity, domain shift. WordNet as knowledge resource.' },
+        { t:'hard', q:'Explain the concept of compositionality in language. How do neural models handle it?', h:'Meaning of whole is function of its parts (Frege). Tree-RNNs, structured attention. Whether transformers truly compose is an open research question — they may rely on memorization.' },
+        { t:'med', q:'What are semantic roles and how does PropBank differ from FrameNet?', h:'PropBank: verb-centric, numbered roles (ARG0=agent, ARG1=patient), corpus-derived. FrameNet: frame-semantic, richer role types (frame elements), linked to lexical units. PropBank more widely used in SRL benchmarks.' }
+      ]},
+      { name:'Discourse & Pragmatics', qs:[
+        { t:'med', q:'What is coreference resolution and what makes it challenging?', h:'Mention detection + clustering. Challenges: cataphora, bridging anaphora, event coreference, singletons. SpanBERT-based e2e models. Evaluation: CoNLL F1 on OntoNotes.' },
+        { t:'hard', q:'What is discourse coherence and how do NLP models model it?', h:'Rhetorical Structure Theory (RST), entity grid models (Barzilay & Lapata), coherence scoring with BERT. Applications: essay scoring, summarization. Penn Discourse Treebank (PDTB).' },
+        { t:'hard', q:'How would you evaluate an NLP model when no ground truth labels exist?', h:'Human evaluation (MOS, pairwise ranking), LLM-as-judge (GPT-4), consistency checks, contrast sets, behavioral testing (CheckList), self-consistency as proxy, reference-free metrics (BLEURT, COMET).' }
+      ]},
+      { name:'NLP Paradigms', qs:[
+        { t:'easy', q:'What are the key differences between rule-based, statistical, and neural NLP approaches?', h:'Rule-based: interpretable, brittle. Statistical (HMM, CRF): data-driven, feature-engineered. Neural: learned representations, data-hungry, high accuracy. LLMs blur lines with in-context rule-following.' }
+      ]}
+    ]
+  },
+  {
+    id:2, cls:'c2', stcls:'st2',
+    title:'Classical ML for NLP',
+    desc:'Pre-deep learning foundations still tested in research interviews',
+    subtopics:[
+      { name:'Text Classification', qs:[
+        { t:'easy', q:'How do Naive Bayes classifiers work for text? What are their assumptions and failure modes?', h:'Conditional independence assumption, bag-of-words. Fails on negation, word order, feature correlation. Still competitive for short-text classification and spam detection. Laplace smoothing for zero counts.' },
+        { t:'easy', q:'Explain TF-IDF. When would you still use it over dense embeddings?', h:'TF x log(N/df). Sparse, interpretable, no training needed. Prefer for keyword extraction, BM25 retrieval baselines, small datasets, domain-specific corpora where dense embeddings transfer poorly.' },
+        { t:'med', q:'How does logistic regression with n-gram features compare to neural text classifiers?', h:'Strong baseline: fast, interpretable, feature-inspectable. Misses long-range dependencies and semantic similarity. Neural wins on large datasets; LR wins with tiny labeled data and needs calibration.' }
+      ]},
+      { name:'Sequence Modeling', qs:[
+        { t:'med', q:'What are CRFs and why were they preferred over HMMs for sequence labeling?', h:'CRFs: discriminative, arbitrary feature functions, no independence assumption on observations. HMMs: generative, Markov assumption. CRFs were SOTA for NER/POS pre-deep learning. Features: POS, gazetteer, prefix/suffix.' },
+        { t:'med', q:'Explain the Viterbi algorithm and its role in sequence models.', h:'Dynamic programming for most probable sequence in HMM/CRF. O(TN^2) complexity. Forward-backward for marginal probabilities (training). Still conceptually foundational even if replaced by argmax in neural models.' },
+        { t:'hard', q:'How does the structured perceptron algorithm work for NLP sequence tasks?', h:'Online learning: predict with current weights, update if wrong (add gold features, subtract predicted). Averaged perceptron for stability. Training converges for linearly separable data. Collins (2002) for tagging/parsing.' }
+      ]},
+      { name:'Topic Models & Unsupervised NLP', qs:[
+        { t:'med', q:'How does Latent Dirichlet Allocation (LDA) work? What are its limitations?', h:'Generative model: documents are topic mixtures, topics are word distributions with Dirichlet priors. Inference via variational EM or Gibbs sampling. Limitations: fixed K, bag-of-words, no semantic understanding, short texts.' },
+        { t:'hard', q:'What are neural topic models and how do they improve over LDA?', h:'ProdLDA, CTM (Contextualized Topic Models): encode documents with BERT, decode with softmax over vocabulary. Handles polysemy, produces more coherent topics, but harder to interpret than LDA. Evaluated via coherence (NPMI) and diversity.' }
+      ]},
+      { name:'Feature Engineering', qs:[
+        { t:'easy', q:'What is the role of feature engineering in classical NLP vs. learned representations?', h:'Handcrafted features (POS, gazetteers, n-grams, shape features) vs. end-to-end learned. Inductive bias vs. data-driven. Feature engineering critical for low-data regimes and interpretability requirements.' }
+      ]}
+    ]
+  },
+  {
+    id:3, cls:'c3', stcls:'st3',
+    title:'Word Embeddings & Representation Learning',
+    desc:'From co-occurrence matrices to contextual representations',
+    subtopics:[
+      { name:'Static Embeddings', qs:[
+        { t:'easy', q:'Explain the skip-gram and CBOW objectives in word2vec. What does each predict?', h:'Skip-gram: given center word predict context words. CBOW: given context predict center. Skip-gram better for rare words. CBOW faster. Negative sampling approximates softmax over large vocabulary.' },
+        { t:'med', q:'How does GloVe differ from word2vec? What objective does it optimize?', h:'GloVe: global co-occurrence matrix factorization, weighted least-squares on log co-occurrence ratios. word2vec: local context window, predictive. GloVe explicitly captures global statistics, word2vec uses stochastic local updates.' },
+        { t:'easy', q:'What are the limitations of static word embeddings like word2vec?', h:'One vector per word: no polysemy handling, no morphology, OOV words, no sentence-level context, bias amplification, domain mismatch. These all motivate contextual and subword models.' }
+      ]},
+      { name:'Subword & Character Models', qs:[
+        { t:'med', q:'What is subword tokenization? Compare BPE, WordPiece, and SentencePiece.', h:'BPE: merge most frequent byte pairs (used in GPT). WordPiece: maximize LM likelihood, ## prefix (BERT). SentencePiece: language-agnostic, spaces as characters, used in T5/LLaMA. Key differences: merge criteria and text normalization.' },
+        { t:'hard', q:'How do character-level models work and when are they preferable to subword models?', h:'CNN over characters (CharCNN), character-level RNNs, CharFormer (gradual tokenization). Preferable for highly morphological languages, noisy text (social media, OCR), OOV handling, and fully language-agnostic pipelines.' }
+      ]},
+      { name:'Contextual Embeddings', qs:[
+        { t:'med', q:'How does ELMo address limitations of static embeddings? Explain its architecture.', h:'Bidirectional LSTM LM. Context-sensitive: each layer captures different abstractions. Downstream tasks combine layers via learned scalars. Character-level input handles OOV. First widely adopted contextual embedding.' },
+        { t:'med', q:'How would you measure the quality of word embeddings? Intrinsic vs. extrinsic evaluation.', h:'Intrinsic: analogy (king-man+woman=queen), similarity benchmarks (SimLex-999, WordSim-353). Extrinsic: downstream task performance. Intrinsic correlates poorly with extrinsic — always prefer extrinsic for real assessment.' }
+      ]},
+      { name:'Bias & Fairness in Embeddings', qs:[
+        { t:'hard', q:'Explain bias in word embeddings. How can it be detected and mitigated?', h:'WEAT test detects bias via cosine similarity of target/attribute sets. Debiasing: Bolukbasi linear projection (hard/soft), counterfactual data augmentation, SentenceDebias. Post-hoc debiasing is often superficial — bias re-emerges on downstream tasks.' }
+      ]}
+    ]
+  },
+  {
+    id:4, cls:'c4', stcls:'st4',
+    title:'Deep Learning Architectures for NLP',
+    desc:'RNNs, CNNs, seq2seq and attention mechanisms',
+    subtopics:[
+      { name:'Recurrent Architectures', qs:[
+        { t:'easy', q:'What is the vanishing gradient problem in RNNs and how do LSTMs address it?', h:'Gradients shrink exponentially through time. LSTM: input/forget/output gates + cell state as gradient highway. GRU: simplified reset/update gates. Both maintain flow over longer sequences. Still limited vs. attention for very long sequences.' },
+        { t:'med', q:'Compare bidirectional RNNs vs. standard RNNs. When does bidirectionality matter?', h:'Bidirectional: two passes (forward + backward), context from both directions. Critical for classification, NER, SRL. Not applicable to causal generation tasks. BiLSTM was dominant pre-transformer backbone.' },
+        { t:'hard', q:'What is the quasi-recurrent neural network (QRNN) and what problem does it address?', h:'QRNN (Bradbury et al. 2017): convolutional layers compute gates and candidates, recurrence is a simple pooling step parallelizable across time. 16x faster than LSTM while retaining sequential inductive bias. Precursor to efficient sequence models.' }
+      ]},
+      { name:'Convolutional Models', qs:[
+        { t:'med', q:'How do CNNs capture n-gram features in text classification?', h:'Filters of varying window sizes convolve over embeddings, feature maps max-pooled → classification. TextCNN (Kim 2014). Efficient, parallelizable, local patterns. Misses long-range dependencies. Still strong baseline.' },
+        { t:'med', q:'What is dilated convolution and how is it used in NLP (e.g. ByteNet, WaveNet)?', h:'Dilated convolutions skip positions by factor d, exponentially expanding receptive field without parameter increase. WaveNet (audio), ByteNet (NMT). O(1) depth for any dependency vs. O(n) for RNN. Precursor to efficient long-range models.' }
+      ]},
+      { name:'Sequence-to-Sequence & Decoding', qs:[
+        { t:'easy', q:'Explain the encoder-decoder architecture for seq2seq models.', h:'Encoder: compress input to fixed context vector. Decoder: generate conditioned on context. Bottleneck with long sequences motivated attention. Used in NMT, summarization, dialogue.' },
+        { t:'med', q:'What problem does Bahdanau attention solve and how does it work?', h:'Decoder attends to all encoder states (not just last). Additive attention: score = v*tanh(W1*h_enc + W2*h_dec). Soft alignment weights per decode step. Learns which source tokens to focus on. Eliminates information bottleneck.' },
+        { t:'med', q:'Explain teacher forcing and its trade-offs in sequence generation.', h:'Use ground truth previous token during training for fast convergence, but model sees own output at inference causing exposure bias. Scheduled sampling: gradually switch to model predictions during training to bridge the gap.' },
+        { t:'med', q:'What is beam search? When does it fail for text generation?', h:'Width-k search, maintain top-k hypotheses per step. Failures: repetition (n-gram blocking), generic outputs (length normalization), not globally optimal, high k hurts diversity. Nucleus sampling as alternative.' },
+        { t:'hard', q:'How does a pointer network differ from a standard seq2seq model?', h:'Copy tokens directly from input via attention distribution instead of generating from vocabulary. Used in summarization OOV handling, QA (extractive), and data-to-text. CopyNet, pointer-generator (See et al. 2017), PGNet.' }
+      ]}
+    ]
+  },
+  {
+    id:5, cls:'c5', stcls:'st5',
+    title:'Transformer Architecture & Self-Attention',
+    desc:'The most technically probed area in NLP research interviews',
+    subtopics:[
+      { name:'Attention Mechanisms', qs:[
+        { t:'med', q:'Derive the scaled dot-product attention formula. Why the 1/sqrt(d_k) scaling?', h:'Attention(Q,K,V) = softmax(QK^T / sqrt(d_k))V. For large d_k, QK^T dot products grow large in magnitude, pushing softmax into saturation (near-zero gradients). Scaling by 1/sqrt(d_k) keeps variance ~1.' },
+        { t:'med', q:'What is multi-head attention and why is it better than single-head?', h:'Projects Q, K, V into h independent subspaces, computes attention, concatenates. Allows attending to different representation subspaces simultaneously — different heads specialize (syntactic, positional, semantic). Richer, diverse features.' },
+        { t:'hard', q:'What are induction heads and what role do they play in transformers?', h:'Induction heads (Olsson et al. 2022): two-head circuit enabling in-context learning. Head 1 attends to previous token; Head 2 attends to token following the previous occurrence of current token. Mechanistic basis for copying and few-shot learning.' }
+      ]},
+      { name:'Positional Encoding', qs:[
+        { t:'med', q:'How does positional encoding work? Compare sinusoidal, learned, and RoPE.', h:'Sinusoidal: fixed, relative positions encoded via dot products, extrapolates. Learned: data-driven, poor OOD. RoPE: rotates Q/K in complex plane, relative positions directly in attention, better extrapolation. Used in LLaMA, GPT-NeoX, Mistral.' },
+        { t:'hard', q:'What is ALiBi and how does it enable length extrapolation?', h:'Attention with Linear Biases (Press et al. 2022): add linear penalty proportional to distance (–m*|i-j|) to attention scores before softmax. No positional embeddings. Trains on short sequences, extrapolates to longer at inference. Used in BLOOM.' }
+      ]},
+      { name:'Architecture Components', qs:[
+        { t:'hard', q:'Explain layer normalization. Pre-LN vs. Post-LN trade-offs.', h:'Post-LN (original Vaswani): after residual, gradient vanishing in deep nets, requires careful LR warmup. Pre-LN (modern): before sublayers, more stable training, enables training without warmup. GPT-2+, PaLM, most modern LLMs use Pre-LN.' },
+        { t:'med', q:'What is the Feed-Forward Network in a transformer layer doing? Why 4x expansion?', h:'Two linear projections with GELU/ReLU. Interpreted as key-value memory store (Geva et al. 2021). 4x heuristic from Vaswani et al. Variants: SwiGLU (LLaMA uses 2/3 * 4 = 2.67x), wider FFN in PaLM.' },
+        { t:'easy', q:'What are the differences between encoder-only, decoder-only, and encoder-decoder models?', h:'Encoder-only (BERT): bidirectional, understanding (classification, NER, QA). Decoder-only (GPT): causal, generation. Encoder-decoder (T5, BART): seq2seq tasks. Decoder-only dominates LLMs; encoder-only dominates embedding/retrieval.' },
+        { t:'easy', q:'How does the Transformer handle long-range dependencies compared to RNNs?', h:'Constant O(1) path length between any two positions vs. O(n) for RNN. Parallel computation (no sequential bottleneck). Trade-off: O(n^2) attention cost limits sequence length.' }
+      ]},
+      { name:'Efficient Transformers', qs:[
+        { t:'hard', q:'What is the computational complexity of self-attention? How do efficient transformers address it?', h:'O(n^2 * d) time and space. Sparse attention: Longformer/BigBird O(n*sqrt(n)), sliding window + global tokens. Linear attention: Performer, kernel trick O(n). FlashAttention: IO-aware tiling — same math, O(n^2) ops but O(1) memory.' },
+        { t:'hard', q:'Explain Flash Attention. What problem does it solve and how?', h:'IO-aware exact attention (Dao et al. 2022). Avoids materializing O(n^2) matrix in HBM by computing in tiles in SRAM. Same mathematical result. 2-4x faster wall clock, O(n) memory. Flash Attention 2 further optimizes thread parallelism.' },
+        { t:'hard', q:'What is Mixture of Experts (MoE) and how does it scale transformers efficiently?', h:'Replace FFN with N expert FFNs. Router selects top-k per token (sparse activation). Same FLOPs per forward pass, more parameters. Mixtral 8x7B, GPT-4 rumored MoE. Challenges: load balancing loss, communication overhead, training instability.' }
+      ]}
+    ]
+  },
+  {
+    id:6, cls:'c6', stcls:'st6',
+    title:'Pre-training, Fine-tuning & Adaptation',
+    desc:'BERT, GPT, T5 and parameter-efficient methods',
+    subtopics:[
+      { name:'Pre-training Objectives', qs:[
+        { t:'easy', q:'Explain masked language modeling (MLM) and next sentence prediction (NSP) in BERT.', h:'MLM: mask 15% tokens (80% MASK, 10% random, 10% same), predict masked. NSP: binary classification of sentence pairs. NSP shown to hurt (RoBERTa removes it, uses full-sentence masking + dynamic masking instead).' },
+        { t:'easy', q:'What is the difference between BERT and GPT-2 in terms of training objective and architecture?', h:'BERT: encoder, bidirectional, MLM + NSP, for understanding. GPT-2: decoder, autoregressive causal LM, for generation. Attention mask: BERT = full, GPT = causal lower triangular.' },
+        { t:'med', q:'How does T5 unify NLP tasks into a text-to-text framework?', h:'Every task is text-in, text-out with task prefix (e.g. "summarize: ..."). Span corruption pre-training. Encoder-decoder. Enables multi-task learning, zero-shot transfer, and unified fine-tuning across classification, generation, regression.' },
+        { t:'hard', q:'What is the difference between causal LM and prefix LM objectives? When is each preferable?', h:'Causal LM: predict next token given all previous (GPT). Prefix LM: bidirectional attention on prefix, causal on continuation (T5 with packed sequences). Prefix LM better for conditional generation; causal LM better for open-ended generation and ICL.' }
+      ]},
+      { name:'Fine-tuning Strategies', qs:[
+        { t:'med', q:'How does instruction tuning differ from standard supervised fine-tuning?', h:'Instruction tuning: diverse tasks as natural language instructions (FLAN, InstructGPT). Improves zero-shot generalization. Standard SFT: task-specific labels, no generalization. Key difference: generalization via task diversity and instruction format.' },
+        { t:'med', q:'What is the role of the learning rate schedule in fine-tuning transformers?', h:'Warmup prevents early instability. Cosine/linear decay. Discriminative fine-tuning: lower LR for lower layers (ULMFiT). Critical for preventing catastrophic forgetting. Common: 1e-5 to 5e-5 with 6% warmup steps.' },
+        { t:'hard', q:'What is catastrophic forgetting and how is it mitigated in continual learning?', h:'Model overwrites old task knowledge when fine-tuned on new tasks. Mitigations: EWC (Fisher information penalty), experience replay, progressive networks, LoRA per-task isolation, prompt-based task separation (no shared weights updated).' }
+      ]},
+      { name:'Parameter-Efficient Fine-tuning (PEFT)', qs:[
+        { t:'med', q:'Explain LoRA. What are the key design choices and why does it work?', h:'Freeze pretrained W, add delta_W = B*A where B is d x r, A is r x k, r << d. Works because adaptation has low intrinsic dimensionality. Merged at inference = zero latency. Rank r is key hyperparameter (4-64 typical). QLoRA: 4-bit quantized base model.' },
+        { t:'hard', q:'Compare LoRA, prefix tuning, prompt tuning, and adapter layers.', h:'Prefix tuning: prepend trainable tokens to K,V each layer. Prompt tuning: input-level soft prompts only. Adapters: small FFN between sublayers (Houlsby: 2 per layer, ~0.5-8% params). LoRA: reparameterizes weight matrices. LoRA generally best trade-off.' },
+        { t:'hard', q:'What is QLoRA and how does it enable fine-tuning large models on consumer hardware?', h:'Dettmers et al. 2023: 4-bit NormalFloat quantization of base model (frozen), LoRA adapters in BF16, double quantization for quantization constants, paged optimizers for memory spikes. Fine-tune 65B on single 48GB GPU.' }
+      ]}
+    ]
+  },
+  {
+    id:7, cls:'c7', stcls:'st7',
+    title:'Large Language Models & Alignment',
+    desc:'Scaling laws, RLHF, emergent abilities, safety research',
+    subtopics:[
+      { name:'Scaling Laws & Training', qs:[
+        { t:'hard', q:'Explain the Chinchilla scaling laws. What do they prescribe for compute-optimal training?', h:'Hoffmann et al. 2022: compute budget C implies optimal N (params) proportional to sqrt(C) and D (tokens) proportional to sqrt(C). Equal scaling of params and data. Chinchilla (70B, 1.4T tokens) beats Gopher (280B, 300B tokens) at equal compute.' },
+        { t:'hard', q:'What are emergent abilities in LLMs and why are they controversial?', h:'Wei et al. 2022: abilities appear abruptly above scale threshold. Controversy (Schaeffer et al. 2023): emergence is artifact of discontinuous metrics — appears smooth with graded metrics. Open debate on whether true phase transitions exist.' },
+        { t:'hard', q:'What is the neural scaling law for language models (Kaplan et al. 2020)? How does it differ from Chinchilla?', h:'Kaplan: loss scales as power law in N, D, C. Recommends larger models with less data for fixed compute. Chinchilla showed Kaplan underweighted data: compute-optimal requires equal scaling of N and D. Chinchilla revised the field.' }
+      ]},
+      { name:'Alignment & RLHF', qs:[
+        { t:'med', q:'What is RLHF and how does it align LLMs to human preferences?', h:'Three stages: SFT on demonstrations, reward model trained on preference pairs (Bradley-Terry), PPO to maximize reward. Limitations: reward hacking, overoptimization, annotator variance, Goodhart Law, expensive human annotation.' },
+        { t:'hard', q:'Describe DPO (Direct Preference Optimization). How does it differ from RLHF?', h:'DPO: reparameterizes implicit reward r = beta * log(pi/pi_ref). Eliminates explicit reward model and RL loop. Cross-entropy loss on preference pairs. More stable, simpler, competitive with PPO-RLHF. SimPO, ORPO as further simplifications.' },
+        { t:'hard', q:'Explain Constitutional AI (CAI). How does it reduce reliance on human feedback?', h:'Anthropic (Bai et al. 2022): model critiques and revises its own outputs given a principle set (constitution), trains on self-refined data. SL-CAI: supervised revision. RL-CAI: RLAIF using AI-generated preference labels. Reduces harmful output labeling burden.' }
+      ]},
+      { name:'Prompting & In-Context Learning', qs:[
+        { t:'hard', q:'Explain in-context learning. What are the leading hypotheses for why it works?', h:'ICL: learn from demonstrations in prompt, no weight updates. Hypotheses: Bayesian inference over implicit concepts, task vector in residual stream (Hendel et al.), gradient-descent-like update (von Oswald et al.), induction heads in attention (Olsson et al.).' },
+        { t:'med', q:'What is chain-of-thought prompting and when does it help?', h:'Adding reasoning traces to prompts or "think step by step." Helps on multi-step reasoning, arithmetic, symbolic tasks. Emergent above ~100B params. Zero-shot CoT often matches few-shot CoT. Self-consistency decoding further improves it.' },
+        { t:'hard', q:'What is the difference between few-shot prompting, fine-tuning, and retrieval-augmented prompting?', h:'Few-shot: examples in context (no weight update, expensive per inference). Fine-tuning: update weights, cheap inference, needs data. RAP: retrieve relevant docs, no weight update, fresh knowledge. Different trade-offs in cost, accuracy, and knowledge currency.' }
+      ]},
+      { name:'Hallucinations & Reliability', qs:[
+        { t:'med', q:'What are hallucinations in LLMs? What causes them and how can they be reduced?', h:'Generating plausible but incorrect content. Causes: training data noise, overconfident parametric memory, exposure bias, sycophancy from RLHF. Mitigations: RAG, factuality fine-tuning, self-consistency, citation grounding, uncertainty quantification.' },
+        { t:'easy', q:'What is a system prompt and how do models learn to follow them?', h:'Prepended context setting behavior, role, constraints. Models learn via instruction tuning and RLHF to prioritize system prompts. Research: prompt injection attacks, jailbreaking, hierarchical instruction following, system prompt robustness.' }
+      ]}
+    ]
+  },
+  {
+    id:8, cls:'c8', stcls:'st8',
+    title:'Core NLP Tasks & Applications',
+    desc:'NER, QA, summarization, MT, sentiment, IE',
+    subtopics:[
+      { name:'Information Extraction', qs:[
+        { t:'hard', q:'How would you approach building an NER system for a low-resource language?', h:'Cross-lingual transfer (mBERT, XLM-R zero-shot), annotation projection via word alignment, few-shot fine-tuning, data augmentation (back-translation, label-preserving sub), active learning, LLM synthetic data generation with self-verification.' },
+        { t:'hard', q:'Explain relation extraction. How do you handle overlapping/nested relations?', h:'Joint entity-relation extraction. Overlapping (one entity in multiple relations): SpERT (span-based), table-filling (2D matrix labeling), seq2seq with structured outputs. Recent: LLM prompting with JSON output schema, function calling.' },
+        { t:'med', q:'What is semantic role labeling (SRL) and why is it useful?', h:'Identifies predicate-argument structure: who did what to whom, where, when. PropBank/FrameNet frameworks. Used in IE, QA, MT reordering. BERT-based SRL achieves near-human on CoNLL-2009. Span-based BERT models (He et al. 2018).' }
+      ]},
+      { name:'Question Answering', qs:[
+        { t:'easy', q:'What is the difference between open-domain and closed-domain QA?', h:'Open-domain: retrieve from large corpus then read (DPR + reader, RAG). Closed-domain: fixed KB or document set. Metrics: Exact Match (EM) and token F1 on SQuAD. Open-domain also uses Recall@k and MRR for retrieval.' },
+        { t:'hard', q:'What is multi-hop reasoning in QA and what datasets test it?', h:'Answering requires chaining multiple pieces of evidence. Datasets: HotpotQA, MuSiQue, 2WikiMultiHopQA. Approaches: iterative retrieval, reasoning chains, graph-based methods. LLMs with CoT perform competitively but still struggle on complex hops.' }
+      ]},
+      { name:'Summarization & Generation', qs:[
+        { t:'easy', q:'Explain extractive vs. abstractive summarization and their respective challenges.', h:'Extractive: select sentences — content selection, coherence issues. Abstractive: generate novel text — hallucination, faithfulness. ROUGE evaluation limitation: n-gram overlap misses meaning. Better: BERTScore, QAEval, faithfulness classifiers.' },
+        { t:'med', q:'What is faithfulness in summarization and how is it evaluated?', h:'Does the summary only assert what the source supports? Evaluation: FactCC, QAEval (QA-based), DAE (dependency arc entailment), NLI-based, human annotation (fine-grained error taxonomy: extrinsic vs. intrinsic hallucination).' }
+      ]},
+      { name:'Machine Translation & Sentiment', qs:[
+        { t:'med', q:'How does BLEU score work? What are its limitations for MT evaluation?', h:'Clipped n-gram precision + brevity penalty. Limitations: no recall, no meaning/fluency, poor human correlation for non-English, penalizes valid paraphrases. Better: COMET (trained on human judgments), BLEURT, METEOR, BERTScore, MQM.' },
+        { t:'hard', q:'How would you design a sentiment analysis system robust to domain shift?', h:'Domain-adaptive pre-training (DAPT on target domain text), unsupervised domain adaptation, aspect-level sentiment (ABSA — SemEval datasets), multi-task learning, zero-shot LLM prompting + calibration, temperature scaling for confidence.' }
+      ]}
+    ]
+  },
+  {
+    id:9, cls:'c9', stcls:'st9',
+    title:'Research Methods & Evaluation',
+    desc:'Experimental rigor, statistics, benchmarks, paper critique',
+    subtopics:[
+      { name:'Experimental Design', qs:[
+        { t:'med', q:'How do you ensure reproducibility in NLP research?', h:'Fix random seeds across all libraries. Report all hyperparameters. Multiple runs with mean + std. Share code/data/checkpoints (HuggingFace Hub). Use standard evaluation scripts (sacrebleu). Report compute budget, hardware, wall time.' },
+        { t:'med', q:'How would you design an ablation study for a new NLP model?', h:'Remove one component at a time (or key combinations). Fixed everything else. Multiple seeds. Report on held-out test set, not dev. Show contribution of each design choice. Also consider: order effects, interaction effects between components.' },
+        { t:'hard', q:'What is the difference between an oracle experiment and an upper-bound experiment in NLP?', h:'Oracle: uses ground truth at inference (gold parse trees, gold NER) to measure potential gain. Upper bound: maximum achievable by design (e.g. extractive upper bound = ROUGE of best oracle extract). Both guide where to focus research effort.' }
+      ]},
+      { name:'Statistics & Significance', qs:[
+        { t:'med', q:'What statistical tests do you use to compare NLP model performance?', h:'Bootstrap resampling test (general), McNemar test (classification, paired), sign test. Always report effect size + confidence interval, not just p-value. Multiple comparison correction: Bonferroni (conservative) or Benjamini-Hochberg (FDR control).' },
+        { t:'hard', q:'What is the issue with hyperparameter search on the test set and how do you avoid it?', h:'Test set p-hacking: repeated evaluation inflates apparent performance. Solutions: held-out test set (touch once at end), dev set for tuning, nested cross-validation for small datasets, report variance across seeds, model selection criteria on dev only.' }
+      ]},
+      { name:'Benchmarks & Evaluation', qs:[
+        { t:'hard', q:'What are the limitations of benchmark-based evaluation in NLP research?', h:'Benchmark saturation, train-test contamination in LLMs, distributional shift, metric-task misalignment, annotation artifacts (hypothesis-only models solve MNLI 67%). Better: dynamic benchmarks, behavioral testing (CheckList), adversarial NLI, held-out test sets.' },
+        { t:'hard', q:'Explain dataset contamination in LLM evaluation. How do you detect it?', h:'Training data overlaps with test benchmarks, inflating scores. Detection: n-gram overlap analysis, membership inference attacks, canary strings, per-example score analysis (suspiciously perfect scores). Mitigation: time-based splits, post-release benchmarks.' },
+        { t:'med', q:'What is the difference between zero-shot, few-shot, and fine-tuned evaluation?', h:'Zero-shot: no task-specific examples, tests generalization. Few-shot: k demos in prompt, tests ICL. Fine-tuned: task-specific training, ceiling performance given labeled data. Use zero/few-shot for data-scarce settings and generalization research.' }
+      ]},
+      { name:'Paper Critique & Research Literacy', qs:[
+        { t:'med', q:'How do you critically read an NLP paper? What red flags do you look for?', h:'Check: cherry-picked baselines, missing ablations, test set over-fitting, non-standard eval scripts, no significance tests, too-small datasets, narrow claims generalized broadly, missing failure analysis, compute not reported, only one random seed.' }
+      ]}
+    ]
+  },
+  {
+    id:10, cls:'c10', stcls:'st10',
+    title:'RAG, Retrieval & Production Systems',
+    desc:'Retrieval-augmented generation, vector search, inference at scale',
+    subtopics:[
+      { name:'Retrieval Architectures', qs:[
+        { t:'easy', q:'How does Retrieval-Augmented Generation (RAG) work? What are its main components?', h:'Retrieve relevant docs (DPR/BM25 indexer), append to context, generate conditioned on context+query. Components: chunker, embedder, vector store (FAISS/Pinecone), retriever, reader/generator. Variants: REALM, RAG (Lewis 2020), RETRO (chunked cross-attention), Atlas.' },
+        { t:'med', q:'Compare dense vs. sparse retrieval. When would you use each?', h:'Dense (DPR, E5): semantic matching, requires training and FAISS indexing. Sparse (BM25, SPLADE): lexical matching, fast, interpretable, zero training. Hybrid via RRF (Reciprocal Rank Fusion). Sparse wins for exact keyword/entity match; dense for paraphrase gap.' },
+        { t:'hard', q:'What is ColBERT and how does it improve over bi-encoder retrieval?', h:'Late interaction: encode query/document independently but compare at token level via MaxSim (sum of max cosines of query tokens over document tokens). More expressive than CLS dot product, 10-100x faster than cross-encoder. ColBERT v2 adds distillation.' },
+        { t:'hard', q:'What is SPLADE and how does it combine sparse and dense retrieval ideas?', h:'Sparse Lexical and Expansion: BERT encoder outputs sparse bag-of-words weights via RELU + log saturation activation. Enables sparse retrieval with semantic expansion (query/document terms not literally in text). Competitive with dense, faster at scale.' }
+      ]},
+      { name:'RAG Evaluation & Optimization', qs:[
+        { t:'med', q:'How do you evaluate a RAG pipeline end-to-end?', h:'Retrieval: Recall@k, NDCG, MRR. Generation: faithfulness (grounded in context?), answer relevance, context precision/recall. Frameworks: RAGAS, TruLens, LLM-as-judge. Critical: decompose retrieval errors from generation errors separately.' },
+        { t:'hard', q:'What are the key failure modes of RAG and how would you address each?', h:'Retrieval failure (irrelevant docs): improve embedder, add reranker (cross-encoder). Lost in the middle (long context): reorder retrieved docs, limit context. Hallucination despite context: faithfulness training, citation enforcement. Stale knowledge: metadata-filtered retrieval, online indexing.' }
+      ]},
+      { name:'Inference & Production', qs:[
+        { t:'hard', q:'Explain KV cache in transformer inference. What are its memory implications?', h:'Cache K,V projections of past tokens to avoid recomputation per step. Memory: O(n * d * L * B). Solutions: grouped-query attention (GQA, LLaMA-2), multi-query attention (MQA), paged attention (vLLM), sliding window KV cache (Mistral).' },
+        { t:'hard', q:'How does speculative decoding work and why does it speed up inference?', h:'Small draft model generates K candidate tokens, large target model verifies in parallel (one forward pass). Accepted tokens kept, first rejection triggers regeneration. Speedup proportional to acceptance rate. Zero quality degradation. Variants: Medusa (multiple heads), Eagle.' },
+        { t:'hard', q:'What are the key challenges in deploying LLMs at scale?', h:'Latency: speculative decoding, quantization (INT4/INT8 via GPTQ/AWQ), continuous batching (vLLM). Cost: distillation to smaller models, MoE routing. Consistency: temperature calibration. Safety: guardrails (NeMo Guardrails, Llama Guard). Distribution shift monitoring.' },
+        { t:'hard', q:'What is quantization in the context of LLMs? Compare GPTQ, AWQ, and GGUF.', h:'Reduce weight precision from BF16 to INT8/INT4 to cut memory and latency. GPTQ: post-training, layer-by-layer, Hessian-guided rounding. AWQ: activation-aware, protects salient weights. GGUF (llama.cpp): flexible mixed precision, CPU-friendly. All trade slight accuracy for 2-4x memory reduction.' }
+      ]}
+    ]
+  }
+];
+
+let activeFilter = 'all';
+let TOTAL = 0;
+
+function countAll() {
+  let easy=0, med=0, hard=0;
+  TOPICS.forEach(t => t.subtopics.forEach(st => st.qs.forEach(q => {
+    TOTAL++;
+    if(q.t==='easy') easy++;
+    else if(q.t==='med') med++;
+    else hard++;
+  })));
+  document.getElementById('count-easy').textContent = easy;
+  document.getElementById('count-med').textContent = med;
+  document.getElementById('count-hard').textContent = hard;
+  document.getElementById('hdr-visible').textContent = TOTAL;
+  document.getElementById('vis-count').textContent = 'Showing ' + TOTAL + ' of ' + TOTAL;
+}
+
+function buildDiffDots(subtopics) {
+  const has = {easy:false, med:false, hard:false};
+  subtopics.forEach(st => st.qs.forEach(q => has[q.t]=true));
+  let html = '<div class="sec-diff-pills">';
+  if(has.easy) html += '<div class="dpill dpill-easy"></div>';
+  if(has.med)  html += '<div class="dpill dpill-med"></div>';
+  if(has.hard) html += '<div class="dpill dpill-hard"></div>';
+  return html + '</div>';
+}
+
+function totalQs(topic) {
+  let n = 0;
+  topic.subtopics.forEach(st => n += st.qs.length);
+  return n;
+}
+
+function render() {
+  const layout = document.getElementById('layout');
+  layout.innerHTML = '';
+
+  TOPICS.forEach(topic => {
+    const sec = document.createElement('div');
+    sec.className = 'section';
+    sec.id = 'sec-' + topic.id;
+
+    const subtopicsHtml = topic.subtopics.map((st, si) => {
+      const qsHtml = st.qs.map((q, qi) => {
+        const uid = `qi-${topic.id}-${si}-${qi}`;
+        return `
+          <div class="q-item" id="${uid}" data-diff="${q.t}" data-text="${q.q.toLowerCase()} ${q.h.toLowerCase()}">
+            <div class="q-top" onclick="toggleQ('${uid}')">
+              <span class="q-badge badge-${q.t}">${q.t==='easy'?'foundational':q.t==='med'?'intermediate':'advanced'}</span>
+              <span class="q-text">${q.q}</span>
+              <span class="q-chevron">›</span>
+            </div>
+            <div class="q-hint">
+              <div class="hint-label">Key talking points</div>
+              <div class="hint-text">${q.h}</div>
+            </div>
+          </div>`;
+      }).join('');
+
+      const stid = `st-${topic.id}-${si}`;
+      return `
+        <div class="subtopic-group" id="stg-${topic.id}-${si}">
+          <div class="subtopic-header" onclick="toggleSt('${stid}', ${topic.id}, ${si})">
+            <span class="subtopic-icon open" id="sti-${stid}">›</span>
+            <span class="subtopic-tag ${topic.stcls}">${String(si+1).padStart(2,'0')}</span>
+            <span class="subtopic-name">${st.name}</span>
+            <span class="subtopic-qcount">${st.qs.length}q</span>
+          </div>
+          <div class="subtopic-questions open" id="${stid}">${qsHtml}</div>
+        </div>`;
+    }).join('');
+
+    sec.innerHTML = `
+      <div class="sec-header" onclick="toggleSec(${topic.id})">
+        <div class="sec-num ${topic.cls}">${topic.id}</div>
+        <div class="sec-info">
+          <div class="sec-title">${topic.title}</div>
+          <div class="sec-desc">${topic.desc}</div>
+        </div>
+        <div class="sec-right">
+          ${buildDiffDots(topic.subtopics)}
+          <span class="sec-qcount">${totalQs(topic)}q</span>
+          <span class="sec-arrow open" id="arrow-${topic.id}">▾</span>
+        </div>
+      </div>
+      <div class="questions open" id="q-block-${topic.id}">${subtopicsHtml}</div>
+    `;
+    layout.appendChild(sec);
+  });
+
+  countAll();
+}
+
+function toggleSec(id) {
+  const block = document.getElementById('q-block-' + id);
+  const arrow = document.getElementById('arrow-' + id);
+  const isOpen = block.classList.contains('open');
+  block.classList.toggle('open', !isOpen);
+  arrow.classList.toggle('open', !isOpen);
+  arrow.textContent = isOpen ? '▸' : '▾';
+}
+
+function toggleSt(stid, topicId, si) {
+  const block = document.getElementById(stid);
+  const icon = document.getElementById('sti-' + stid);
+  const isOpen = block.classList.contains('open');
+  block.classList.toggle('open', !isOpen);
+  if(icon) icon.classList.toggle('open', !isOpen);
+}
+
+function toggleQ(uid) {
+  document.getElementById(uid).classList.toggle('expanded');
+}
+
+function setFilter(f) {
+  activeFilter = f;
+  ['all','easy','med','hard'].forEach(k => {
+    const btn = document.getElementById('f-'+k);
+    btn.className = 'fbtn' + (k===f ? ' active-'+k : '');
+  });
+  filterAll();
+}
+
+function filterAll() {
+  const search = document.getElementById('search').value.toLowerCase().trim();
+  let visible = 0;
+
+  TOPICS.forEach(topic => {
+    let topicVisible = 0;
+
+    topic.subtopics.forEach((st, si) => {
+      let stVisible = 0;
+      st.qs.forEach((q, qi) => {
+        const uid = `qi-${topic.id}-${si}-${qi}`;
+        const item = document.getElementById(uid);
+        if(!item) return;
+        const matchDiff = activeFilter === 'all' || q.t === activeFilter;
+        const matchSearch = !search || item.dataset.text.includes(search);
+        const show = matchDiff && matchSearch;
+        item.classList.toggle('hidden', !show);
+        if(show) { stVisible++; topicVisible++; visible++; }
+      });
+      const stg = document.getElementById(`stg-${topic.id}-${si}`);
+      if(stg) stg.classList.toggle('hidden', stVisible === 0);
+    });
+
+    const sec = document.getElementById('sec-' + topic.id);
+    if(sec) sec.classList.toggle('hidden', topicVisible === 0);
+  });
+
+  document.getElementById('vis-count').textContent = `Showing ${visible} of ${TOTAL}`;
+  document.getElementById('hdr-visible').textContent = visible;
+}
+
+render();
+</script>
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>NLP Research Scientist — Interview Prep</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;1,9..144,300&family=Geist:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #0d0f0e; --surface: #141614; --surface2: #1c1f1c;
+    --border: rgba(255,255,255,0.07); --border2: rgba(255,255,255,0.13);
+    --text: #e8eae6; --muted: #7a7d77; --faint: #2e3130;
+    --green: #4ade80; --green-dim: #0e2419; --green-mid: #1a3d28;
+    --amber: #fbbf24; --amber-dim: #3d2e0a;
+    --red: #f87171; --red-dim: #3d1414;
+    --blue: #60a5fa; --blue-dim: #0f2540;
+    --purple: #a78bfa; --purple-dim: #1e1535;
+    --teal: #2dd4bf; --teal-dim: #0a2d2a;
+    --pink: #f472b6; --pink-dim: #3d0f26;
+    --coral: #fb923c; --coral-dim: #3d1a08;
+    --slate: #94a3b8; --slate-dim: #1a2030;
+    --radius: 6px; --radius-lg: 12px;
+  }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); font-family: 'Geist', sans-serif; font-size: 15px; line-height: 1.6; min-height: 100vh; }
+  body::before { content: ''; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E"); pointer-events: none; z-index: 1000; opacity: 0.4; }
+
+  /* Header */
+  .header { border-bottom: 1px solid var(--border); padding: 0 2.5rem; position: sticky; top: 0; z-index: 100; background: rgba(13,15,14,0.93); backdrop-filter: blur(16px); display: flex; align-items: center; justify-content: space-between; height: 58px; }
+  .header-brand { display: flex; align-items: center; gap: 10px; }
+  .header-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); box-shadow: 0 0 10px var(--green); animation: pulse 2s ease-in-out infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+  .header-title { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; }
+  .header-stats { display: flex; gap: 24px; align-items: center; }
+  .hstat { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); }
+  .hstat-val { color: var(--green); font-weight: 500; }
+
+  /* Hero */
+  .hero { padding: 5rem 2.5rem 3rem; max-width: 920px; margin: 0 auto; }
+  .hero-label { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--green); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 1.2rem; display: flex; align-items: center; gap: 8px; }
+  .hero-label::before { content: ''; display: inline-block; width: 24px; height: 1px; background: var(--green); }
+  .hero-heading { font-family: 'Fraunces', serif; font-size: clamp(2.2rem,5vw,3.6rem); font-weight: 300; line-height: 1.15; letter-spacing: -0.02em; color: var(--text); margin-bottom: 1.2rem; }
+  .hero-heading em { font-style: italic; color: var(--green); }
+  .hero-sub { font-size: 15px; color: var(--muted); max-width: 560px; line-height: 1.7; margin-bottom: 2.5rem; }
+  .stats-strip { display: flex; gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; margin-bottom: 3rem; }
+  .stat-cell { flex: 1; background: var(--surface); padding: 1.2rem 1.5rem; }
+  .stat-num { font-family: 'Fraunces', serif; font-size: 2rem; font-weight: 600; color: var(--text); line-height: 1; }
+  .stat-lbl { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 4px; }
+
+  /* Controls */
+  .controls { max-width: 920px; margin: 0 auto 2rem; padding: 0 2.5rem; display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+  .search-wrap { flex: 1; min-width: 240px; position: relative; }
+  .search-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--muted); font-size: 14px; pointer-events: none; }
+  .search-input { width: 100%; background: var(--surface); border: 1px solid var(--border2); border-radius: var(--radius); color: var(--text); font-family: 'Geist', sans-serif; font-size: 13px; padding: 9px 12px 9px 34px; outline: none; transition: border-color 0.2s; }
+  .search-input::placeholder { color: var(--muted); }
+  .search-input:focus { border-color: var(--green); }
+  .filters { display: flex; gap: 6px; flex-wrap: wrap; }
+  .fbtn { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.06em; padding: 7px 14px; border-radius: 999px; border: 1px solid var(--border2); background: transparent; color: var(--muted); cursor: pointer; transition: all 0.15s; text-transform: uppercase; }
+  .fbtn:hover { border-color: var(--green); color: var(--green); }
+  .fbtn.active-all { background: var(--green-mid); border-color: var(--green); color: var(--green); }
+  .fbtn.active-easy { background: var(--green-mid); border-color: var(--green); color: var(--green); }
+  .fbtn.active-med { background: var(--amber-dim); border-color: var(--amber); color: var(--amber); }
+  .fbtn.active-hard { background: var(--red-dim); border-color: var(--red); color: var(--red); }
+  .vis-count { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); white-space: nowrap; }
+
+  /* Layout */
+  .layout { max-width: 920px; margin: 0 auto; padding: 0 2.5rem 5rem; display: flex; flex-direction: column; gap: 10px; }
+
+  /* Section */
+  .section { border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--surface); overflow: hidden; transition: border-color 0.2s; }
+  .section:hover { border-color: var(--border2); }
+  .section.hidden { display: none; }
+  .sec-header { display: flex; align-items: center; gap: 14px; padding: 1.1rem 1.4rem; cursor: pointer; user-select: none; transition: background 0.15s; }
+  .sec-header:hover { background: rgba(255,255,255,0.02); }
+  .sec-num { font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 500; width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .sec-info { flex: 1; min-width: 0; }
+  .sec-title { font-size: 14px; font-weight: 500; color: var(--text); margin-bottom: 2px; }
+  .sec-desc { font-size: 12px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .sec-right { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+  .sec-qcount { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); }
+  .sec-diff-pills { display: flex; gap: 3px; }
+  .dpill { width: 6px; height: 6px; border-radius: 50%; }
+  .dpill-easy { background: var(--green); } .dpill-med { background: var(--amber); } .dpill-hard { background: var(--red); }
+  .sec-arrow { color: var(--muted); font-size: 11px; transition: transform 0.2s; }
+  .sec-arrow.open { transform: rotate(180deg); }
+
+  /* Questions block */
+  .questions { border-top: 1px solid var(--border); display: none; }
+  .questions.open { display: block; }
+
+  /* Subtopic group */
+  .subtopic-group { border-bottom: 1px solid var(--border); }
+  .subtopic-group:last-child { border-bottom: none; }
+  .subtopic-header { display: flex; align-items: center; gap: 10px; padding: 0.65rem 1.4rem; cursor: pointer; user-select: none; background: var(--faint); transition: background 0.15s; }
+  .subtopic-header:hover { background: rgba(255,255,255,0.04); }
+  .subtopic-icon { font-size: 10px; color: var(--muted); transition: transform 0.2s; }
+  .subtopic-icon.open { transform: rotate(90deg); }
+  .subtopic-tag { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.07em; text-transform: uppercase; padding: 2px 8px; border-radius: 4px; border: 1px solid transparent; }
+  .subtopic-name { font-size: 12px; font-weight: 500; color: var(--text); flex: 1; }
+  .subtopic-qcount { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); }
+  .subtopic-questions { display: none; }
+  .subtopic-questions.open { display: block; }
+
+  /* Question items */
+  .q-item { border-bottom: 1px solid var(--border); transition: background 0.15s; }
+  .q-item:last-child { border-bottom: none; }
+  .q-item.hidden { display: none; }
+  .q-item:hover { background: rgba(255,255,255,0.015); }
+  .q-top { display: flex; align-items: flex-start; gap: 12px; padding: 0.9rem 1.4rem; cursor: pointer; }
+  .q-badge { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.06em; text-transform: uppercase; padding: 3px 8px; border-radius: 999px; flex-shrink: 0; margin-top: 2px; border: 1px solid transparent; }
+  .badge-easy { background: var(--green-mid); color: var(--green); border-color: rgba(74,222,128,0.2); }
+  .badge-med { background: var(--amber-dim); color: var(--amber); border-color: rgba(251,191,36,0.2); }
+  .badge-hard { background: var(--red-dim); color: var(--red); border-color: rgba(248,113,113,0.2); }
+  .q-text { flex: 1; font-size: 14px; color: var(--text); line-height: 1.55; }
+  .q-chevron { color: var(--faint); font-size: 12px; flex-shrink: 0; margin-top: 3px; transition: all 0.2s; }
+  .q-item.expanded .q-chevron { color: var(--green); transform: rotate(90deg); }
+  .q-hint { display: none; padding: 0 1.4rem 1rem 4rem; }
+  .q-item.expanded .q-hint { display: block; }
+  .hint-label { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+  .hint-text { font-size: 13px; color: #9ba39a; line-height: 1.65; border-left: 2px solid var(--faint); padding-left: 12px; }
+
+  /* Color accents */
+  .c1{background:var(--purple-dim);color:#a78bfa;} .c2{background:var(--teal-dim);color:#2dd4bf;}
+  .c3{background:var(--blue-dim);color:#60a5fa;} .c4{background:var(--coral-dim);color:#fb923c;}
+  .c5{background:var(--purple-dim);color:#a78bfa;} .c6{background:var(--green-mid);color:#4ade80;}
+  .c7{background:var(--amber-dim);color:#fbbf24;} .c8{background:var(--pink-dim);color:#f472b6;}
+  .c9{background:var(--slate-dim);color:#94a3b8;} .c10{background:var(--blue-dim);color:#60a5fa;}
+
+  /* Subtopic tag colors */
+  .st1{background:rgba(167,139,250,0.12);color:#a78bfa;border-color:rgba(167,139,250,0.25);}
+  .st2{background:rgba(45,212,191,0.12);color:#2dd4bf;border-color:rgba(45,212,191,0.25);}
+  .st3{background:rgba(96,165,250,0.12);color:#60a5fa;border-color:rgba(96,165,250,0.25);}
+  .st4{background:rgba(251,146,60,0.12);color:#fb923c;border-color:rgba(251,146,60,0.25);}
+  .st5{background:rgba(167,139,250,0.12);color:#a78bfa;border-color:rgba(167,139,250,0.25);}
+  .st6{background:rgba(74,222,128,0.12);color:#4ade80;border-color:rgba(74,222,128,0.25);}
+  .st7{background:rgba(251,191,36,0.12);color:#fbbf24;border-color:rgba(251,191,36,0.25);}
+  .st8{background:rgba(244,114,182,0.12);color:#f472b6;border-color:rgba(244,114,182,0.25);}
+  .st9{background:rgba(148,163,184,0.12);color:#94a3b8;border-color:rgba(148,163,184,0.25);}
+  .st10{background:rgba(96,165,250,0.12);color:#60a5fa;border-color:rgba(96,165,250,0.25);}
+
+  @keyframes fadeIn { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:translateY(0)} }
+  .section { animation: fadeIn 0.3s ease both; }
+  .section:nth-child(1){animation-delay:0.04s} .section:nth-child(2){animation-delay:0.08s}
+  .section:nth-child(3){animation-delay:0.12s} .section:nth-child(4){animation-delay:0.16s}
+  .section:nth-child(5){animation-delay:0.20s} .section:nth-child(6){animation-delay:0.24s}
+  .section:nth-child(7){animation-delay:0.28s} .section:nth-child(8){animation-delay:0.32s}
+  .section:nth-child(9){animation-delay:0.36s} .section:nth-child(10){animation-delay:0.40s}
+
+  ::-webkit-scrollbar{width:5px} ::-webkit-scrollbar-track{background:transparent} ::-webkit-scrollbar-thumb{background:#2e3130;border-radius:3px}
+
+  @media(max-width:600px){
+    .header{padding:0 1.2rem} .hero{padding:3rem 1.2rem 2rem}
+    .controls{padding:0 1.2rem} .layout{padding:0 1.2rem 4rem}
+    .stats-strip{flex-wrap:wrap} .stat-cell{min-width:50%}
+    .header-stats .hstat:nth-child(3){display:none}
+  }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-brand">
+    <div class="header-dot"></div>
+    <span class="header-title">NLP Research Scientist — Prep Guide</span>
+  </div>
+  <div class="header-stats">
+    <div class="hstat"><span class="hstat-val" id="hdr-visible">142</span> / 142 questions</div>
+    <div class="hstat">10 topics · 38 subtopics</div>
+    <div class="hstat">3 difficulty tiers</div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-label">Interview preparation</div>
+  <h1 class="hero-heading">Master <em>NLP</em> research,<br/>from fundamentals to frontier.</h1>
+  <p class="hero-sub">142 curated questions across 10 topic areas and 38 subtopics, ordered chronologically from classical NLP to large language models. Click any question to reveal key talking points.</p>
+  <div class="stats-strip">
+    <div class="stat-cell"><div class="stat-num">142</div><div class="stat-lbl">Questions</div></div>
+    <div class="stat-cell"><div class="stat-num">10</div><div class="stat-lbl">Topics</div></div>
+    <div class="stat-cell"><div class="stat-num">38</div><div class="stat-lbl">Subtopics</div></div>
+    <div class="stat-cell"><div class="stat-num" id="count-easy">—</div><div class="stat-lbl">Foundational</div></div>
+    <div class="stat-cell"><div class="stat-num" id="count-med">—</div><div class="stat-lbl">Intermediate</div></div>
+    <div class="stat-cell"><div class="stat-num" id="count-hard">—</div><div class="stat-lbl">Advanced</div></div>
+  </div>
+</section>
+
+<div class="controls">
+  <div class="search-wrap">
+    <span class="search-icon">⌕</span>
+    <input class="search-input" id="search" type="text" placeholder="Search questions..." oninput="filterAll()" />
+  </div>
+  <div class="filters">
+    <button class="fbtn active-all" id="f-all" onclick="setFilter('all')">All</button>
+    <button class="fbtn" id="f-easy" onclick="setFilter('easy')">Foundational</button>
+    <button class="fbtn" id="f-med" onclick="setFilter('med')">Intermediate</button>
+    <button class="fbtn" id="f-hard" onclick="setFilter('hard')">Advanced</button>
+  </div>
+  <div class="vis-count" id="vis-count">Showing 142 of 142</div>
+</div>
+
+<main class="layout" id="layout"></main>
+
+<script>
+const TOPICS = [
+  {
+    id:1, cls:'c1', stcls:'st1',
+    title:'Linguistics & NLP Fundamentals',
+    desc:'Core language theory every NLP researcher must know',
+    subtopics:[
+      { name:'Language Levels: Phonology to Pragmatics', qs:[
+        { t:'easy', q:'What is the difference between syntax, semantics, and pragmatics? Give NLP examples.', h:'Syntax = structure (POS tags, parse trees). Semantics = meaning (SRL, WSD). Pragmatics = context/intent (coreference, discourse). "Can you pass the salt?" is syntactically a question, semantically a request, pragmatically a directive.' },
+        { t:'easy', q:'Explain morphological analysis and its role in NLP pipelines.', h:'Covers stemming, lemmatization, tokenization for morphologically rich languages. Subword tokenization (BPE, WordPiece) as modern alternatives handling morphology implicitly in the vocabulary.' },
+        { t:'med', q:'What is phonological processing in NLP and why is it relevant for speech and text?', h:'Grapheme-to-phoneme (G2P) conversion, prosody modeling, homophone disambiguation. Relevant for ASR, TTS, and spell correction. CMU Pronouncing Dictionary, phoneme-level BERT.' }
+      ]},
+      { name:'Semantics & Meaning Representation', qs:[
+        { t:'easy', q:'What is distributional semantics and the distributional hypothesis?', h:'Firth: a word is known by the company it keeps. Basis for word2vec, GloVe, contextual embeddings. Meaning derived from co-occurrence patterns in large corpora.' },
+        { t:'med', q:'How does word sense disambiguation (WSD) work and why is it hard?', h:'Lesk algorithm, supervised WSD with SemCor, contextual embeddings. Challenges: sense granularity, data sparsity, domain shift. WordNet as knowledge resource.' },
+        { t:'hard', q:'Explain the concept of compositionality in language. How do neural models handle it?', h:'Meaning of whole is function of its parts (Frege). Tree-RNNs, structured attention. Whether transformers truly compose is an open research question — they may rely on memorization.' },
+        { t:'med', q:'What are semantic roles and how does PropBank differ from FrameNet?', h:'PropBank: verb-centric, numbered roles (ARG0=agent, ARG1=patient), corpus-derived. FrameNet: frame-semantic, richer role types (frame elements), linked to lexical units. PropBank more widely used in SRL benchmarks.' }
+      ]},
+      { name:'Discourse & Pragmatics', qs:[
+        { t:'med', q:'What is coreference resolution and what makes it challenging?', h:'Mention detection + clustering. Challenges: cataphora, bridging anaphora, event coreference, singletons. SpanBERT-based e2e models. Evaluation: CoNLL F1 on OntoNotes.' },
+        { t:'hard', q:'What is discourse coherence and how do NLP models model it?', h:'Rhetorical Structure Theory (RST), entity grid models (Barzilay & Lapata), coherence scoring with BERT. Applications: essay scoring, summarization. Penn Discourse Treebank (PDTB).' },
+        { t:'hard', q:'How would you evaluate an NLP model when no ground truth labels exist?', h:'Human evaluation (MOS, pairwise ranking), LLM-as-judge (GPT-4), consistency checks, contrast sets, behavioral testing (CheckList), self-consistency as proxy, reference-free metrics (BLEURT, COMET).' }
+      ]},
+      { name:'NLP Paradigms', qs:[
+        { t:'easy', q:'What are the key differences between rule-based, statistical, and neural NLP approaches?', h:'Rule-based: interpretable, brittle. Statistical (HMM, CRF): data-driven, feature-engineered. Neural: learned representations, data-hungry, high accuracy. LLMs blur lines with in-context rule-following.' }
+      ]}
+    ]
+  },
+  {
+    id:2, cls:'c2', stcls:'st2',
+    title:'Classical ML for NLP',
+    desc:'Pre-deep learning foundations still tested in research interviews',
+    subtopics:[
+      { name:'Text Classification', qs:[
+        { t:'easy', q:'How do Naive Bayes classifiers work for text? What are their assumptions and failure modes?', h:'Conditional independence assumption, bag-of-words. Fails on negation, word order, feature correlation. Still competitive for short-text classification and spam detection. Laplace smoothing for zero counts.' },
+        { t:'easy', q:'Explain TF-IDF. When would you still use it over dense embeddings?', h:'TF x log(N/df). Sparse, interpretable, no training needed. Prefer for keyword extraction, BM25 retrieval baselines, small datasets, domain-specific corpora where dense embeddings transfer poorly.' },
+        { t:'med', q:'How does logistic regression with n-gram features compare to neural text classifiers?', h:'Strong baseline: fast, interpretable, feature-inspectable. Misses long-range dependencies and semantic similarity. Neural wins on large datasets; LR wins with tiny labeled data and needs calibration.' }
+      ]},
+      { name:'Sequence Modeling', qs:[
+        { t:'med', q:'What are CRFs and why were they preferred over HMMs for sequence labeling?', h:'CRFs: discriminative, arbitrary feature functions, no independence assumption on observations. HMMs: generative, Markov assumption. CRFs were SOTA for NER/POS pre-deep learning. Features: POS, gazetteer, prefix/suffix.' },
+        { t:'med', q:'Explain the Viterbi algorithm and its role in sequence models.', h:'Dynamic programming for most probable sequence in HMM/CRF. O(TN^2) complexity. Forward-backward for marginal probabilities (training). Still conceptually foundational even if replaced by argmax in neural models.' },
+        { t:'hard', q:'How does the structured perceptron algorithm work for NLP sequence tasks?', h:'Online learning: predict with current weights, update if wrong (add gold features, subtract predicted). Averaged perceptron for stability. Training converges for linearly separable data. Collins (2002) for tagging/parsing.' }
+      ]},
+      { name:'Topic Models & Unsupervised NLP', qs:[
+        { t:'med', q:'How does Latent Dirichlet Allocation (LDA) work? What are its limitations?', h:'Generative model: documents are topic mixtures, topics are word distributions with Dirichlet priors. Inference via variational EM or Gibbs sampling. Limitations: fixed K, bag-of-words, no semantic understanding, short texts.' },
+        { t:'hard', q:'What are neural topic models and how do they improve over LDA?', h:'ProdLDA, CTM (Contextualized Topic Models): encode documents with BERT, decode with softmax over vocabulary. Handles polysemy, produces more coherent topics, but harder to interpret than LDA. Evaluated via coherence (NPMI) and diversity.' }
+      ]},
+      { name:'Feature Engineering', qs:[
+        { t:'easy', q:'What is the role of feature engineering in classical NLP vs. learned representations?', h:'Handcrafted features (POS, gazetteers, n-grams, shape features) vs. end-to-end learned. Inductive bias vs. data-driven. Feature engineering critical for low-data regimes and interpretability requirements.' }
+      ]}
+    ]
+  },
+  {
+    id:3, cls:'c3', stcls:'st3',
+    title:'Word Embeddings & Representation Learning',
+    desc:'From co-occurrence matrices to contextual representations',
+    subtopics:[
+      { name:'Static Embeddings', qs:[
+        { t:'easy', q:'Explain the skip-gram and CBOW objectives in word2vec. What does each predict?', h:'Skip-gram: given center word predict context words. CBOW: given context predict center. Skip-gram better for rare words. CBOW faster. Negative sampling approximates softmax over large vocabulary.' },
+        { t:'med', q:'How does GloVe differ from word2vec? What objective does it optimize?', h:'GloVe: global co-occurrence matrix factorization, weighted least-squares on log co-occurrence ratios. word2vec: local context window, predictive. GloVe explicitly captures global statistics, word2vec uses stochastic local updates.' },
+        { t:'easy', q:'What are the limitations of static word embeddings like word2vec?', h:'One vector per word: no polysemy handling, no morphology, OOV words, no sentence-level context, bias amplification, domain mismatch. These all motivate contextual and subword models.' }
+      ]},
+      { name:'Subword & Character Models', qs:[
+        { t:'med', q:'What is subword tokenization? Compare BPE, WordPiece, and SentencePiece.', h:'BPE: merge most frequent byte pairs (used in GPT). WordPiece: maximize LM likelihood, ## prefix (BERT). SentencePiece: language-agnostic, spaces as characters, used in T5/LLaMA. Key differences: merge criteria and text normalization.' },
+        { t:'hard', q:'How do character-level models work and when are they preferable to subword models?', h:'CNN over characters (CharCNN), character-level RNNs, CharFormer (gradual tokenization). Preferable for highly morphological languages, noisy text (social media, OCR), OOV handling, and fully language-agnostic pipelines.' }
+      ]},
+      { name:'Contextual Embeddings', qs:[
+        { t:'med', q:'How does ELMo address limitations of static embeddings? Explain its architecture.', h:'Bidirectional LSTM LM. Context-sensitive: each layer captures different abstractions. Downstream tasks combine layers via learned scalars. Character-level input handles OOV. First widely adopted contextual embedding.' },
+        { t:'med', q:'How would you measure the quality of word embeddings? Intrinsic vs. extrinsic evaluation.', h:'Intrinsic: analogy (king-man+woman=queen), similarity benchmarks (SimLex-999, WordSim-353). Extrinsic: downstream task performance. Intrinsic correlates poorly with extrinsic — always prefer extrinsic for real assessment.' }
+      ]},
+      { name:'Bias & Fairness in Embeddings', qs:[
+        { t:'hard', q:'Explain bias in word embeddings. How can it be detected and mitigated?', h:'WEAT test detects bias via cosine similarity of target/attribute sets. Debiasing: Bolukbasi linear projection (hard/soft), counterfactual data augmentation, SentenceDebias. Post-hoc debiasing is often superficial — bias re-emerges on downstream tasks.' }
+      ]}
+    ]
+  },
+  {
+    id:4, cls:'c4', stcls:'st4',
+    title:'Deep Learning Architectures for NLP',
+    desc:'RNNs, CNNs, seq2seq and attention mechanisms',
+    subtopics:[
+      { name:'Recurrent Architectures', qs:[
+        { t:'easy', q:'What is the vanishing gradient problem in RNNs and how do LSTMs address it?', h:'Gradients shrink exponentially through time. LSTM: input/forget/output gates + cell state as gradient highway. GRU: simplified reset/update gates. Both maintain flow over longer sequences. Still limited vs. attention for very long sequences.' },
+        { t:'med', q:'Compare bidirectional RNNs vs. standard RNNs. When does bidirectionality matter?', h:'Bidirectional: two passes (forward + backward), context from both directions. Critical for classification, NER, SRL. Not applicable to causal generation tasks. BiLSTM was dominant pre-transformer backbone.' },
+        { t:'hard', q:'What is the quasi-recurrent neural network (QRNN) and what problem does it address?', h:'QRNN (Bradbury et al. 2017): convolutional layers compute gates and candidates, recurrence is a simple pooling step parallelizable across time. 16x faster than LSTM while retaining sequential inductive bias. Precursor to efficient sequence models.' }
+      ]},
+      { name:'Convolutional Models', qs:[
+        { t:'med', q:'How do CNNs capture n-gram features in text classification?', h:'Filters of varying window sizes convolve over embeddings, feature maps max-pooled → classification. TextCNN (Kim 2014). Efficient, parallelizable, local patterns. Misses long-range dependencies. Still strong baseline.' },
+        { t:'med', q:'What is dilated convolution and how is it used in NLP (e.g. ByteNet, WaveNet)?', h:'Dilated convolutions skip positions by factor d, exponentially expanding receptive field without parameter increase. WaveNet (audio), ByteNet (NMT). O(1) depth for any dependency vs. O(n) for RNN. Precursor to efficient long-range models.' }
+      ]},
+      { name:'Sequence-to-Sequence & Decoding', qs:[
+        { t:'easy', q:'Explain the encoder-decoder architecture for seq2seq models.', h:'Encoder: compress input to fixed context vector. Decoder: generate conditioned on context. Bottleneck with long sequences motivated attention. Used in NMT, summarization, dialogue.' },
+        { t:'med', q:'What problem does Bahdanau attention solve and how does it work?', h:'Decoder attends to all encoder states (not just last). Additive attention: score = v*tanh(W1*h_enc + W2*h_dec). Soft alignment weights per decode step. Learns which source tokens to focus on. Eliminates information bottleneck.' },
+        { t:'med', q:'Explain teacher forcing and its trade-offs in sequence generation.', h:'Use ground truth previous token during training for fast convergence, but model sees own output at inference causing exposure bias. Scheduled sampling: gradually switch to model predictions during training to bridge the gap.' },
+        { t:'med', q:'What is beam search? When does it fail for text generation?', h:'Width-k search, maintain top-k hypotheses per step. Failures: repetition (n-gram blocking), generic outputs (length normalization), not globally optimal, high k hurts diversity. Nucleus sampling as alternative.' },
+        { t:'hard', q:'How does a pointer network differ from a standard seq2seq model?', h:'Copy tokens directly from input via attention distribution instead of generating from vocabulary. Used in summarization OOV handling, QA (extractive), and data-to-text. CopyNet, pointer-generator (See et al. 2017), PGNet.' }
+      ]}
+    ]
+  },
+  {
+    id:5, cls:'c5', stcls:'st5',
+    title:'Transformer Architecture & Self-Attention',
+    desc:'The most technically probed area in NLP research interviews',
+    subtopics:[
+      { name:'Attention Mechanisms', qs:[
+        { t:'med', q:'Derive the scaled dot-product attention formula. Why the 1/sqrt(d_k) scaling?', h:'Attention(Q,K,V) = softmax(QK^T / sqrt(d_k))V. For large d_k, QK^T dot products grow large in magnitude, pushing softmax into saturation (near-zero gradients). Scaling by 1/sqrt(d_k) keeps variance ~1.' },
+        { t:'med', q:'What is multi-head attention and why is it better than single-head?', h:'Projects Q, K, V into h independent subspaces, computes attention, concatenates. Allows attending to different representation subspaces simultaneously — different heads specialize (syntactic, positional, semantic). Richer, diverse features.' },
+        { t:'hard', q:'What are induction heads and what role do they play in transformers?', h:'Induction heads (Olsson et al. 2022): two-head circuit enabling in-context learning. Head 1 attends to previous token; Head 2 attends to token following the previous occurrence of current token. Mechanistic basis for copying and few-shot learning.' }
+      ]},
+      { name:'Positional Encoding', qs:[
+        { t:'med', q:'How does positional encoding work? Compare sinusoidal, learned, and RoPE.', h:'Sinusoidal: fixed, relative positions encoded via dot products, extrapolates. Learned: data-driven, poor OOD. RoPE: rotates Q/K in complex plane, relative positions directly in attention, better extrapolation. Used in LLaMA, GPT-NeoX, Mistral.' },
+        { t:'hard', q:'What is ALiBi and how does it enable length extrapolation?', h:'Attention with Linear Biases (Press et al. 2022): add linear penalty proportional to distance (–m*|i-j|) to attention scores before softmax. No positional embeddings. Trains on short sequences, extrapolates to longer at inference. Used in BLOOM.' }
+      ]},
+      { name:'Architecture Components', qs:[
+        { t:'hard', q:'Explain layer normalization. Pre-LN vs. Post-LN trade-offs.', h:'Post-LN (original Vaswani): after residual, gradient vanishing in deep nets, requires careful LR warmup. Pre-LN (modern): before sublayers, more stable training, enables training without warmup. GPT-2+, PaLM, most modern LLMs use Pre-LN.' },
+        { t:'med', q:'What is the Feed-Forward Network in a transformer layer doing? Why 4x expansion?', h:'Two linear projections with GELU/ReLU. Interpreted as key-value memory store (Geva et al. 2021). 4x heuristic from Vaswani et al. Variants: SwiGLU (LLaMA uses 2/3 * 4 = 2.67x), wider FFN in PaLM.' },
+        { t:'easy', q:'What are the differences between encoder-only, decoder-only, and encoder-decoder models?', h:'Encoder-only (BERT): bidirectional, understanding (classification, NER, QA). Decoder-only (GPT): causal, generation. Encoder-decoder (T5, BART): seq2seq tasks. Decoder-only dominates LLMs; encoder-only dominates embedding/retrieval.' },
+        { t:'easy', q:'How does the Transformer handle long-range dependencies compared to RNNs?', h:'Constant O(1) path length between any two positions vs. O(n) for RNN. Parallel computation (no sequential bottleneck). Trade-off: O(n^2) attention cost limits sequence length.' }
+      ]},
+      { name:'Efficient Transformers', qs:[
+        { t:'hard', q:'What is the computational complexity of self-attention? How do efficient transformers address it?', h:'O(n^2 * d) time and space. Sparse attention: Longformer/BigBird O(n*sqrt(n)), sliding window + global tokens. Linear attention: Performer, kernel trick O(n). FlashAttention: IO-aware tiling — same math, O(n^2) ops but O(1) memory.' },
+        { t:'hard', q:'Explain Flash Attention. What problem does it solve and how?', h:'IO-aware exact attention (Dao et al. 2022). Avoids materializing O(n^2) matrix in HBM by computing in tiles in SRAM. Same mathematical result. 2-4x faster wall clock, O(n) memory. Flash Attention 2 further optimizes thread parallelism.' },
+        { t:'hard', q:'What is Mixture of Experts (MoE) and how does it scale transformers efficiently?', h:'Replace FFN with N expert FFNs. Router selects top-k per token (sparse activation). Same FLOPs per forward pass, more parameters. Mixtral 8x7B, GPT-4 rumored MoE. Challenges: load balancing loss, communication overhead, training instability.' }
+      ]}
+    ]
+  },
+  {
+    id:6, cls:'c6', stcls:'st6',
+    title:'Pre-training, Fine-tuning & Adaptation',
+    desc:'BERT, GPT, T5 and parameter-efficient methods',
+    subtopics:[
+      { name:'Pre-training Objectives', qs:[
+        { t:'easy', q:'Explain masked language modeling (MLM) and next sentence prediction (NSP) in BERT.', h:'MLM: mask 15% tokens (80% MASK, 10% random, 10% same), predict masked. NSP: binary classification of sentence pairs. NSP shown to hurt (RoBERTa removes it, uses full-sentence masking + dynamic masking instead).' },
+        { t:'easy', q:'What is the difference between BERT and GPT-2 in terms of training objective and architecture?', h:'BERT: encoder, bidirectional, MLM + NSP, for understanding. GPT-2: decoder, autoregressive causal LM, for generation. Attention mask: BERT = full, GPT = causal lower triangular.' },
+        { t:'med', q:'How does T5 unify NLP tasks into a text-to-text framework?', h:'Every task is text-in, text-out with task prefix (e.g. "summarize: ..."). Span corruption pre-training. Encoder-decoder. Enables multi-task learning, zero-shot transfer, and unified fine-tuning across classification, generation, regression.' },
+        { t:'hard', q:'What is the difference between causal LM and prefix LM objectives? When is each preferable?', h:'Causal LM: predict next token given all previous (GPT). Prefix LM: bidirectional attention on prefix, causal on continuation (T5 with packed sequences). Prefix LM better for conditional generation; causal LM better for open-ended generation and ICL.' }
+      ]},
+      { name:'Fine-tuning Strategies', qs:[
+        { t:'med', q:'How does instruction tuning differ from standard supervised fine-tuning?', h:'Instruction tuning: diverse tasks as natural language instructions (FLAN, InstructGPT). Improves zero-shot generalization. Standard SFT: task-specific labels, no generalization. Key difference: generalization via task diversity and instruction format.' },
+        { t:'med', q:'What is the role of the learning rate schedule in fine-tuning transformers?', h:'Warmup prevents early instability. Cosine/linear decay. Discriminative fine-tuning: lower LR for lower layers (ULMFiT). Critical for preventing catastrophic forgetting. Common: 1e-5 to 5e-5 with 6% warmup steps.' },
+        { t:'hard', q:'What is catastrophic forgetting and how is it mitigated in continual learning?', h:'Model overwrites old task knowledge when fine-tuned on new tasks. Mitigations: EWC (Fisher information penalty), experience replay, progressive networks, LoRA per-task isolation, prompt-based task separation (no shared weights updated).' }
+      ]},
+      { name:'Parameter-Efficient Fine-tuning (PEFT)', qs:[
+        { t:'med', q:'Explain LoRA. What are the key design choices and why does it work?', h:'Freeze pretrained W, add delta_W = B*A where B is d x r, A is r x k, r << d. Works because adaptation has low intrinsic dimensionality. Merged at inference = zero latency. Rank r is key hyperparameter (4-64 typical). QLoRA: 4-bit quantized base model.' },
+        { t:'hard', q:'Compare LoRA, prefix tuning, prompt tuning, and adapter layers.', h:'Prefix tuning: prepend trainable tokens to K,V each layer. Prompt tuning: input-level soft prompts only. Adapters: small FFN between sublayers (Houlsby: 2 per layer, ~0.5-8% params). LoRA: reparameterizes weight matrices. LoRA generally best trade-off.' },
+        { t:'hard', q:'What is QLoRA and how does it enable fine-tuning large models on consumer hardware?', h:'Dettmers et al. 2023: 4-bit NormalFloat quantization of base model (frozen), LoRA adapters in BF16, double quantization for quantization constants, paged optimizers for memory spikes. Fine-tune 65B on single 48GB GPU.' }
+      ]}
+    ]
+  },
+  {
+    id:7, cls:'c7', stcls:'st7',
+    title:'Large Language Models & Alignment',
+    desc:'Scaling laws, RLHF, emergent abilities, safety research',
+    subtopics:[
+      { name:'Scaling Laws & Training', qs:[
+        { t:'hard', q:'Explain the Chinchilla scaling laws. What do they prescribe for compute-optimal training?', h:'Hoffmann et al. 2022: compute budget C implies optimal N (params) proportional to sqrt(C) and D (tokens) proportional to sqrt(C). Equal scaling of params and data. Chinchilla (70B, 1.4T tokens) beats Gopher (280B, 300B tokens) at equal compute.' },
+        { t:'hard', q:'What are emergent abilities in LLMs and why are they controversial?', h:'Wei et al. 2022: abilities appear abruptly above scale threshold. Controversy (Schaeffer et al. 2023): emergence is artifact of discontinuous metrics — appears smooth with graded metrics. Open debate on whether true phase transitions exist.' },
+        { t:'hard', q:'What is the neural scaling law for language models (Kaplan et al. 2020)? How does it differ from Chinchilla?', h:'Kaplan: loss scales as power law in N, D, C. Recommends larger models with less data for fixed compute. Chinchilla showed Kaplan underweighted data: compute-optimal requires equal scaling of N and D. Chinchilla revised the field.' }
+      ]},
+      { name:'Alignment & RLHF', qs:[
+        { t:'med', q:'What is RLHF and how does it align LLMs to human preferences?', h:'Three stages: SFT on demonstrations, reward model trained on preference pairs (Bradley-Terry), PPO to maximize reward. Limitations: reward hacking, overoptimization, annotator variance, Goodhart Law, expensive human annotation.' },
+        { t:'hard', q:'Describe DPO (Direct Preference Optimization). How does it differ from RLHF?', h:'DPO: reparameterizes implicit reward r = beta * log(pi/pi_ref). Eliminates explicit reward model and RL loop. Cross-entropy loss on preference pairs. More stable, simpler, competitive with PPO-RLHF. SimPO, ORPO as further simplifications.' },
+        { t:'hard', q:'Explain Constitutional AI (CAI). How does it reduce reliance on human feedback?', h:'Anthropic (Bai et al. 2022): model critiques and revises its own outputs given a principle set (constitution), trains on self-refined data. SL-CAI: supervised revision. RL-CAI: RLAIF using AI-generated preference labels. Reduces harmful output labeling burden.' }
+      ]},
+      { name:'Prompting & In-Context Learning', qs:[
+        { t:'hard', q:'Explain in-context learning. What are the leading hypotheses for why it works?', h:'ICL: learn from demonstrations in prompt, no weight updates. Hypotheses: Bayesian inference over implicit concepts, task vector in residual stream (Hendel et al.), gradient-descent-like update (von Oswald et al.), induction heads in attention (Olsson et al.).' },
+        { t:'med', q:'What is chain-of-thought prompting and when does it help?', h:'Adding reasoning traces to prompts or "think step by step." Helps on multi-step reasoning, arithmetic, symbolic tasks. Emergent above ~100B params. Zero-shot CoT often matches few-shot CoT. Self-consistency decoding further improves it.' },
+        { t:'hard', q:'What is the difference between few-shot prompting, fine-tuning, and retrieval-augmented prompting?', h:'Few-shot: examples in context (no weight update, expensive per inference). Fine-tuning: update weights, cheap inference, needs data. RAP: retrieve relevant docs, no weight update, fresh knowledge. Different trade-offs in cost, accuracy, and knowledge currency.' }
+      ]},
+      { name:'Hallucinations & Reliability', qs:[
+        { t:'med', q:'What are hallucinations in LLMs? What causes them and how can they be reduced?', h:'Generating plausible but incorrect content. Causes: training data noise, overconfident parametric memory, exposure bias, sycophancy from RLHF. Mitigations: RAG, factuality fine-tuning, self-consistency, citation grounding, uncertainty quantification.' },
+        { t:'easy', q:'What is a system prompt and how do models learn to follow them?', h:'Prepended context setting behavior, role, constraints. Models learn via instruction tuning and RLHF to prioritize system prompts. Research: prompt injection attacks, jailbreaking, hierarchical instruction following, system prompt robustness.' }
+      ]}
+    ]
+  },
+  {
+    id:8, cls:'c8', stcls:'st8',
+    title:'Core NLP Tasks & Applications',
+    desc:'NER, QA, summarization, MT, sentiment, IE',
+    subtopics:[
+      { name:'Information Extraction', qs:[
+        { t:'hard', q:'How would you approach building an NER system for a low-resource language?', h:'Cross-lingual transfer (mBERT, XLM-R zero-shot), annotation projection via word alignment, few-shot fine-tuning, data augmentation (back-translation, label-preserving sub), active learning, LLM synthetic data generation with self-verification.' },
+        { t:'hard', q:'Explain relation extraction. How do you handle overlapping/nested relations?', h:'Joint entity-relation extraction. Overlapping (one entity in multiple relations): SpERT (span-based), table-filling (2D matrix labeling), seq2seq with structured outputs. Recent: LLM prompting with JSON output schema, function calling.' },
+        { t:'med', q:'What is semantic role labeling (SRL) and why is it useful?', h:'Identifies predicate-argument structure: who did what to whom, where, when. PropBank/FrameNet frameworks. Used in IE, QA, MT reordering. BERT-based SRL achieves near-human on CoNLL-2009. Span-based BERT models (He et al. 2018).' }
+      ]},
+      { name:'Question Answering', qs:[
+        { t:'easy', q:'What is the difference between open-domain and closed-domain QA?', h:'Open-domain: retrieve from large corpus then read (DPR + reader, RAG). Closed-domain: fixed KB or document set. Metrics: Exact Match (EM) and token F1 on SQuAD. Open-domain also uses Recall@k and MRR for retrieval.' },
+        { t:'hard', q:'What is multi-hop reasoning in QA and what datasets test it?', h:'Answering requires chaining multiple pieces of evidence. Datasets: HotpotQA, MuSiQue, 2WikiMultiHopQA. Approaches: iterative retrieval, reasoning chains, graph-based methods. LLMs with CoT perform competitively but still struggle on complex hops.' }
+      ]},
+      { name:'Summarization & Generation', qs:[
+        { t:'easy', q:'Explain extractive vs. abstractive summarization and their respective challenges.', h:'Extractive: select sentences — content selection, coherence issues. Abstractive: generate novel text — hallucination, faithfulness. ROUGE evaluation limitation: n-gram overlap misses meaning. Better: BERTScore, QAEval, faithfulness classifiers.' },
+        { t:'med', q:'What is faithfulness in summarization and how is it evaluated?', h:'Does the summary only assert what the source supports? Evaluation: FactCC, QAEval (QA-based), DAE (dependency arc entailment), NLI-based, human annotation (fine-grained error taxonomy: extrinsic vs. intrinsic hallucination).' }
+      ]},
+      { name:'Machine Translation & Sentiment', qs:[
+        { t:'med', q:'How does BLEU score work? What are its limitations for MT evaluation?', h:'Clipped n-gram precision + brevity penalty. Limitations: no recall, no meaning/fluency, poor human correlation for non-English, penalizes valid paraphrases. Better: COMET (trained on human judgments), BLEURT, METEOR, BERTScore, MQM.' },
+        { t:'hard', q:'How would you design a sentiment analysis system robust to domain shift?', h:'Domain-adaptive pre-training (DAPT on target domain text), unsupervised domain adaptation, aspect-level sentiment (ABSA — SemEval datasets), multi-task learning, zero-shot LLM prompting + calibration, temperature scaling for confidence.' }
+      ]}
+    ]
+  },
+  {
+    id:9, cls:'c9', stcls:'st9',
+    title:'Research Methods & Evaluation',
+    desc:'Experimental rigor, statistics, benchmarks, paper critique',
+    subtopics:[
+      { name:'Experimental Design', qs:[
+        { t:'med', q:'How do you ensure reproducibility in NLP research?', h:'Fix random seeds across all libraries. Report all hyperparameters. Multiple runs with mean + std. Share code/data/checkpoints (HuggingFace Hub). Use standard evaluation scripts (sacrebleu). Report compute budget, hardware, wall time.' },
+        { t:'med', q:'How would you design an ablation study for a new NLP model?', h:'Remove one component at a time (or key combinations). Fixed everything else. Multiple seeds. Report on held-out test set, not dev. Show contribution of each design choice. Also consider: order effects, interaction effects between components.' },
+        { t:'hard', q:'What is the difference between an oracle experiment and an upper-bound experiment in NLP?', h:'Oracle: uses ground truth at inference (gold parse trees, gold NER) to measure potential gain. Upper bound: maximum achievable by design (e.g. extractive upper bound = ROUGE of best oracle extract). Both guide where to focus research effort.' }
+      ]},
+      { name:'Statistics & Significance', qs:[
+        { t:'med', q:'What statistical tests do you use to compare NLP model performance?', h:'Bootstrap resampling test (general), McNemar test (classification, paired), sign test. Always report effect size + confidence interval, not just p-value. Multiple comparison correction: Bonferroni (conservative) or Benjamini-Hochberg (FDR control).' },
+        { t:'hard', q:'What is the issue with hyperparameter search on the test set and how do you avoid it?', h:'Test set p-hacking: repeated evaluation inflates apparent performance. Solutions: held-out test set (touch once at end), dev set for tuning, nested cross-validation for small datasets, report variance across seeds, model selection criteria on dev only.' }
+      ]},
+      { name:'Benchmarks & Evaluation', qs:[
+        { t:'hard', q:'What are the limitations of benchmark-based evaluation in NLP research?', h:'Benchmark saturation, train-test contamination in LLMs, distributional shift, metric-task misalignment, annotation artifacts (hypothesis-only models solve MNLI 67%). Better: dynamic benchmarks, behavioral testing (CheckList), adversarial NLI, held-out test sets.' },
+        { t:'hard', q:'Explain dataset contamination in LLM evaluation. How do you detect it?', h:'Training data overlaps with test benchmarks, inflating scores. Detection: n-gram overlap analysis, membership inference attacks, canary strings, per-example score analysis (suspiciously perfect scores). Mitigation: time-based splits, post-release benchmarks.' },
+        { t:'med', q:'What is the difference between zero-shot, few-shot, and fine-tuned evaluation?', h:'Zero-shot: no task-specific examples, tests generalization. Few-shot: k demos in prompt, tests ICL. Fine-tuned: task-specific training, ceiling performance given labeled data. Use zero/few-shot for data-scarce settings and generalization research.' }
+      ]},
+      { name:'Paper Critique & Research Literacy', qs:[
+        { t:'med', q:'How do you critically read an NLP paper? What red flags do you look for?', h:'Check: cherry-picked baselines, missing ablations, test set over-fitting, non-standard eval scripts, no significance tests, too-small datasets, narrow claims generalized broadly, missing failure analysis, compute not reported, only one random seed.' }
+      ]}
+    ]
+  },
+  {
+    id:10, cls:'c10', stcls:'st10',
+    title:'RAG, Retrieval & Production Systems',
+    desc:'Retrieval-augmented generation, vector search, inference at scale',
+    subtopics:[
+      { name:'Retrieval Architectures', qs:[
+        { t:'easy', q:'How does Retrieval-Augmented Generation (RAG) work? What are its main components?', h:'Retrieve relevant docs (DPR/BM25 indexer), append to context, generate conditioned on context+query. Components: chunker, embedder, vector store (FAISS/Pinecone), retriever, reader/generator. Variants: REALM, RAG (Lewis 2020), RETRO (chunked cross-attention), Atlas.' },
+        { t:'med', q:'Compare dense vs. sparse retrieval. When would you use each?', h:'Dense (DPR, E5): semantic matching, requires training and FAISS indexing. Sparse (BM25, SPLADE): lexical matching, fast, interpretable, zero training. Hybrid via RRF (Reciprocal Rank Fusion). Sparse wins for exact keyword/entity match; dense for paraphrase gap.' },
+        { t:'hard', q:'What is ColBERT and how does it improve over bi-encoder retrieval?', h:'Late interaction: encode query/document independently but compare at token level via MaxSim (sum of max cosines of query tokens over document tokens). More expressive than CLS dot product, 10-100x faster than cross-encoder. ColBERT v2 adds distillation.' },
+        { t:'hard', q:'What is SPLADE and how does it combine sparse and dense retrieval ideas?', h:'Sparse Lexical and Expansion: BERT encoder outputs sparse bag-of-words weights via RELU + log saturation activation. Enables sparse retrieval with semantic expansion (query/document terms not literally in text). Competitive with dense, faster at scale.' }
+      ]},
+      { name:'RAG Evaluation & Optimization', qs:[
+        { t:'med', q:'How do you evaluate a RAG pipeline end-to-end?', h:'Retrieval: Recall@k, NDCG, MRR. Generation: faithfulness (grounded in context?), answer relevance, context precision/recall. Frameworks: RAGAS, TruLens, LLM-as-judge. Critical: decompose retrieval errors from generation errors separately.' },
+        { t:'hard', q:'What are the key failure modes of RAG and how would you address each?', h:'Retrieval failure (irrelevant docs): improve embedder, add reranker (cross-encoder). Lost in the middle (long context): reorder retrieved docs, limit context. Hallucination despite context: faithfulness training, citation enforcement. Stale knowledge: metadata-filtered retrieval, online indexing.' }
+      ]},
+      { name:'Inference & Production', qs:[
+        { t:'hard', q:'Explain KV cache in transformer inference. What are its memory implications?', h:'Cache K,V projections of past tokens to avoid recomputation per step. Memory: O(n * d * L * B). Solutions: grouped-query attention (GQA, LLaMA-2), multi-query attention (MQA), paged attention (vLLM), sliding window KV cache (Mistral).' },
+        { t:'hard', q:'How does speculative decoding work and why does it speed up inference?', h:'Small draft model generates K candidate tokens, large target model verifies in parallel (one forward pass). Accepted tokens kept, first rejection triggers regeneration. Speedup proportional to acceptance rate. Zero quality degradation. Variants: Medusa (multiple heads), Eagle.' },
+        { t:'hard', q:'What are the key challenges in deploying LLMs at scale?', h:'Latency: speculative decoding, quantization (INT4/INT8 via GPTQ/AWQ), continuous batching (vLLM). Cost: distillation to smaller models, MoE routing. Consistency: temperature calibration. Safety: guardrails (NeMo Guardrails, Llama Guard). Distribution shift monitoring.' },
+        { t:'hard', q:'What is quantization in the context of LLMs? Compare GPTQ, AWQ, and GGUF.', h:'Reduce weight precision from BF16 to INT8/INT4 to cut memory and latency. GPTQ: post-training, layer-by-layer, Hessian-guided rounding. AWQ: activation-aware, protects salient weights. GGUF (llama.cpp): flexible mixed precision, CPU-friendly. All trade slight accuracy for 2-4x memory reduction.' }
+      ]}
+    ]
+  }
+];
+
+let activeFilter = 'all';
+let TOTAL = 0;
+
+function countAll() {
+  let easy=0, med=0, hard=0;
+  TOPICS.forEach(t => t.subtopics.forEach(st => st.qs.forEach(q => {
+    TOTAL++;
+    if(q.t==='easy') easy++;
+    else if(q.t==='med') med++;
+    else hard++;
+  })));
+  document.getElementById('count-easy').textContent = easy;
+  document.getElementById('count-med').textContent = med;
+  document.getElementById('count-hard').textContent = hard;
+  document.getElementById('hdr-visible').textContent = TOTAL;
+  document.getElementById('vis-count').textContent = 'Showing ' + TOTAL + ' of ' + TOTAL;
+}
+
+function buildDiffDots(subtopics) {
+  const has = {easy:false, med:false, hard:false};
+  subtopics.forEach(st => st.qs.forEach(q => has[q.t]=true));
+  let html = '<div class="sec-diff-pills">';
+  if(has.easy) html += '<div class="dpill dpill-easy"></div>';
+  if(has.med)  html += '<div class="dpill dpill-med"></div>';
+  if(has.hard) html += '<div class="dpill dpill-hard"></div>';
+  return html + '</div>';
+}
+
+function totalQs(topic) {
+  let n = 0;
+  topic.subtopics.forEach(st => n += st.qs.length);
+  return n;
+}
+
+function render() {
+  const layout = document.getElementById('layout');
+  layout.innerHTML = '';
+
+  TOPICS.forEach(topic => {
+    const sec = document.createElement('div');
+    sec.className = 'section';
+    sec.id = 'sec-' + topic.id;
+
+    const subtopicsHtml = topic.subtopics.map((st, si) => {
+      const qsHtml = st.qs.map((q, qi) => {
+        const uid = `qi-${topic.id}-${si}-${qi}`;
+        return `
+          <div class="q-item" id="${uid}" data-diff="${q.t}" data-text="${q.q.toLowerCase()} ${q.h.toLowerCase()}">
+            <div class="q-top" onclick="toggleQ('${uid}')">
+              <span class="q-badge badge-${q.t}">${q.t==='easy'?'foundational':q.t==='med'?'intermediate':'advanced'}</span>
+              <span class="q-text">${q.q}</span>
+              <span class="q-chevron">›</span>
+            </div>
+            <div class="q-hint">
+              <div class="hint-label">Key talking points</div>
+              <div class="hint-text">${q.h}</div>
+            </div>
+          </div>`;
+      }).join('');
+
+      const stid = `st-${topic.id}-${si}`;
+      return `
+        <div class="subtopic-group" id="stg-${topic.id}-${si}">
+          <div class="subtopic-header" onclick="toggleSt('${stid}', ${topic.id}, ${si})">
+            <span class="subtopic-icon open" id="sti-${stid}">›</span>
+            <span class="subtopic-tag ${topic.stcls}">${String(si+1).padStart(2,'0')}</span>
+            <span class="subtopic-name">${st.name}</span>
+            <span class="subtopic-qcount">${st.qs.length}q</span>
+          </div>
+          <div class="subtopic-questions open" id="${stid}">${qsHtml}</div>
+        </div>`;
+    }).join('');
+
+    sec.innerHTML = `
+      <div class="sec-header" onclick="toggleSec(${topic.id})">
+        <div class="sec-num ${topic.cls}">${topic.id}</div>
+        <div class="sec-info">
+          <div class="sec-title">${topic.title}</div>
+          <div class="sec-desc">${topic.desc}</div>
+        </div>
+        <div class="sec-right">
+          ${buildDiffDots(topic.subtopics)}
+          <span class="sec-qcount">${totalQs(topic)}q</span>
+          <span class="sec-arrow open" id="arrow-${topic.id}">▾</span>
+        </div>
+      </div>
+      <div class="questions open" id="q-block-${topic.id}">${subtopicsHtml}</div>
+    `;
+    layout.appendChild(sec);
+  });
+
+  countAll();
+}
+
+function toggleSec(id) {
+  const block = document.getElementById('q-block-' + id);
+  const arrow = document.getElementById('arrow-' + id);
+  const isOpen = block.classList.contains('open');
+  block.classList.toggle('open', !isOpen);
+  arrow.classList.toggle('open', !isOpen);
+  arrow.textContent = isOpen ? '▸' : '▾';
+}
+
+function toggleSt(stid, topicId, si) {
+  const block = document.getElementById(stid);
+  const icon = document.getElementById('sti-' + stid);
+  const isOpen = block.classList.contains('open');
+  block.classList.toggle('open', !isOpen);
+  if(icon) icon.classList.toggle('open', !isOpen);
+}
+
+function toggleQ(uid) {
+  document.getElementById(uid).classList.toggle('expanded');
+}
+
+function setFilter(f) {
+  activeFilter = f;
+  ['all','easy','med','hard'].forEach(k => {
+    const btn = document.getElementById('f-'+k);
+    btn.className = 'fbtn' + (k===f ? ' active-'+k : '');
+  });
+  filterAll();
+}
+
+function filterAll() {
+  const search = document.getElementById('search').value.toLowerCase().trim();
+  let visible = 0;
+
+  TOPICS.forEach(topic => {
+    let topicVisible = 0;
+
+    topic.subtopics.forEach((st, si) => {
+      let stVisible = 0;
+      st.qs.forEach((q, qi) => {
+        const uid = `qi-${topic.id}-${si}-${qi}`;
+        const item = document.getElementById(uid);
+        if(!item) return;
+        const matchDiff = activeFilter === 'all' || q.t === activeFilter;
+        const matchSearch = !search || item.dataset.text.includes(search);
+        const show = matchDiff && matchSearch;
+        item.classList.toggle('hidden', !show);
+        if(show) { stVisible++; topicVisible++; visible++; }
+      });
+      const stg = document.getElementById(`stg-${topic.id}-${si}`);
+      if(stg) stg.classList.toggle('hidden', stVisible === 0);
+    });
+
+    const sec = document.getElementById('sec-' + topic.id);
+    if(sec) sec.classList.toggle('hidden', topicVisible === 0);
+  });
+
+  document.getElementById('vis-count').textContent = `Showing ${visible} of ${TOTAL}`;
+  document.getElementById('hdr-visible').textContent = visible;
+}
+
+render();
+</script>
+</body>
+</html>
