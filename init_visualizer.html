@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>makemore Part 3 — Init Anomaly Visualizer</title>
+<style>
+  :root {
+    --bg: #0f0f10; --surface: #1a1a1c; --surface2: #222226;
+    --border: #2e2e33; --text: #e2e2e5; --muted: #888892;
+    --teal: #4f98a3; --red: #dd6974; --gold: #e8af34; --green: #6daa45;
+    --font: 'JetBrains Mono', 'Fira Mono', monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: var(--font); font-size: 13px; min-height: 100vh; padding: 24px; }
+  h1 { font-size: 18px; font-weight: 700; color: var(--teal); margin-bottom: 4px; letter-spacing: 0.5px; }
+  .subtitle { color: var(--muted); font-size: 12px; margin-bottom: 24px; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+  @media (max-width: 800px) { .grid { grid-template-columns: 1fr; } }
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+  .card-title { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 12px; }
+  .card-label { font-size: 12px; color: var(--text); margin-bottom: 6px; }
+  canvas { width: 100%; height: 130px; display: block; }
+  .controls { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; align-items: center; }
+  label { font-size: 12px; color: var(--muted); }
+  input[type=range] { accent-color: var(--teal); width: 120px; }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 20px; font-size: 11px; font-weight: 600; }
+  .badge-bad  { background: rgba(221,105,116,0.15); color: var(--red); border: 1px solid rgba(221,105,116,0.3); }
+  .badge-good { background: rgba(109,170,69,0.15);  color: var(--green); border: 1px solid rgba(109,170,69,0.3); }
+  .badge-warn { background: rgba(232,175,52,0.15);  color: var(--gold); border: 1px solid rgba(232,175,52,0.3); }
+  .stat-row { display: flex; gap: 16px; margin-top: 10px; flex-wrap: wrap; }
+  .stat { flex: 1; min-width: 80px; }
+  .stat-val { font-size: 16px; font-weight: 700; margin-bottom: 2px; }
+  .stat-key { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
+  .divider { border: none; border-top: 1px solid var(--border); margin: 20px 0; }
+  .note { background: var(--surface2); border-left: 3px solid var(--teal); padding: 10px 14px; border-radius: 0 8px 8px 0; font-size: 12px; color: var(--muted); margin-top: 12px; line-height: 1.7; }
+  .note strong { color: var(--text); }
+  .row { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; margin-bottom: 8px; }
+  select { background: var(--surface2); color: var(--text); border: 1px solid var(--border); border-radius: 6px; padding: 4px 8px; font-family: var(--font); font-size: 12px; }
+  .tanh-canvas-wrap { position: relative; }
+  #tanh-zone { font-size: 10px; color: var(--muted); text-align: center; margin-top: 4px; }
+  .full-width { grid-column: 1 / -1; }
+</style>
+</head>
+<body>
+
+<h1>🔬 makemore Part 3 — Init Anomaly Visualizer</h1>
+<p class="subtitle">Paste these cells BEFORE the "#MLP revisited" section. Run each to see the anomalies Karpathy describes.</p>
+
+<hr class="divider">
+
+<!-- Controls -->
+<div class="controls">
+  <div>
+    <label>Init mode: </label>
+    <select id="initMode" onchange="update()">
+      <option value="bad">❌ Bad: randn (std=1)</option>
+      <option value="ok">⚠️  OK: /sqrt(fan_in)</option>
+      <option value="kaiming" selected>✅ Kaiming: (5/3)/sqrt(fan_in)</option>
+    </select>
+  </div>
+  <div>
+    <label>W2 scale: </label>
+    <select id="w2Mode" onchange="update()">
+      <option value="bad">❌ Bad: randn (std=1)</option>
+      <option value="good" selected>✅ Good: × 0.01</option>
+    </select>
+  </div>
+  <div>
+    <label>fan_in (n_embd × block): </label>
+    <input type="range" id="fanIn" min="6" max="60" value="30" step="3" oninput="update()">
+    <span id="fanInVal" style="color:var(--teal)">30</span>
+  </div>
+</div>
+
+<!-- Row 1: hpreact histogram + tanh saturation -->
+<div class="grid">
+  <div class="card">
+    <div class="card-title">① hpreact distribution (before tanh)</div>
+    <div class="row">
+      <span id="badge1" class="badge">—</span>
+      <span id="std1" style="font-size:12px; color:var(--muted)"></span>
+    </div>
+    <canvas id="c1"></canvas>
+    <div class="note">
+      <strong>What this shows:</strong> the spread of neuron values going <em>into</em> tanh.
+      Ideal std ≈ 1.5–1.7 for tanh (Kaiming). Too wide → saturation. Too narrow → dead.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">② tanh output distribution (after tanh)</div>
+    <div class="row">
+      <span id="badge2" class="badge">—</span>
+      <span id="std2" style="font-size:12px; color:var(--muted)"></span>
+    </div>
+    <canvas id="c2"></canvas>
+    <div class="note">
+      <strong>What this shows:</strong> what the network actually sees after tanh.
+      Saturated = piled at ±1 = gradient ≈ 0. Healthy = smooth bell near 0.
+    </div>
+  </div>
+</div>
+
+<!-- Row 2: tanh gradient + logits / initial loss -->
+<div class="grid">
+  <div class="card">
+    <div class="card-title">③ tanh gradient distribution (1 − tanh²(x))</div>
+    <div class="row">
+      <span id="badge3" class="badge">—</span>
+      <span id="grad_mean" style="font-size:12px; color:var(--muted)"></span>
+    </div>
+    <canvas id="c3"></canvas>
+    <div class="note">
+      <strong>What this shows:</strong> how much gradient flows back.
+      Good init → most gradients near 1 (steep zone). Bad init → most ≈ 0 (flat zone, no learning).
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">④ Logits distribution + initial cross-entropy loss</div>
+    <div class="row">
+      <span id="badge4" class="badge">—</span>
+      <span id="loss_val" style="font-size:12px; color:var(--muted)"></span>
+    </div>
+    <canvas id="c4"></canvas>
+    <div class="note">
+      <strong>What this shows:</strong> W2 bad init → wide logits → softmax is overconfident → huge loss.
+      Ideal starting loss = log(27) ≈ <strong>3.30</strong>.
+    </div>
+  </div>
+</div>
+
+<!-- Summary row -->
+<div class="card" style="margin-bottom:16px;">
+  <div class="card-title">📊 Summary stats</div>
+  <div class="stat-row" id="stats"></div>
+</div>
+
+<div class="note" style="margin-top:0">
+  💡 <strong>Colab tip:</strong> Copy the Python code below into a cell BEFORE <code># MLP revisited</code>
+  and run it after building the dataset. Then run <code># MLP revisited</code> normally — you'll see exactly
+  how these anomalies are fixed by Kaiming init and <code>W2 × 0.01</code>.
+</div>
+
+<script>
+// ─── RNG (seeded Box-Muller) ───────────────────────────────────────────
+let seed = 42;
+function rand() { seed = (seed * 1664525 + 1013904223) & 0xffffffff; return ((seed >>> 0) / 0xffffffff); }
+function randn() {
+  let u = 0, v = 0;
+  while (!u) u = rand(); while (!v) v = rand();
+  return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
+}
+function sampleN(n) { return Array.from({length: n}, () => randn()); }
+
+// ─── histogram helper ─────────────────────────────────────────────────
+function histogram(data, bins, lo, hi) {
+  const h = new Array(bins).fill(0), w = (hi - lo) / bins;
+  for (const x of data) { const b = Math.floor((x - lo) / w); if (b >= 0 && b < bins) h[b]++; }
+  return h;
+}
+
+// ─── draw bar chart ───────────────────────────────────────────────────
+function drawBars(canvasId, data, lo, hi, color, dangerZones) {
+  const canvas = document.getElementById(canvasId);
+  const ctx = canvas.getContext('2d');
+  const W = canvas.offsetWidth, H = 130;
+  canvas.width = W * devicePixelRatio; canvas.height = H * devicePixelRatio;
+  ctx.scale(devicePixelRatio, devicePixelRatio);
+  ctx.clearRect(0, 0, W, H);
+
+  const bins = 60;
+  const hist = histogram(data, bins, lo, hi);
+  const maxH = Math.max(...hist);
+  const barW = W / bins;
+
+  if (dangerZones) {
+    for (const [a, b, col] of dangerZones) {
+      const x1 = Math.max(0, (a - lo) / (hi - lo) * W);
+      const x2 = Math.min(W, (b - lo) / (hi - lo) * W);
+      ctx.fillStyle = col;
+      ctx.fillRect(x1, 0, x2 - x1, H - 14);
+    }
+  }
+
+  for (let i = 0; i < bins; i++) {
+    const bh = (hist[i] / maxH) * (H - 20);
+    const x = i * barW, y = H - 14 - bh;
+    ctx.fillStyle = color;
+    ctx.globalAlpha = 0.85;
+    ctx.fillRect(x + 0.5, y, barW - 1, bh);
+  }
+  ctx.globalAlpha = 1;
+
+  // x axis
+  ctx.fillStyle = '#555560';
+  ctx.fillRect(0, H - 14, W, 1);
+  ctx.fillStyle = '#888892';
+  ctx.font = '9px monospace';
+  ctx.textAlign = 'center';
+  for (const v of [lo, (lo+hi)/2, hi]) {
+    const x = (v - lo) / (hi - lo) * W;
+    ctx.fillText(v.toFixed(1), x, H - 3);
+  }
+}
+
+// ─── tanh + gradient ─────────────────────────────────────────────────
+function tanh(x) { return Math.tanh(x); }
+function tanhGrad(x) { const t = Math.tanh(x); return 1 - t * t; }
+
+// ─── softmax loss ─────────────────────────────────────────────────────
+function crossEntropy(logits, vocabSize) {
+  const maxL = Math.max(...logits);
+  const exps = logits.map(x => Math.exp(x - maxL));
+  const sumE = exps.reduce((a,b) => a+b, 0);
+  const probs = exps.map(x => x / sumE);
+  // random target
+  const target = Math.floor(rand() * vocabSize);
+  return -Math.log(probs[target] + 1e-10);
+}
+
+// ─── main update ──────────────────────────────────────────────────────
+function update() {
+  seed = 42;
+  const initMode = document.getElementById('initMode').value;
+  const w2Mode   = document.getElementById('w2Mode').value;
+  const fanIn    = parseInt(document.getElementById('fanIn').value);
+  document.getElementById('fanInVal').textContent = fanIn;
+
+  const N = 2000, n_hidden = 200, vocab = 27;
+
+  // W1 init scale
+  let scale;
+  if (initMode === 'bad')     scale = 1.0;
+  else if (initMode === 'ok') scale = 1.0 / Math.sqrt(fanIn);
+  else                        scale = (5/3) / Math.sqrt(fanIn);
+
+  // hpreact: sum of fanIn * N(0, scale²) → N(0, fanIn * scale²)
+  const hpreact = Array.from({length: N}, () => {
+    let s = 0;
+    for (let j = 0; j < fanIn; j++) s += randn() * scale;
+    return s;
+  });
+
+  const hstd = Math.sqrt(hpreact.reduce((a,x) => a + x*x, 0) / N);
+
+  const hout    = hpreact.map(tanh);
+  const hgrads  = hpreact.map(tanhGrad);
+  const houtstd = Math.sqrt(hout.reduce((a,x) => a + x*x, 0) / N);
+  const gradMean = hgrads.reduce((a,x) => a+x, 0) / N;
+  const satPct  = hpreact.filter(x => Math.abs(tanh(x)) > 0.97).length / N * 100;
+
+  // W2 logits
+  const w2scale = w2Mode === 'bad' ? 1.0 : 0.01;
+  const logits  = Array.from({length: N}, () => {
+    let s = 0;
+    for (let j = 0; j < n_hidden; j++) s += randn() * randn() * w2scale;
+    return s;
+  });
+  const logitStd = Math.sqrt(logits.reduce((a,x) => a + x*x, 0) / N);
+
+  // approx initial loss: if w2 bad → high, if good → log(27)
+  const batchLoss = Array.from({length: 32}, () =>
+    crossEntropy(Array.from({length: vocab}, () => randn() * logitStd), vocab)
+  );
+  const avgLoss = batchLoss.reduce((a,x) => a+x, 0) / batchLoss.length;
+
+  // ── Chart 1: hpreact ──────────────────────────────────────────────
+  const lo1 = -10, hi1 = 10;
+  drawBars('c1', hpreact, lo1, hi1,
+    initMode === 'bad' ? '#dd697440' : initMode === 'ok' ? '#e8af3440' : '#4f98a340',
+    initMode === 'bad'
+      ? [[-10,-2,'rgba(221,105,116,0.07)'], [2,10,'rgba(221,105,116,0.07)']]
+      : null
+  );
+  document.getElementById('badge1').className = 'badge ' +
+    (initMode === 'bad' ? 'badge-bad' : initMode === 'ok' ? 'badge-warn' : 'badge-good');
+  document.getElementById('badge1').textContent =
+    initMode === 'bad' ? `❌ std≈${hstd.toFixed(1)} (too wide)` :
+    initMode === 'ok'  ? `⚠️  std≈${hstd.toFixed(2)} (shrinks)` :
+                         `✅ std≈${hstd.toFixed(2)} (Kaiming)`;
+  document.getElementById('std1').textContent = `fan_in=${fanIn} → scale=${scale.toFixed(4)}`;
+
+  // ── Chart 2: tanh output ──────────────────────────────────────────
+  drawBars('c2', hout, -1.05, 1.05,
+    initMode === 'bad' ? '#dd697480' : initMode === 'ok' ? '#e8af3480' : '#4f98a380',
+    initMode === 'bad'
+      ? [[-1.05,-0.97,'rgba(221,105,116,0.15)'], [0.97,1.05,'rgba(221,105,116,0.15)']]
+      : null
+  );
+  document.getElementById('badge2').className = 'badge ' +
+    (initMode === 'bad' ? 'badge-bad' : initMode === 'ok' ? 'badge-warn' : 'badge-good');
+  document.getElementById('badge2').textContent =
+    initMode === 'bad' ? `❌ saturated at ±1 (${satPct.toFixed(0)}% dead)` :
+    initMode === 'ok'  ? `⚠️  std≈${houtstd.toFixed(2)} (mild shrinkage)` :
+                         `✅ std≈${houtstd.toFixed(2)} — healthy bell`;
+  document.getElementById('std2').textContent =
+    `${satPct.toFixed(1)}% neurons with |tanh| > 0.97 (≈ saturated)`;
+
+  // ── Chart 3: tanh gradient ────────────────────────────────────────
+  drawBars('c3', hgrads, 0, 1.05,
+    initMode === 'bad' ? '#dd697460' : '#4f98a360',
+    [[0, 0.05, 'rgba(221,105,116,0.12)']]
+  );
+  document.getElementById('badge3').className = 'badge ' +
+    (initMode === 'bad' ? 'badge-bad' : initMode === 'ok' ? 'badge-warn' : 'badge-good');
+  document.getElementById('badge3').textContent =
+    initMode === 'bad' ? `❌ mean grad≈${gradMean.toFixed(3)} (near 0!)` :
+    initMode === 'ok'  ? `⚠️  mean grad≈${gradMean.toFixed(2)}` :
+                         `✅ mean grad≈${gradMean.toFixed(2)} — good flow`;
+  document.getElementById('grad_mean').textContent =
+    `mean(1−tanh²) = ${gradMean.toFixed(4)} — ideal ≈ 0.6–0.8`;
+
+  // ── Chart 4: logits ───────────────────────────────────────────────
+  const lo4 = -10, hi4 = 10;
+  drawBars('c4', logits, lo4, hi4,
+    w2Mode === 'bad' ? '#dd697460' : '#4f98a360', null);
+  const idealLoss = Math.log(vocab);
+  document.getElementById('badge4').className = 'badge ' +
+    (w2Mode === 'bad' ? 'badge-bad' : 'badge-good');
+  document.getElementById('badge4').textContent =
+    w2Mode === 'bad' ? `❌ loss≈${avgLoss.toFixed(1)} (ideal=${idealLoss.toFixed(2)})` :
+                       `✅ loss≈${avgLoss.toFixed(1)} ≈ ${idealLoss.toFixed(2)}`;
+  document.getElementById('loss_val').textContent =
+    `logit std=${logitStd.toFixed(3)} | ideal initial loss = log(27) = ${idealLoss.toFixed(3)}`;
+
+  // ── Summary stats ─────────────────────────────────────────────────
+  document.getElementById('stats').innerHTML = `
+    <div class="stat"><div class="stat-val" style="color:var(--teal)">${hstd.toFixed(2)}</div><div class="stat-key">hpreact std</div></div>
+    <div class="stat"><div class="stat-val" style="color:var(--teal)">${houtstd.toFixed(2)}</div><div class="stat-key">tanh(h) std</div></div>
+    <div class="stat"><div class="stat-val" style="color:${satPct>10?'var(--red)':'var(--green)'}">${satPct.toFixed(1)}%</div><div class="stat-key">saturated %</div></div>
+    <div class="stat"><div class="stat-val" style="color:${gradMean<0.1?'var(--red)':'var(--green)'}">${gradMean.toFixed(3)}</div><div class="stat-key">mean grad</div></div>
+    <div class="stat"><div class="stat-val" style="color:${avgLoss>10?'var(--red)':'var(--green)'}">${avgLoss.toFixed(2)}</div><div class="stat-key">init loss</div></div>
+    <div class="stat"><div class="stat-val" style="color:var(--muted)">${(5/3 / Math.sqrt(fanIn)).toFixed(4)}</div><div class="stat-key">kaiming scale</div></div>
+  `;
+}
+
+window.addEventListener('load', update);
+window.addEventListener('resize', update);
+</script>
+</body>
+</html>
