@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Saurav Chowdhury | AI Conferences</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital@0;1&family=Fraunces:ital,wght@0,300;0,400;1,300&family=Geist:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0a0c0b;
+      --surface: #111311;
+      --surface2: #161816;
+      --border: rgba(255,255,255,0.06);
+      --border2: rgba(255,255,255,0.1);
+      --text: #e2e4e0;
+      --muted: #6b6e68;
+      --muted2: #9a9d97;
+      --green: #4ade80;
+      --green-dim: rgba(74,222,128,0.12);
+      --blue: #60a5fa;
+      --yellow: #facc15;
+      --radius: 10px;
+      --shadow: 0 10px 30px rgba(0,0,0,0.22);
+    }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Geist', sans-serif;
+      font-weight: 300;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.4;
+    }
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 1rem 2.5rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      background: rgba(10,12,11,0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+    .logo-area { display: flex; align-items: center; gap: 10px; }
+    .dot {
+      width: 7px; height: 7px; border-radius: 50%; background: var(--green);
+      box-shadow: 0 0 8px var(--green); animation: pulse 2.5s ease-in-out infinite;
+    }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.4;transform:scale(0.85)} }
+    .logo {
+      font-family: 'DM Mono';
+      font-size: 12px;
+      color: var(--muted2);
+      letter-spacing: 0.08em;
+      text-decoration: none;
+    }
+    nav { display: flex; gap: 24px; flex-wrap: wrap; }
+    nav a {
+      font-family: 'DM Mono';
+      font-size: 11px;
+      color: var(--muted);
+      text-decoration: none;
+      letter-spacing: 0.06em;
+      transition: color 0.2s;
+    }
+    nav a:hover, nav a.active { color: var(--green); }
+    .header-contact { display: flex; gap: 16px; flex-wrap: wrap; }
+    .header-contact a {
+      font-family: 'DM Mono';
+      font-size: 11px;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .header-contact a:hover { color: var(--green); }
+    .hero {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 5rem 2.5rem 2.5rem;
+      position: relative;
+      z-index: 1;
+    }
+    .hero-tag {
+      font-family: 'DM Mono';
+      font-size: 11px;
+      color: var(--green);
+      letter-spacing: 0.12em;
+      margin-bottom: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .hero-tag::before {
+      content: '';
+      width: 20px;
+      height: 1px;
+      background: var(--green);
+    }
+    h1 {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(2.4rem, 5vw, 3.6rem);
+      font-weight: 300;
+      line-height: 1.08;
+      margin-bottom: 1rem;
+      max-width: 12ch;
+    }
+    h1 em { color: var(--green); font-style: italic; }
+    .hero-desc {
+      color: var(--muted2);
+      font-size: 15px;
+      max-width: 700px;
+      margin-bottom: 1.8rem;
+      line-height: 1.75;
+    }
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .meta-chip, .filter-chip {
+      font-family: 'DM Mono';
+      font-size: 10px;
+      color: var(--muted2);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 6px 10px;
+      border-radius: 999px;
+      letter-spacing: 0.06em;
+    }
+    .controls-wrap {
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+      position: sticky;
+      top: 64px;
+      z-index: 90;
+    }
+    .controls {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 1rem 2.5rem;
+      display: flex;
+      gap: 1rem;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .filters {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .filter-chip {
+      cursor: pointer;
+      transition: all 0.2s ease;
+      user-select: none;
+    }
+    .filter-chip:hover,
+    .filter-chip.active {
+      color: var(--green);
+      border-color: rgba(74,222,128,0.25);
+      background: var(--green-dim);
+    }
+    .status-line {
+      font-family: 'DM Mono';
+      font-size: 10px;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .section {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 2.5rem 2.5rem 4rem;
+      position: relative;
+      z-index: 1;
+    }
+    .section-label {
+      font-family: 'DM Mono';
+      font-size: 11px;
+      color: var(--green);
+      letter-spacing: 0.12em;
+      margin-bottom: 1.6rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+    .conference-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+    }
+    .conference-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.2rem;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+      min-height: 235px;
+      box-shadow: var(--shadow);
+    }
+    .conference-card:hover,
+    .conference-card.is-open {
+      transform: translateY(-2px);
+      border-color: var(--border2);
+      background: var(--surface2);
+    }
+    .conference-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1rem;
+      margin-bottom: 0.8rem;
+    }
+    .conference-code {
+      font-family: 'DM Mono';
+      font-size: 10px;
+      color: var(--yellow);
+      letter-spacing: 0.08em;
+      margin-bottom: 0.4rem;
+      text-transform: uppercase;
+    }
+    .conference-title {
+      font-family: 'Fraunces', serif;
+      font-size: 1.08rem;
+      font-weight: 300;
+      line-height: 1.35;
+      color: var(--text);
+      margin-bottom: 0.5rem;
+      max-width: 18ch;
+    }
+    .conference-sub {
+      font-size: 13px;
+      color: var(--muted2);
+      line-height: 1.7;
+      max-width: 50ch;
+    }
+    .badge-stack {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+    .badge {
+      font-family: 'DM Mono';
+      font-size: 9px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      padding: 4px 8px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .badge.topic-general { color: var(--green); background: var(--green-dim); border-color: rgba(74,222,128,0.18); }
+    .badge.topic-nlp { color: var(--yellow); background: rgba(250,204,21,0.08); border-color: rgba(250,204,21,0.18); }
+    .badge.topic-cv { color: var(--blue); background: rgba(96,165,250,0.08); border-color: rgba(96,165,250,0.18); }
+    .badge.topic-speech { color: #fda4af; background: rgba(253,164,175,0.08); border-color: rgba(253,164,175,0.18); }
+    .badge.topic-ml { color: #c4b5fd; background: rgba(196,181,253,0.08); border-color: rgba(196,181,253,0.18); }
+    .badge.state-open { color: var(--green); }
+    .badge.state-upcoming { color: var(--yellow); }
+    .conference-meta {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.8rem;
+      margin-top: 1rem;
+    }
+    .meta-block {
+      border-top: 1px solid var(--border);
+      padding-top: 0.85rem;
+    }
+    .meta-label {
+      font-family: 'DM Mono';
+      font-size: 10px;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      margin-bottom: 3px;
+    }
+    .meta-value {
+      font-size: 13px;
+      color: var(--text);
+      line-height: 1.6;
+    }
+    .deadline-overlay {
+      position: absolute;
+      left: 1rem;
+      right: 1rem;
+      bottom: 1rem;
+      padding: 0.85rem 0.95rem;
+      border: 1px solid rgba(74,222,128,0.2);
+      border-radius: 8px;
+      background: linear-gradient(180deg, rgba(12,16,13,0.92), rgba(12,16,13,0.98));
+      transform: translateY(calc(100% + 18px));
+      opacity: 0;
+      transition: transform 0.22s ease, opacity 0.22s ease;
+      pointer-events: none;
+    }
+    .conference-card:hover .deadline-overlay,
+    .conference-card.is-open .deadline-overlay {
+      transform: translateY(0);
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .deadline-label {
+      font-family: 'DM Mono';
+      font-size: 10px;
+      color: var(--green);
+      letter-spacing: 0.08em;
+      margin-bottom: 6px;
+    }
+    .deadline-main {
+      font-size: 14px;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+    .deadline-sub {
+      font-size: 12px;
+      color: var(--muted2);
+      line-height: 1.6;
+    }
+    .card-actions {
+      margin-top: 1rem;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .card-link, .toggle-deadline {
+      font-family: 'DM Mono';
+      font-size: 11px;
+      color: var(--green);
+      text-decoration: none;
+      letter-spacing: 0.04em;
+      background: transparent;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+    }
+    .card-link:hover, .toggle-deadline:hover { text-decoration: underline; }
+    .empty-state,
+    .loading-state {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.4rem;
+      color: var(--muted2);
+      font-size: 14px;
+    }
+    .footer-note {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 2.5rem 2.5rem;
+      position: relative;
+      z-index: 1;
+      color: var(--muted);
+      font-size: 12px;
+      font-family: 'DM Mono';
+    }
+    footer {
+      border-top: 1px solid var(--border);
+      background: var(--surface);
+      padding: 2rem 2.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      position: relative;
+      z-index: 1;
+      flex-wrap: wrap;
+    }
+    .footer-left {
+      font-family: 'DM Mono';
+      font-size: 11px;
+      color: var(--muted);
+    }
+    .footer-links {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .footer-links a {
+      font-family: 'DM Mono';
+      font-size: 11px;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--green); }
+    .fade-in {
+      opacity: 0;
+      transform: translateY(16px);
+      animation: fadeIn 0.6s ease forwards;
+    }
+    @keyframes fadeIn { to { opacity: 1; transform: translateY(0); } }
+    @media (max-width: 900px) {
+      .conference-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 768px) {
+      header { padding: 1rem 1.25rem; align-items: flex-start; }
+      nav { display: none; }
+      .hero { padding: 3rem 1.25rem 2rem; }
+      .controls { padding: 1rem 1.25rem; }
+      .section { padding: 2rem 1.25rem 3rem; }
+      .conference-meta { grid-template-columns: 1fr; }
+      .conference-card { min-height: auto; padding-bottom: 1.2rem; }
+      .deadline-overlay {
+        position: static;
+        transform: none;
+        opacity: 1;
+        margin-top: 1rem;
+        display: none;
+        pointer-events: auto;
+      }
+      .conference-card.is-open .deadline-overlay { display: block; }
+      .conference-card:hover .deadline-overlay { display: none; }
+      .footer-note { padding: 0 1.25rem 2rem; }
+      footer { padding: 2rem 1.25rem; flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo-area">
+      <div class="dot"></div>
+      <a class="logo" href="index.html">SAURAV CHOWDHURY</a>
+    </div>
+    <nav>
+      <a href="index.html#about">About</a>
+      <a href="index.html#publications">Publications</a>
+      <a href="index.html#experience">Experience</a>
+      <a href="index.html#research">Research</a>
+      <a href="nlp.html">NLP Prep</a>
+      <a href="conferences.html" class="active">Conferences</a>
+    </nav>
+    <div class="header-contact">
+      <a href="https://www.linkedin.com/in/saurav-chowdhury-a193b3117/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <a href="https://github.com/sauraviitj" target="_blank" rel="noopener noreferrer">GitHub</a>
+      <a href="https://scholar.google.com/citations?user=64Uu5VoAAAAJ&hl=en" target="_blank" rel="noopener noreferrer">Scholar</a>
+      <a href="https://medium.com/@sauravchowdhury16.sc" target="_blank" rel="noopener noreferrer">Medium</a>
+    </div>
+  </header>
+
+  <section class="hero fade-in">
+    <div class="hero-tag">UPCOMING AI CONFERENCES · FUTURE ONLY · LIVE FETCH</div>
+    <h1 id="heroTitle">Only <em>future</em> conferences from <span id="todayText"></span> onward.</h1>
+    <p class="hero-desc">
+      This board filters out older venues and keeps only conferences whose deadline, abstract deadline, or conference date is still ahead of the current cutoff. Hover on desktop or tap on mobile to reveal the last dates.
+    </p>
+    <div class="hero-meta">
+      <span class="meta-chip" id="cutoffChip"></span>
+      <span class="meta-chip">AUTO-FETCHED</span>
+      <span class="meta-chip">TOPIC FILTERS</span>
+      <span class="meta-chip">SINGLE HTML FILE</span>
+    </div>
+  </section>
+
+  <div class="controls-wrap">
+    <div class="controls">
+      <div class="filters" id="filters">
+        <button class="filter-chip active" data-filter="all">ALL</button>
+        <button class="filter-chip" data-filter="nlp">NLP</button>
+        <button class="filter-chip" data-filter="cv">CV</button>
+        <button class="filter-chip" data-filter="speech">SPEECH</button>
+        <button class="filter-chip" data-filter="general">GENERAL AI</button>
+        <button class="filter-chip" data-filter="ml">ML</button>
+      </div>
+      <div class="status-line" id="statusLine">CONNECTING TO CONFERENCE SOURCE…</div>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="section-label">CONFERENCE BOARD</div>
+    <div id="conferenceContainer" class="conference-grid">
+      <div class="loading-state">Loading future conference data…</div>
+    </div>
+  </section>
+
+  <div class="footer-note" id="footerNote">Source status will appear here after data loads.</div>
+
+  <footer>
+    <div class="footer-left">© 2026 Saurav Chowdhury · Guwahati, Assam, India</div>
+    <div class="footer-links">
+      <a href="mailto:sauravchowdhury16.sc@gmail.com">Email</a>
+      <a href="https://www.linkedin.com/in/saurav-chowdhury-a193b3117/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <a href="https://github.com/sauraviitj" target="_blank" rel="noopener noreferrer">GitHub</a>
+      <a href="https://scholar.google.com/citations?user=64Uu5VoAAAAJ&hl=en" target="_blank" rel="noopener noreferrer">Google Scholar</a>
+      <a href="https://medium.com/@sauravchowdhury16.sc" target="_blank" rel="noopener noreferrer">Medium</a>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
+  <script>
+    const TODAY_CUTOFF = new Date();
+
+    const DATA_SOURCES = [
+      {
+        name: 'AI Deadlines mirror',
+        url: 'https://raw.githubusercontent.com/huggingface/ai-deadlines/main/src/data/conferences.yml',
+        type: 'yaml'
+      },
+      {
+        name: 'AI Deadlines alt mirror',
+        url: 'https://raw.githubusercontent.com/paperswithcode/ai-deadlines/main/src/data/conferences.yml',
+        type: 'yaml'
+      }
+    ];
+
+    const FALLBACK_CONFERENCES = [
+      { id: 'emnlp-2026', title: 'EMNLP 2026', full_name: 'Conference on Empirical Methods in Natural Language Processing', link: 'https://2026.emnlp.org/', deadline: '2026-08-20', date: '2026-11-01', place: 'TBD', category: 'nlp' },
+      { id: 'acl-2027', title: 'ACL 2027', full_name: 'Annual Meeting of the Association for Computational Linguistics', link: 'https://aclweb.org/', deadline: '2027-02-10', date: '2027-07-01', place: 'TBD', category: 'nlp' },
+      { id: 'iccv-2027', title: 'ICCV 2027', full_name: 'International Conference on Computer Vision', link: 'https://iccv.thecvf.com/', deadline: '2027-03-01', date: '2027-10-01', place: 'TBD', category: 'cv' },
+      { id: 'interspeech-2026', title: 'INTERSPEECH 2026', full_name: 'Annual Conference of the International Speech Communication Association', link: 'https://www.interspeech2026.org/', deadline: '2026-06-30', date: '2026-09-01', place: 'TBD', category: 'speech' },
+      { id: 'aaai-2027', title: 'AAAI 2027', full_name: 'AAAI Conference on Artificial Intelligence', link: 'https://aaai.org/conference/aaai/', deadline: '2026-08-15', date: '2027-01-20', place: 'TBD', category: 'general' },
+      { id: 'neurips-2026', title: 'NeurIPS 2026', full_name: 'Conference on Neural Information Processing Systems', link: 'https://neurips.cc/', deadline: '2026-05-20', date: '2026-12-01', place: 'TBD', category: 'ml' },
+      { id: 'icml-2027', title: 'ICML 2027', full_name: 'International Conference on Machine Learning', link: 'https://icml.cc/', deadline: '2027-01-15', date: '2027-07-15', place: 'TBD', category: 'ml' }
+    ];
+
+    const state = {
+      filter: 'all',
+      conferences: [],
+      sourceName: 'Fallback dataset'
+    };
+
+    const categoryMap = {
+      nlp: ['nlp', 'natural language processing', 'computational linguistics', 'language'],
+      cv: ['vision', 'computer vision', 'cv', 'image'],
+      speech: ['speech', 'audio', 'spoken', 'voice'],
+      ml: ['machine learning', 'ml', 'learning theory'],
+      general: ['artificial intelligence', 'ai', 'data mining', 'robotics', 'general']
+    };
+
+    function normalizeText(value) {
+      return String(value || '').trim();
+    }
+
+    function toArray(value) {
+      if (Array.isArray(value)) return value;
+      if (!value) return [];
+      return [value];
+    }
+
+    function inferCategory(item) {
+      const text = [item.title, item.full_name, ...(item.sub || []), ...(item.area || []), ...(item.tags || [])].join(' ').toLowerCase();
+      if (categoryMap.nlp.some(tag => text.includes(tag))) return 'nlp';
+      if (categoryMap.cv.some(tag => text.includes(tag))) return 'cv';
+      if (categoryMap.speech.some(tag => text.includes(tag))) return 'speech';
+      if (categoryMap.ml.some(tag => text.includes(tag))) return 'ml';
+      return 'general';
+    }
+
+    function parseDateValue(value) {
+      if (!value || value === 'TBD') return null;
+      const d = new Date(value);
+      return Number.isNaN(d.getTime()) ? null : d;
+    }
+
+    function formatDate(value) {
+      const date = parseDateValue(value);
+      if (!date) return normalizeText(value) || 'TBD';
+      return new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: 'numeric' }).format(date);
+    }
+
+    function getDeadlineState(deadline) {
+      const date = parseDateValue(deadline);
+      if (!date) return { label: 'TBD', className: 'state-upcoming' };
+      return date >= TODAY_CUTOFF
+        ? { label: 'Open / Upcoming', className: 'state-open' }
+        : { label: 'Conference upcoming', className: 'state-upcoming' };
+    }
+
+    function isFutureConference(item) {
+      const candidates = [item.deadline, item.abstract_deadline, item.date].map(parseDateValue).filter(Boolean);
+      if (!candidates.length) return true;
+      return candidates.some(date => date >= TODAY_CUTOFF);
+    }
+
+    function normalizeConference(raw, idx) {
+      const sub = toArray(raw.sub || raw.tags || raw.area).map(v => String(v));
+      const title = raw.title || raw.name || raw.id || `Conference ${idx + 1}`;
+      const category = inferCategory({ ...raw, title, sub });
+      return {
+        id: raw.id || `${title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}-${idx}`,
+        title,
+        full_name: raw.full_name || raw.description || title,
+        link: raw.link || raw.url || '#',
+        deadline: raw.deadline || raw.abstract_deadline || 'TBD',
+        abstract_deadline: raw.abstract_deadline || null,
+        notification: raw.notification || null,
+        date: raw.date || raw.conference_date || raw.year || 'TBD',
+        timezone: raw.timezone || 'Conference local time',
+        place: [raw.place, raw.city, raw.country].filter(Boolean).join(', ') || 'TBD',
+        category,
+        sub,
+        venue: raw.venue || raw.rank || raw.id || ''
+      };
+    }
+
+    async function fetchConferenceData() {
+      for (const source of DATA_SOURCES) {
+        try {
+          const response = await fetch(source.url, { cache: 'no-store' });
+          if (!response.ok) throw new Error(`HTTP ${response.status}`);
+          const text = await response.text();
+          const parsed = source.type === 'yaml' ? jsyaml.load(text) : JSON.parse(text);
+          if (!Array.isArray(parsed)) throw new Error('Unexpected data shape');
+          state.sourceName = source.name;
+          return parsed.map(normalizeConference);
+        } catch (error) {
+          console.warn('Source failed:', source.name, error);
+        }
+      }
+      state.sourceName = 'Embedded fallback dataset';
+      return FALLBACK_CONFERENCES.map(normalizeConference);
+    }
+
+    function filteredConferences() {
+      if (state.filter === 'all') return state.conferences;
+      return state.conferences.filter(item => item.category === state.filter);
+    }
+
+    function badgeLabel(category) {
+      return ({ nlp: 'NLP', cv: 'CV', speech: 'Speech', ml: 'ML', general: 'General AI' })[category] || 'General AI';
+    }
+
+    function cardMarkup(item) {
+      const deadlineState = getDeadlineState(item.deadline);
+      const safeLink = item.link && item.link !== '#' ? item.link : null;
+      const abstractLine = item.abstract_deadline ? `<div class="deadline-sub">Abstract deadline: ${formatDate(item.abstract_deadline)}</div>` : '';
+      const notificationLine = item.notification ? `<div class="deadline-sub">Notification: ${formatDate(item.notification)}</div>` : '';
+      return `
+        <article class="conference-card" data-category="${item.category}">
+          <div class="conference-top">
+            <div>
+              <div class="conference-code">${item.venue || item.id || 'AI CONF'}</div>
+              <h2 class="conference-title">${item.title}</h2>
+              <p class="conference-sub">${item.full_name}</p>
+            </div>
+            <div class="badge-stack">
+              <span class="badge topic-${item.category}">${badgeLabel(item.category)}</span>
+              <span class="badge ${deadlineState.className}">${deadlineState.label}</span>
+            </div>
+          </div>
+          <div class="conference-meta">
+            <div class="meta-block">
+              <div class="meta-label">Conference date</div>
+              <div class="meta-value">${formatDate(item.date)}</div>
+            </div>
+            <div class="meta-block">
+              <div class="meta-label">Location</div>
+              <div class="meta-value">${normalizeText(item.place) || 'TBD'}</div>
+            </div>
+          </div>
+          <div class="card-actions">
+            ${safeLink ? `<a class="card-link" href="${safeLink}" target="_blank" rel="noopener noreferrer">Official site →</a>` : ''}
+            <button class="toggle-deadline" type="button">Show deadline</button>
+          </div>
+          <div class="deadline-overlay">
+            <div class="deadline-label">LAST DATE / SUBMISSION WINDOW</div>
+            <div class="deadline-main">Paper deadline: ${formatDate(item.deadline)}</div>
+            ${abstractLine}
+            ${notificationLine}
+            <div class="deadline-sub">Timezone: ${normalizeText(item.timezone) || 'Conference local time'}</div>
+          </div>
+        </article>
+      `;
+    }
+
+    function render() {
+      const container = document.getElementById('conferenceContainer');
+      const statusLine = document.getElementById('statusLine');
+      const footerNote = document.getElementById('footerNote');
+      const items = filteredConferences();
+      document.querySelectorAll('.filter-chip').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.filter === state.filter);
+      });
+      statusLine.textContent = `${items.length} FUTURE RESULTS · FILTER ${state.filter.toUpperCase()} · SOURCE ${state.sourceName.toUpperCase()}`;
+      footerNote.textContent = `Showing only conferences relevant on or after 08 Jun 2026. Older events are filtered out using deadline, abstract deadline, or conference date when available.`;
+      if (!items.length) {
+        container.innerHTML = `<div class="empty-state">No future conferences found for this filter right now.</div>`;
+        return;
+      }
+      container.innerHTML = items.map(cardMarkup).join('');
+      bindCardToggles();
+    }
+
+    function bindCardToggles() {
+      document.querySelectorAll('.toggle-deadline').forEach(button => {
+        button.addEventListener('click', () => {
+          const card = button.closest('.conference-card');
+          const isOpen = card.classList.contains('is-open');
+          document.querySelectorAll('.conference-card.is-open').forEach(openCard => {
+            openCard.classList.remove('is-open');
+            const btn = openCard.querySelector('.toggle-deadline');
+            if (btn) btn.textContent = 'Show deadline';
+          });
+          if (!isOpen) {
+            card.classList.add('is-open');
+            button.textContent = 'Hide deadline';
+          } else {
+            button.textContent = 'Show deadline';
+          }
+        });
+      });
+    }
+
+    function bindFilters() {
+      document.getElementById('filters').addEventListener('click', (event) => {
+        const btn = event.target.closest('[data-filter]');
+        if (!btn) return;
+        state.filter = btn.dataset.filter;
+        render();
+      });
+    }
+
+    async function init() {
+      bindFilters();
+      try {
+        state.conferences = await fetchConferenceData();
+        state.conferences = state.conferences
+          .filter(item => item.title)
+          .filter(isFutureConference)
+          .sort((a, b) => {
+            const da = parseDateValue(a.deadline)?.getTime() || parseDateValue(a.date)?.getTime() || Number.MAX_SAFE_INTEGER;
+            const db = parseDateValue(b.deadline)?.getTime() || parseDateValue(b.date)?.getTime() || Number.MAX_SAFE_INTEGER;
+            return da - db;
+          });
+      } catch (error) {
+        console.error(error);
+        state.sourceName = 'Embedded fallback dataset';
+        state.conferences = FALLBACK_CONFERENCES.map(normalizeConference).filter(isFutureConference);
+      }
+      render();
+    }
+
+    init();
+
+const today = new Date();
+document.getElementById('todayText').textContent = today.toLocaleDateString('en-GB', {
+  day: '2-digit',
+  month: 'short',
+  year: 'numeric'
+});
+
+const cutoffText = new Date().toLocaleDateString('en-GB', {
+  day: '2-digit',
+  month: 'short',
+  year: 'numeric'
+}).toUpperCase();
+
+document.getElementById('cutoffChip').textContent = `CUTOFF: ${cutoffText}`;
+  </script>
+</body>
+</html>
