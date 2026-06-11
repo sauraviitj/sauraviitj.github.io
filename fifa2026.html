@@ -170,7 +170,16 @@ button{
   70%{box-shadow:0 0 0 12px rgba(34,197,94,0)}
   100%{box-shadow:0 0 0 0 rgba(34,197,94,0)}
 }
-.cards{display:grid;gap:14px}
+.cards{
+  display:grid;
+  gap:14px
+}
+.today-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(300px, 1fr));
+  gap:14px;
+  margin-top:14px;
+}
 .card{
   background:rgba(17,24,39,.88);
   border:1px solid var(--border);
@@ -237,32 +246,6 @@ button{
   border-radius:16px;
   background:rgba(255,255,255,.03)
 }
-#sameDayList{
-  display:flex;
-  flex-direction:row;
-  flex-wrap:nowrap;
-  gap:14px;
-  overflow-x:auto;
-  overflow-y:hidden;
-  width:100%;
-  max-width:100%;
-  padding-bottom:10px;
-  -webkit-overflow-scrolling:touch;
-  scroll-snap-type:x mandatory;
-  touch-action:pan-x
-}
-#sameDayList .card{
-  flex:0 0 320px;
-  width:320px;
-  min-width:320px;
-  max-width:320px;
-  scroll-snap-align:start
-}
-#sameDayList::-webkit-scrollbar{height:8px}
-#sameDayList::-webkit-scrollbar-thumb{
-  background:rgba(148,163,184,.35);
-  border-radius:999px
-}
 .team.winner{
   background:rgba(34,197,94,.18);
   border-color:rgba(34,197,94,.35);
@@ -304,7 +287,7 @@ button{
       <h1>FIFA World Cup 2026 Tracker</h1>
       <div class="pill" id="stamp">Updated: —</div>
     </div>
-    
+    <p class="sub">Match Updates</p>
     <div class="pills">
       <span class="pill">104 fixtures</span>
       <span class="pill">IST times</span>
@@ -366,7 +349,7 @@ button{
           </div>
           <div class="pill" id="sameDayCount">0 matches</div>
         </div>
-        <div id="sameDayList" style="margin-top:14px"></div>
+        <div id="todayGrid" class="today-grid"></div>
       </section>
 
       <section class="panel">
@@ -394,7 +377,7 @@ const E = {
   stamp: document.getElementById('stamp'),
   sameDayMeta: document.getElementById('sameDayMeta'),
   sameDayCount: document.getElementById('sameDayCount'),
-  sameDayList: document.getElementById('sameDayList'),
+  todayGrid: document.getElementById('todayGrid'),
   liveStat: document.getElementById('liveStat'),
   sameDayBox: document.getElementById('sameDayBox'),
   filterToggle: document.getElementById('filterToggle'),
@@ -440,7 +423,7 @@ function todayTomorrowMatches(){
 function teamClass(result){
   return result === 1 ? 'winner' : result === 2 ? 'loser' : 'neutral';
 }
-function renderSameDay(){
+function renderToday(){
   let list = todayTomorrowMatches();
   if (!list.length) list = [...DATA].slice(0, 2);
 
@@ -449,7 +432,7 @@ function renderSameDay(){
     : 'No matches found.';
   E.sameDayCount.textContent = `${list.length} match${list.length !== 1 ? 'es' : ''}`;
 
-  E.sameDayList.innerHTML = list.map(m => `
+  E.todayGrid.innerHTML = list.map(m => `
     <article class="card">
       <div class="top">
         <div>
@@ -472,13 +455,6 @@ function renderSameDay(){
       </div>
     </article>
   `).join('');
-
-  const live = list.filter(x => ss(x) === 'live').length;
-  if (live) E.sameDayBox.style.borderColor = 'rgba(34,197,94,.5)';
-
-  requestAnimationFrame(() => {
-    E.sameDayList.scrollLeft = 0;
-  });
 }
 function card(m){
   return `
@@ -530,7 +506,7 @@ function render(){
   E.finishedCount.textContent = DATA.filter(m => ss(m) === 'finished').length;
   E.liveStat.textContent = `Live matches: ${E.liveCount.textContent}`;
   E.matches.innerHTML = L.length ? L.map(card).join('') : '<div class="empty">No fixtures match the current filters.</div>';
-  renderSameDay();
+  renderToday();
 }
 async function load(){
   const r = await fetch('./fixtures_clean.json', {cache:'no-store'});
