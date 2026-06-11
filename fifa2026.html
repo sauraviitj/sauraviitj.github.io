@@ -170,15 +170,12 @@ button{
   70%{box-shadow:0 0 0 12px rgba(34,197,94,0)}
   100%{box-shadow:0 0 0 0 rgba(34,197,94,0)}
 }
-.cards{
-  display:grid;
-  gap:14px
-}
+.cards{display:grid;gap:14px}
 .today-grid{
   display:grid;
   grid-template-columns:repeat(auto-fit, minmax(300px, 1fr));
   gap:14px;
-  margin-top:14px;
+  margin-top:14px
 }
 .card{
   background:rgba(17,24,39,.88);
@@ -258,11 +255,16 @@ button{
 }
 .team.neutral{background:rgba(255,255,255,.03)}
 
+.stacked-controls{
+  display:grid;
+  gap:12px
+}
 .filter-toggle{
-  display:inline-flex;
+  width:100%;
+  display:flex;
   align-items:center;
-  gap:8px;
-  width:fit-content;
+  justify-content:space-between;
+  gap:8px
 }
 .filter-panel{
   display:none;
@@ -278,6 +280,45 @@ button{
 .filter-toggle[aria-expanded="true"] .chev{
   transform:rotate(180deg)
 }
+.group-shell{
+  margin-top:12px;
+  padding-top:12px;
+  border-top:1px solid var(--border)
+}
+.group-table{
+  width:100%;
+  border-collapse:collapse;
+  overflow:hidden;
+  border-radius:16px;
+  border:1px solid var(--border);
+  min-width:640px;
+}
+.group-table th,
+.group-table td{
+  padding:10px 8px;
+  text-align:left;
+  border-bottom:1px solid rgba(148,163,184,.12);
+  vertical-align:top;
+  font-size:.88rem
+}
+.group-table th{
+  background:rgba(255,255,255,.04);
+  color:#cbd5e1;
+  font-weight:700
+}
+.group-wrap{
+  overflow:auto;
+  border-radius:16px
+}
+.group-section{
+  display:grid;
+  gap:14px
+}
+.group-stage-title{
+  margin:0 0 10px;
+  font-size:1rem;
+  color:#cbd5e1
+}
 </style>
 </head>
 <body>
@@ -287,7 +328,7 @@ button{
       <h1>FIFA World Cup 2026 Tracker</h1>
       <div class="pill" id="stamp">Updated: —</div>
     </div>
-    <p class="sub">Match Updates</p>
+    
     <div class="pills">
       <span class="pill">104 fixtures</span>
       <span class="pill">IST times</span>
@@ -297,45 +338,54 @@ button{
 
   <section class="grid">
     <aside class="panel">
-      <button class="filter-toggle" id="filterToggle" aria-expanded="false" aria-controls="filterPanel">
-        Filters <span class="chev">▾</span>
-      </button>
+      <div class="stacked-controls">
+        <button class="filter-toggle" id="filterToggle" aria-expanded="false" aria-controls="filterPanel">
+          <span>Filters</span><span class="chev">▾</span>
+        </button>
 
-      <div class="filter-panel" id="filterPanel">
-        <h2>Filters</h2>
-        <div class="controls">
-          <input id="searchInput" placeholder="Search team, match, venue…" />
-          <div class="row">
-            <select id="stageFilter">
-              <option value="all">All stages</option>
-              <option>Group Stage</option>
-              <option>Round of 16</option>
-              <option>Quarterfinal</option>
-              <option>Semifinal</option>
-              <option>Third Place</option>
-              <option>Final</option>
-            </select>
-            <select id="sortFilter">
-              <option value="date">Sort by date</option>
-              <option value="ist">Sort by IST</option>
-            </select>
+        <div class="filter-panel" id="filterPanel">
+          <div class="controls">
+            <input id="searchInput" placeholder="Search team, match, venue…" />
+            <div class="row">
+              <select id="stageFilter">
+                <option value="all">All stages</option>
+                <option>Group Stage</option>
+                <option>Round of 16</option>
+                <option>Quarterfinal</option>
+                <option>Semifinal</option>
+                <option>Third Place</option>
+                <option>Final</option>
+              </select>
+              <select id="sortFilter">
+                <option value="date">Sort by date</option>
+                <option value="ist">Sort by IST</option>
+              </select>
+            </div>
+            <div class="row">
+              <select id="statusFilter">
+                <option value="all">All statuses</option>
+                <option value="scheduled">Scheduled</option>
+                <option value="live">Live</option>
+                <option value="finished">Finished</option>
+              </select>
+              <select id="dateFilter"></select>
+            </div>
+            <button id="reloadBtn">Reload schedule</button>
           </div>
-          <div class="row">
-            <select id="statusFilter">
-              <option value="all">All statuses</option>
-              <option value="scheduled">Scheduled</option>
-              <option value="live">Live</option>
-              <option value="finished">Finished</option>
-            </select>
-            <select id="dateFilter"></select>
+
+          <div class="stats">
+            <div class="stat"><div class="label">Visible</div><div class="value" id="visibleCount">0</div></div>
+            <div class="stat"><div class="label">Live now</div><div class="value" id="liveCount">0</div></div>
+            <div class="stat"><div class="label">Finished</div><div class="value" id="finishedCount">0</div></div>
           </div>
-          <button id="reloadBtn">Reload schedule</button>
         </div>
 
-        <div class="stats">
-          <div class="stat"><div class="label">Visible</div><div class="value" id="visibleCount">0</div></div>
-          <div class="stat"><div class="label">Live now</div><div class="value" id="liveCount">0</div></div>
-          <div class="stat"><div class="label">Finished</div><div class="value" id="finishedCount">0</div></div>
+        <button class="filter-toggle" id="groupToggle" aria-expanded="false" aria-controls="groupPanel">
+          <span>Group-wise Table</span><span class="chev">▾</span>
+        </button>
+
+        <div class="filter-panel" id="groupPanel">
+          <div id="groupSection"></div>
         </div>
       </div>
     </aside>
@@ -362,6 +412,7 @@ button{
 
 <script>
 let DATA = [];
+let GROUPS = [];
 
 const E = {
   searchInput: document.getElementById('searchInput'),
@@ -381,17 +432,16 @@ const E = {
   liveStat: document.getElementById('liveStat'),
   sameDayBox: document.getElementById('sameDayBox'),
   filterToggle: document.getElementById('filterToggle'),
-  filterPanel: document.getElementById('filterPanel')
+  filterPanel: document.getElementById('filterPanel'),
+  groupToggle: document.getElementById('groupToggle'),
+  groupPanel: document.getElementById('groupPanel'),
+  groupSection: document.getElementById('groupSection')
 };
 
-function n(s){
-  return (s || '').toString().toLowerCase().replace(/\s+/g, ' ').trim();
-}
+function n(s){ return (s || '').toString().toLowerCase().replace(/\s+/g, ' ').trim(); }
 function st(m){ return m.stage || 'Group Stage'; }
 function ss(m){ return m.status || 'scheduled'; }
-function score(m){
-  return (m.homeGoals != null && m.awayGoals != null) ? `${m.homeGoals} - ${m.awayGoals}` : 'vs';
-}
+function score(m){ return (m.homeGoals != null && m.awayGoals != null) ? `${m.homeGoals} - ${m.awayGoals}` : 'vs'; }
 function badge(s){
   return s === 'live'
     ? '<span class="badge live">LIVE</span>'
@@ -399,19 +449,14 @@ function badge(s){
       ? '<span class="badge finished">FT</span>'
       : '<span class="badge sched">Scheduled</span>';
 }
-function dkey(d){
-  const t = new Date(d);
-  return isNaN(t) ? d : t.getTime();
-}
-function ikey(i){
-  const m = /\(([^)]+)\)/.exec(i || '');
-  const t = new Date(m ? m[1] : i);
-  return isNaN(t) ? i : t.getTime();
-}
+function dkey(d){ const t = new Date(d); return isNaN(t) ? d : t.getTime(); }
+function ikey(i){ const m = /\(([^)]+)\)/.exec(i || ''); const t = new Date(m ? m[1] : i); return isNaN(t) ? i : t.getTime(); }
+
 function options(){
   const ds = ['all', ...new Set(DATA.map(x => x.date))];
   E.dateFilter.innerHTML = ds.map(d => `<option value="${d}">${d === 'all' ? 'All dates' : d}</option>`).join('');
 }
+
 function todayTomorrowMatches(){
   const now = new Date();
   const today = now.toLocaleDateString('en-US', {month:'long', day:'numeric', year:'numeric'});
@@ -420,9 +465,9 @@ function todayTomorrowMatches(){
   const tomorrow = t.toLocaleDateString('en-US', {month:'long', day:'numeric', year:'numeric'});
   return DATA.filter(x => (x.date || '').includes(today) || (x.date || '').includes(tomorrow));
 }
-function teamClass(result){
-  return result === 1 ? 'winner' : result === 2 ? 'loser' : 'neutral';
-}
+
+function teamClass(result){ return result === 1 ? 'winner' : result === 2 ? 'loser' : 'neutral'; }
+
 function renderToday(){
   let list = todayTomorrowMatches();
   if (!list.length) list = [...DATA].slice(0, 2);
@@ -456,6 +501,7 @@ function renderToday(){
     </article>
   `).join('');
 }
+
 function card(m){
   return `
     <article class="card">
@@ -483,6 +529,47 @@ function card(m){
     </article>
   `;
 }
+
+function renderGroups(){
+  E.groupSection.innerHTML = GROUPS.map(g => `
+    <div>
+      <h3 class="group-stage-title">${g.group}</h3>
+      <div class="group-wrap">
+        <table class="group-table">
+          <thead>
+            <tr>
+              <th>Team</th>
+              <th>Pld</th>
+              <th>W</th>
+              <th>D</th>
+              <th>L</th>
+              <th>GF</th>
+              <th>GA</th>
+              <th>GD</th>
+              <th>Pts</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${(g.teams || []).map(t => `
+              <tr>
+                <td>${t.team || ''}</td>
+                <td>${t.played ?? 0}</td>
+                <td>${t.wins ?? 0}</td>
+                <td>${t.draws ?? 0}</td>
+                <td>${t.losses ?? 0}</td>
+                <td>${t.goalsFor ?? 0}</td>
+                <td>${t.goalsAgainst ?? 0}</td>
+                <td>${t.goalDifference ?? 0}</td>
+                <td>${t.points ?? 0}</td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  `).join('');
+}
+
 function render(){
   const q = n(E.searchInput.value);
   const stage = E.stageFilter.value;
@@ -505,22 +592,35 @@ function render(){
   E.liveCount.textContent = DATA.filter(m => ss(m) === 'live').length;
   E.finishedCount.textContent = DATA.filter(m => ss(m) === 'finished').length;
   E.liveStat.textContent = `Live matches: ${E.liveCount.textContent}`;
+
   E.matches.innerHTML = L.length ? L.map(card).join('') : '<div class="empty">No fixtures match the current filters.</div>';
   renderToday();
+  renderGroups();
 }
+
 async function load(){
-  const r = await fetch('./fixtures_clean.json', {cache:'no-store'});
-  DATA = await r.json();
+  const [fixturesRes, groupsRes] = await Promise.all([
+    fetch('./fixtures_clean.json', {cache:'no-store'}),
+    fetch('./groups.json', {cache:'no-store'})
+  ]);
+  DATA = await fixturesRes.json();
+  GROUPS = await groupsRes.json();
   E.stamp.textContent = 'Updated: ' + new Date().toLocaleString('en-IN');
   options();
   render();
 }
+
 ['input','change'].forEach(ev => [E.searchInput,E.stageFilter,E.sortFilter,E.statusFilter,E.dateFilter].forEach(el => el.addEventListener(ev, render)));
 E.reloadBtn.addEventListener('click', load);
 
 E.filterToggle.addEventListener('click', () => {
   const open = E.filterPanel.classList.toggle('open');
   E.filterToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+});
+
+E.groupToggle.addEventListener('click', () => {
+  const open = E.groupPanel.classList.toggle('open');
+  E.groupToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
 });
 
 load();
