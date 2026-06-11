@@ -1,0 +1,1042 @@
+[
+  {
+    "date": "June 11, 2026",
+    "match": "Mexico v/s South Africa",
+    "kickoff": "1:00 p.m. UTC-6",
+    "ist": "12:30 a.m. (June 12, 2026)",
+    "venue": "Estadio Azteca, Mexico City",
+    "stage": "Group Stage",
+    "team1": "Mexico",
+    "team2": "South Africa"
+  },
+  {
+    "date": "June 11, 2026",
+    "match": "South Korea v/s Czechia",
+    "kickoff": "8:00 p.m. UTC-6",
+    "ist": "7:30 a.m. (June 12, 2026)",
+    "venue": "Estadio Akron, Guadalajara",
+    "stage": "Group Stage",
+    "team1": "South Korea",
+    "team2": "Czechia"
+  },
+  {
+    "date": "June 12, 2026",
+    "match": "Canada v/s Bosnia and Herzegovina",
+    "kickoff": "3:00 p.m. UTC-4",
+    "ist": "12:30 a.m. (June 13, 2026)",
+    "venue": "BMO Field, Toronto",
+    "stage": "Group Stage",
+    "team1": "Canada",
+    "team2": "Bosnia and Herzegovina"
+  },
+  {
+    "date": "June 12, 2026",
+    "match": "USA v/s Paraguay",
+    "kickoff": "6:00 p.m. UTC-7",
+    "ist": "6:30 a.m. (June 14, 2026)",
+    "venue": "SoFi Stadium, Los Angeles",
+    "stage": "Group Stage",
+    "team1": "USA",
+    "team2": "Paraguay"
+  },
+  {
+    "date": "June 13, 2026",
+    "match": "Qatar v/s Switzerland",
+    "kickoff": "12:00 p.m. UTC-7",
+    "ist": "12:30 a.m. (June 14, 2026)",
+    "venue": "Levi's Stadium, San Francisco Bay Area",
+    "stage": "Group Stage",
+    "team1": "Qatar",
+    "team2": "Switzerland"
+  },
+  {
+    "date": "June 13, 2026",
+    "match": "Brazil v/s Morocco",
+    "kickoff": "6:00 p.m. UTC-4",
+    "ist": "3:30 a.m. (June 14, 2026)",
+    "venue": "MetLife Stadium, New Jersey",
+    "stage": "Group Stage",
+    "team1": "Brazil",
+    "team2": "Morocco"
+  },
+  {
+    "date": "June 13, 2026",
+    "match": "Haiti v/s Scotland",
+    "kickoff": "9:00 p.m. UTC-4",
+    "ist": "6:30 a.m. (June 14, 2026)",
+    "venue": "Gillette Stadium, Boston",
+    "stage": "Group Stage",
+    "team1": "Haiti",
+    "team2": "Scotland"
+  },
+  {
+    "date": "June 13, 2026",
+    "match": "Australia v/s Turkey",
+    "kickoff": "9:00 p.m. UTC-7",
+    "ist": "9:30 a.m. (June 14, 2026)",
+    "venue": "BC Place, Vancouver",
+    "stage": "Group Stage",
+    "team1": "Australia",
+    "team2": "Turkey"
+  },
+  {
+    "date": "June 14, 2026",
+    "match": "Germany v/s Curacao",
+    "kickoff": "12:00 p.m. UTC-5",
+    "ist": "10:30 p.m. (June 14, 2026)",
+    "venue": "NRG Stadium, Houston",
+    "stage": "Group Stage",
+    "team1": "Germany",
+    "team2": "Curacao"
+  },
+  {
+    "date": "June 14, 2026",
+    "match": "Netherlands v/s Japan",
+    "kickoff": "3:00 p.m. UTC-5",
+    "ist": "1:30 a.m. (June 15, 2026)",
+    "venue": "AT&T Stadium, Dallas",
+    "stage": "Group Stage",
+    "team1": "Netherlands",
+    "team2": "Japan"
+  },
+  {
+    "date": "June 14, 2026",
+    "match": "Ivory Coast v/s Ecuador",
+    "kickoff": "7:00 p.m. UTC-4",
+    "ist": "4:30 a.m. (June 15, 2026)",
+    "venue": "Lincoln Financial Field, Philadelphia",
+    "stage": "Group Stage",
+    "team1": "Ivory Coast",
+    "team2": "Ecuador"
+  },
+  {
+    "date": "June 14, 2026",
+    "match": "Sweden v/s Tunisia",
+    "kickoff": "8:00 p.m. UTC-6",
+    "ist": "7:30 a.m. (June 15, 2026)",
+    "venue": "Estadio BBVA, Monterrey",
+    "stage": "Group Stage",
+    "team1": "Sweden",
+    "team2": "Tunisia"
+  },
+  {
+    "date": "June 15, 2026",
+    "match": "Spain v/s Cape Verde",
+    "kickoff": "12:00 p.m. UTC-4",
+    "ist": "9:30 p.m. (June 15, 2026)",
+    "venue": "Mercedes-Benz Stadium, Atlanta",
+    "stage": "Group Stage",
+    "team1": "Spain",
+    "team2": "Cape Verde"
+  },
+  {
+    "date": "June 15, 2026",
+    "match": "Belgium v/s Egypt",
+    "kickoff": "12:00 p.m. UTC-7",
+    "ist": "12:30 a.m. (June 16, 2026)",
+    "venue": "Lumen Field, Seattle",
+    "stage": "Group Stage",
+    "team1": "Belgium",
+    "team2": "Egypt"
+  },
+  {
+    "date": "June 15, 2026",
+    "match": "Saudi Arabia v/s Uruguay",
+    "kickoff": "6:00 p.m. UTC-4",
+    "ist": "3:30 a.m. (June 16, 2026)",
+    "venue": "Hard Rock Stadium, Miami",
+    "stage": "Group Stage",
+    "team1": "Saudi Arabia",
+    "team2": "Uruguay"
+  },
+  {
+    "date": "June 15, 2026",
+    "match": "Iran v/s New Zealand",
+    "kickoff": "6:00 p.m. UTC-7",
+    "ist": "6:30 a.m. (June 16, 2026)",
+    "venue": "SoFi Stadium, Los Angeles",
+    "stage": "Group Stage",
+    "team1": "Iran",
+    "team2": "New Zealand"
+  },
+  {
+    "date": "June 16, 2026",
+    "match": "France v/s Senegal",
+    "kickoff": "3:00 p.m. UTC-4",
+    "ist": "12:30 a.m. (June 17, 2026)",
+    "venue": "MetLife Stadium, New Jersey",
+    "stage": "Group Stage",
+    "team1": "France",
+    "team2": "Senegal"
+  },
+  {
+    "date": "June 16, 2026",
+    "match": "Iraq v/s Norway",
+    "kickoff": "6:00 p.m. UTC-4",
+    "ist": "3:30 a.m. (1June 17, 2026)",
+    "venue": "Gillette Stadium, Boston",
+    "stage": "Group Stage",
+    "team1": "Iraq",
+    "team2": "Norway"
+  },
+  {
+    "date": "June 16, 2026",
+    "match": "Argentina v/s Algeria",
+    "kickoff": "8:00 p.m. UTC-5",
+    "ist": "6:30 a.m. (June 17, 2026)",
+    "venue": "Arrowhead Stadium, Kansas City",
+    "stage": "Group Stage",
+    "team1": "Argentina",
+    "team2": "Algeria"
+  },
+  {
+    "date": "June 16, 2026",
+    "match": "Austria v/s Jordan",
+    "kickoff": "9:00 p.m. UTC-7",
+    "ist": "9:30 a.m. (June 17, 2026)",
+    "venue": "Levi's Stadium, San Francisco Bay Area",
+    "stage": "Group Stage",
+    "team1": "Austria",
+    "team2": "Jordan"
+  },
+  {
+    "date": "June 17, 2026",
+    "match": "Portugal v/s DR Congo",
+    "kickoff": "12:00 p.m. UTC-5",
+    "ist": "10:30 p.m. (June 17, 2026)",
+    "venue": "NRG Stadium, Houston",
+    "stage": "Group Stage",
+    "team1": "Portugal",
+    "team2": "DR Congo"
+  },
+  {
+    "date": "June 17, 2026",
+    "match": "England v/s Croatia",
+    "kickoff": "3:00 p.m. UTC-5",
+    "ist": "1:30 a.m. (June 18, 2026",
+    "venue": "AT&T Stadium, Dallas",
+    "stage": "Group Stage",
+    "team1": "England",
+    "team2": "Croatia"
+  },
+  {
+    "date": "June 17, 2026",
+    "match": "Ghana v/s Panama",
+    "kickoff": "7:00 p.m. UTC-4",
+    "ist": "4:30 a.m. (June 18, 2026)",
+    "venue": "BMO Field, Toronto",
+    "stage": "Group Stage",
+    "team1": "Ghana",
+    "team2": "Panama"
+  },
+  {
+    "date": "June 17, 2026",
+    "match": "Uzbekistan v/s Colombia",
+    "kickoff": "8:00 p.m. UTC-6",
+    "ist": "7:30 a.m. (June 18, 2026)",
+    "venue": "Estadio Azteca, Mexico City",
+    "stage": "Group Stage",
+    "team1": "Uzbekistan",
+    "team2": "Colombia"
+  },
+  {
+    "date": "June 18, 2026",
+    "match": "Czechia v/s South Africa",
+    "kickoff": "12:00pm UTC-4",
+    "ist": "9:30 p.m. (June 18, 2026)",
+    "venue": "Mercedes-Benz Stadium, Atlanta",
+    "stage": "Group Stage",
+    "team1": "Czechia",
+    "team2": "South Africa"
+  },
+  {
+    "date": "June 18, 2026",
+    "match": "Switzerland v/s Bosnia and Herzegovina",
+    "kickoff": "12:00p.m. UTC-7",
+    "ist": "12:30 a.m. (June 19, 2026)",
+    "venue": "SoFi Stadium, Los Angeles",
+    "stage": "Group Stage",
+    "team1": "Switzerland",
+    "team2": "Bosnia and Herzegovina"
+  },
+  {
+    "date": "June 18, 2026",
+    "match": "Canada v/s Qatar",
+    "kickoff": "3:00 p.m. UTC-7",
+    "ist": "3:30 a.m. (June 19, 2026)",
+    "venue": "BC Place, Vancouver",
+    "stage": "Group Stage",
+    "team1": "Canada",
+    "team2": "Qatar"
+  },
+  {
+    "date": "June 18, 2026",
+    "match": "Mexico v/s South Korea",
+    "kickoff": "7:00 p.m. UTC-6",
+    "ist": "6:30 a.m. (June 19, 2026)",
+    "venue": "Estadio Akron, Guadalajara",
+    "stage": "Group Stage",
+    "team1": "Mexico",
+    "team2": "South Korea"
+  },
+  {
+    "date": "June 19, 2026",
+    "match": "USA v/s Australia",
+    "kickoff": "12:00 p.m. UTC-7",
+    "ist": "12:30 a.m. (June 20, 2026)",
+    "venue": "Lumen Field, Seattle",
+    "stage": "Group Stage",
+    "team1": "USA",
+    "team2": "Australia"
+  },
+  {
+    "date": "June 19, 2026",
+    "match": "Scotland v/s Morocco",
+    "kickoff": "6:00 p.m. UTC-4",
+    "ist": "3:30 a.m. (June 20, 2026)",
+    "venue": "Gillette Stadium, Boston",
+    "stage": "Group Stage",
+    "team1": "Scotland",
+    "team2": "Morocco"
+  },
+  {
+    "date": "June 19, 2026",
+    "match": "Brazil v/s Haiti",
+    "kickoff": "9:00 p.m UTC-4",
+    "ist": "6:30 a.m. (June 20, 2026)",
+    "venue": "Lincoln Financial Field, Philadelphia",
+    "stage": "Group Stage",
+    "team1": "Brazil",
+    "team2": "Haiti"
+  },
+  {
+    "date": "June 19, 2026",
+    "match": "Turkey v/s Paraguay",
+    "kickoff": "9:00 p.m. UTC-7",
+    "ist": "9:30 a.m. (June 20, 2026)",
+    "venue": "Levi's Stadium, San Francisco Bay Area",
+    "stage": "Group Stage",
+    "team1": "Turkey",
+    "team2": "Paraguay"
+  },
+  {
+    "date": "June 20, 2026",
+    "match": "Netherlands v/s Sweden",
+    "kickoff": "12:00 p.m. UTC-5",
+    "ist": "10:30 p.m. (June 20, 2026)",
+    "venue": "NRG Stadium, Houston",
+    "stage": "Group Stage",
+    "team1": "Netherlands",
+    "team2": "Sweden"
+  },
+  {
+    "date": "June 20, 2026",
+    "match": "Germany v/s Ivory Coast",
+    "kickoff": "4:00 p.m. UTC-4",
+    "ist": "1:30 a.m. (June 21, 2026)",
+    "venue": "BMO Field, Toronto",
+    "stage": "Group Stage",
+    "team1": "Germany",
+    "team2": "Ivory Coast"
+  },
+  {
+    "date": "June 20, 2026",
+    "match": "Ecuador v/s Curacao",
+    "kickoff": "7:00 p.m. UTC\u22125",
+    "ist": "5:30 a.m. (June 21, 2026)",
+    "venue": "Arrowhead Stadium, Kansas City",
+    "stage": "Group Stage",
+    "team1": "Ecuador",
+    "team2": "Curacao"
+  },
+  {
+    "date": "June 20, 2026",
+    "match": "Tunisia v/s Japan",
+    "kickoff": "10:00 p.m. UTC\u22126",
+    "ist": "9:30 a.m. (June 21, 2026)",
+    "venue": "Estadio BBVA, Monterrey",
+    "stage": "Group Stage",
+    "team1": "Tunisia",
+    "team2": "Japan"
+  },
+  {
+    "date": "June 21, 2026",
+    "match": "Spain v/s Saudi Arabia",
+    "kickoff": "12:00 p.m. UTC\u22124",
+    "ist": "9:30 p.m. (June 21, 2026)",
+    "venue": "Mercedes-Benz Stadium, Atlanta",
+    "stage": "Group Stage",
+    "team1": "Spain",
+    "team2": "Saudi Arabia"
+  },
+  {
+    "date": "June 21, 2026",
+    "match": "Belgium v/s Iran",
+    "kickoff": "12:00 p.m. UTC\u22127",
+    "ist": "12:30 a.m. (June 22, 2026)",
+    "venue": "SoFi Stadium, Los Angeles",
+    "stage": "Group Stage",
+    "team1": "Belgium",
+    "team2": "Iran"
+  },
+  {
+    "date": "June 21, 2026",
+    "match": "Uruguay v/.s Cape Verde",
+    "kickoff": "6:00 p.m. UTC\u22124",
+    "ist": "3:30 a.m. (June 22, 2026)",
+    "venue": "Hard Rock Stadium, Miami",
+    "stage": "Group Stage",
+    "team1": null,
+    "team2": null
+  },
+  {
+    "date": "June 21, 2026",
+    "match": "New Zealand v/s Egypt",
+    "kickoff": "6:00 p.m. UTC\u22127",
+    "ist": "6:30 a.m. (June 22, 2026)",
+    "venue": "BC Place, Vancouver",
+    "stage": "Group Stage",
+    "team1": "New Zealand",
+    "team2": "Egypt"
+  },
+  {
+    "date": "June 22, 2026",
+    "match": "Argentina v/s Austria",
+    "kickoff": "12:00 p.m. UTC\u22125",
+    "ist": "10:30 p.m. (June 22, 2026)",
+    "venue": "AT&T Stadium, Dallas",
+    "stage": "Group Stage",
+    "team1": "Argentina",
+    "team2": "Austria"
+  },
+  {
+    "date": "June 22, 2026",
+    "match": "France v/s Iraq",
+    "kickoff": "5:00 p.m. UTC\u22124",
+    "ist": "2:30 a.m. (June 23, 2026)",
+    "venue": "Lincoln Financial Field, Philadelphia",
+    "stage": "Group Stage",
+    "team1": "France",
+    "team2": "Iraq"
+  },
+  {
+    "date": "June 22, 2026",
+    "match": "Norway v/s Senegal",
+    "kickoff": "8:00 p.m. UTC\u22124",
+    "ist": "5:30 a.m. (June 23, 2026)",
+    "venue": "MetLife Stadium, New Jersey",
+    "stage": "Group Stage",
+    "team1": "Norway",
+    "team2": "Senegal"
+  },
+  {
+    "date": "June 22, 2026",
+    "match": "Jordan v/s Algeria",
+    "kickoff": "8:00 p.m. UTC\u22127",
+    "ist": "8:30 a.m. (June 23, 2026)",
+    "venue": "Levi's Stadium, San Francisco Bay Area",
+    "stage": "Group Stage",
+    "team1": "Jordan",
+    "team2": "Algeria"
+  },
+  {
+    "date": "June 23, 2026",
+    "match": "Portugal v/s Uzbekistan",
+    "kickoff": "12:00 p.m. UTC\u22125",
+    "ist": "10:30 p.m (June 23, 2026)",
+    "venue": "NRG Stadium, Houston",
+    "stage": "Group Stage",
+    "team1": "Portugal",
+    "team2": "Uzbekistan"
+  },
+  {
+    "date": "June 23, 2026",
+    "match": "England v/s Ghana",
+    "kickoff": "4:00 p.m. UTC\u22124",
+    "ist": "1:30 a.m. (June 24, 2026)",
+    "venue": "Gillette Stadium, Boston",
+    "stage": "Group Stage",
+    "team1": "England",
+    "team2": "Ghana"
+  },
+  {
+    "date": "June 23, 2026",
+    "match": "Panama v/s Croatia",
+    "kickoff": "7:00 p.m. UTC\u22124",
+    "ist": "4:30 a.m. (June 24, 2026)",
+    "venue": "BMO Field, Toronto",
+    "stage": "Group Stage",
+    "team1": "Panama",
+    "team2": "Croatia"
+  },
+  {
+    "date": "June 23, 2026",
+    "match": "Colombia v/s DR Congo",
+    "kickoff": "8:00 p.m. UTC\u22126",
+    "ist": "7: 30 a.m. (June 24, 2026)",
+    "venue": "Estadio Akron, Guadalajara",
+    "stage": "Group Stage",
+    "team1": "Colombia",
+    "team2": "DR Congo"
+  },
+  {
+    "date": "June 24, 2026",
+    "match": "Switzerland v/s Canada",
+    "kickoff": "12:00 p.m. UTC\u22127",
+    "ist": "12:30 a.m. (June 25, 2026)",
+    "venue": "BC Place, Vancouver",
+    "stage": "Group Stage",
+    "team1": "Switzerland",
+    "team2": "Canada"
+  },
+  {
+    "date": "June 24, 2026",
+    "match": "Bosnia and Herzegovina v/s Qatar",
+    "kickoff": "12:00 p.m. UTC\u22127",
+    "ist": "12:30 a.m. (June 25, 2026)",
+    "venue": "Lumen Field, Seattle",
+    "stage": "Group Stage",
+    "team1": "Bosnia and Herzegovina",
+    "team2": "Qatar"
+  },
+  {
+    "date": "June 24, 2026",
+    "match": "Morocco v/s Haiti",
+    "kickoff": "6:00 p.m. UTC\u22124",
+    "ist": "3:30 a.m. (June 25, 2026)",
+    "venue": "Mercedes-Benz Stadium, Atlanta",
+    "stage": "Group Stage",
+    "team1": "Morocco",
+    "team2": "Haiti"
+  },
+  {
+    "date": "June 24, 2026",
+    "match": "Scotland v/s Brazil",
+    "kickoff": "6:00 p.m. UTC\u22124",
+    "ist": "3:30 a.m. (June 25, 2026)",
+    "venue": "Hard Rock Stadium, Miami",
+    "stage": "Group Stage",
+    "team1": "Scotland",
+    "team2": "Brazil"
+  },
+  {
+    "date": "June 24, 2026",
+    "match": "South Afrcia v/s South Korea",
+    "kickoff": "7:00 p.m. UTC\u22126",
+    "ist": "6:30 a.m. (June 25, 2026)",
+    "venue": "Estadio BBVA, Monterrey",
+    "stage": "Group Stage",
+    "team1": "South Afrcia",
+    "team2": "South Korea"
+  },
+  {
+    "date": "June 24, 2026",
+    "match": "Czechia v/s Mexico",
+    "kickoff": "7:00 p.m. UTC\u22126",
+    "ist": "6:30 a.m. (June 25, 2026)",
+    "venue": "Estadio Azteca, Mexico City",
+    "stage": "Group Stage",
+    "team1": "Czechia",
+    "team2": "Mexico"
+  },
+  {
+    "date": "June 25, 2026",
+    "match": "Cuaraco v/s Ivory Coast",
+    "kickoff": "4:00 p.m. UTC\u22124",
+    "ist": "1:30 a.m. (June 26, 2026)",
+    "venue": "Lincoln Financial Field, Philadelphia",
+    "stage": "Group Stage",
+    "team1": "Cuaraco",
+    "team2": "Ivory Coast"
+  },
+  {
+    "date": "June 25, 2026",
+    "match": "Ecuador v/s Germany",
+    "kickoff": "4:00 p.m. UTC\u22124",
+    "ist": "1:30 a.m. (June 26, 2026)",
+    "venue": "MetLife Stadium, New Jersey",
+    "stage": "Group Stage",
+    "team1": "Ecuador",
+    "team2": "Germany"
+  },
+  {
+    "date": "June 25, 2026",
+    "match": "Tunisia v/s Netherlands",
+    "kickoff": "6:00 p.m. UTC\u22125",
+    "ist": "4:30 a.m. (June 26, 2026)",
+    "venue": "Arrowhead Stadium, Kansas City",
+    "stage": "Group Stage",
+    "team1": "Tunisia",
+    "team2": "Netherlands"
+  },
+  {
+    "date": "June 25, 2026",
+    "match": "Japan v/s Sweden",
+    "kickoff": "6:00 p.m. UTC\u22125",
+    "ist": "4:30 a.m. (June 26, 2026)",
+    "venue": "AT&T Stadium, Dallas",
+    "stage": "Group Stage",
+    "team1": "Japan",
+    "team2": "Sweden"
+  },
+  {
+    "date": "June 25, 2026",
+    "match": "Turkey v/s USA",
+    "kickoff": "7:00 p.m. UTC\u22127",
+    "ist": "7:30 a.m. (June 26, 2026)",
+    "venue": "SoFi Stadium, Los Angeles",
+    "stage": "Group Stage",
+    "team1": "Turkey",
+    "team2": "USA"
+  },
+  {
+    "date": "June 25, 2026",
+    "match": "Paraguay v/s Australia",
+    "kickoff": "7:00 p.m. UTC\u22127",
+    "ist": "7:30 a.m. (June 26, 2026)",
+    "venue": "Levi's Stadium, San Francisco Bay Area",
+    "stage": "Group Stage",
+    "team1": "Paraguay",
+    "team2": "Australia"
+  },
+  {
+    "date": "June 26, 2026",
+    "match": "Norway v/s France",
+    "kickoff": "3:00 p.m. UTC\u22124",
+    "ist": "12:30 a.m. (June 27, 2026)",
+    "venue": "Gillette Stadium, Boston",
+    "stage": "Group Stage",
+    "team1": "Norway",
+    "team2": "France"
+  },
+  {
+    "date": "June 26, 2026",
+    "match": "Senegal v/s Iraq",
+    "kickoff": "3:00 p.m. UTC\u22124",
+    "ist": "12:30 a.m. (June 27, 2026)",
+    "venue": "BMO Field, Toronto",
+    "stage": "Group Stage",
+    "team1": "Senegal",
+    "team2": "Iraq"
+  },
+  {
+    "date": "June 26, 2026",
+    "match": "Cape Verde v/s Saudi Arabia",
+    "kickoff": "7:00 p.m. UTC\u22125",
+    "ist": "5:30 a.m. (June 27, 2026)",
+    "venue": "NRG Stadium, Houston",
+    "stage": "Group Stage",
+    "team1": "Cape Verde",
+    "team2": "Saudi Arabia"
+  },
+  {
+    "date": "June 26, 2026",
+    "match": "Uruguay v/s Spain",
+    "kickoff": "6:00 p.m. UTC\u22126",
+    "ist": "5:30 a.m. (June 27, 2026)",
+    "venue": "Estadio Akron, Guadalajara",
+    "stage": "Group Stage",
+    "team1": "Uruguay",
+    "team2": "Spain"
+  },
+  {
+    "date": "June 26, 2026",
+    "match": "New Zealand v/s Belgium",
+    "kickoff": "8:00 p.m. UTC\u22127",
+    "ist": "8:30 a.m. (June 27, 2026)",
+    "venue": "BC Place, Vancouver",
+    "stage": "Group Stage",
+    "team1": "New Zealand",
+    "team2": "Belgium"
+  },
+  {
+    "date": "June 26, 2026",
+    "match": "Egypt v/s Iran",
+    "kickoff": "8:00 p.m. UTC\u22127",
+    "ist": "8:30 a.m. (June 27, 2026)",
+    "venue": "Lumen Field, Seattle",
+    "stage": "Group Stage",
+    "team1": "Egypt",
+    "team2": "Iran"
+  },
+  {
+    "date": "June 27, 2026",
+    "match": "Panama v/s England",
+    "kickoff": "5:00 p.m. UTC\u22124",
+    "ist": "2:30 a.m. (June 28, 2026)",
+    "venue": "MetLife Stadium, New Jersey",
+    "stage": "Group Stage",
+    "team1": "Panama",
+    "team2": "England"
+  },
+  {
+    "date": "June 27, 2026",
+    "match": "Croatia v/s Ghana",
+    "kickoff": "5:00 p.m. UTC\u22124",
+    "ist": "2:30 a.m. (June 28, 2026)",
+    "venue": "Lincoln Financial Field, Philadelphia",
+    "stage": "Group Stage",
+    "team1": "Croatia",
+    "team2": "Ghana"
+  },
+  {
+    "date": "June 27, 2026",
+    "match": "Colombia v/s Portugal",
+    "kickoff": "7:30 p.m. UTC\u22124",
+    "ist": "5:00 a.m. (June 28, 2026)",
+    "venue": "Hard Rock Stadium, Miami",
+    "stage": "Group Stage",
+    "team1": "Colombia",
+    "team2": "Portugal"
+  },
+  {
+    "date": "June 27, 2026",
+    "match": "DR Congo v/s Uzbekistan",
+    "kickoff": "7:30 p.m. UTC\u22124",
+    "ist": "5:00 a.m. (June 28, 2026)",
+    "venue": "Mercedes-Benz Stadium, Atlanta",
+    "stage": "Group Stage",
+    "team1": "DR Congo",
+    "team2": "Uzbekistan"
+  },
+  {
+    "date": "June 27, 2026",
+    "match": "Algeria v/s Austria",
+    "kickoff": "9:00 p.m. UTC\u22125",
+    "ist": "7:30 a.m. (June 28, 2026)",
+    "venue": "Arrowhead Stadium, Kansas City",
+    "stage": "Group Stage",
+    "team1": "Algeria",
+    "team2": "Austria"
+  },
+  {
+    "date": "June 27, 2026",
+    "match": "Jordan v/s Argentina",
+    "kickoff": "9:00 p.m. UTC\u22125",
+    "ist": "7:30 a.m. (June 28, 2026)",
+    "venue": "AT&T Stadium, Dallas",
+    "stage": "Group Stage",
+    "team1": "Jordan",
+    "team2": "Argentina"
+  },
+  {
+    "date": "June 28, 2026",
+    "match": "Round of 32 - 1",
+    "kickoff": "12:00 p.m. UTC\u22127",
+    "ist": "12:30 a.m. (June 29, 2026)",
+    "venue": "SoFi Stadium, Los Angeles",
+    "stage": "Group Stage",
+    "team1": null,
+    "team2": null
+  },
+  {
+    "date": "June 29, 2026",
+    "match": "Round of 32 - 2",
+    "kickoff": "12:00 p.m. UTC\u22125",
+    "ist": "10:30 p.m. (June 29, 2026)",
+    "venue": "NRG Stadium, Houston",
+    "stage": "Group Stage",
+    "team1": null,
+    "team2": null
+  },
+  {
+    "date": "June 29, 2026",
+    "match": "Round of 32 - 3",
+    "kickoff": "4:30 p.m. UTC\u22124",
+    "ist": "2:00 a.m. (June 30, 2026)",
+    "venue": "Gillette Stadium, Boston",
+    "stage": "Group Stage",
+    "team1": null,
+    "team2": null
+  },
+  {
+    "date": "June 29, 2026",
+    "match": "Round of 32 - 4",
+    "kickoff": "7:00 p.m. UTC\u22126",
+    "ist": "6:30 a.m. (June 30, 2026)",
+    "venue": "Estadio BBVA, Monterrey",
+    "stage": "Group Stage",
+    "team1": null,
+    "team2": null
+  },
+  {
+    "date": "June 30, 2026",
+    "match": "Round of 32 - 5",
+    "kickoff": "12:00 p.m. UTC\u22125",
+    "ist": "10:30 p.m. (June 30, 2026)",
+    "venue": "AT&T Stadium, Dallas",
+    "stage": "Group Stage",
+    "team1": null,
+    "team2": null
+  },
+  {
+    "date": "June 30, 2026",
+    "match": "Round of 32 - 6",
+    "kickoff": "5:00 p.m. UTC\u22124",
+    "ist": "2:30 a.m. (July 1, 2026)",
+    "venue": "MetLife Stadium, New Jersey",
+    "stage": "Group Stage",
+    "team1": null,
+    "team2": null
+  },
+  {
+    "date": "June 30, 2026",
+    "match": "Round of 32 - 7",
+    "kickoff": "7:00 p.m. UTC\u22126",
+    "ist": "6:30 a.m. (July 1, 2026)",
+    "venue": "Estadio Azteca, Mexico City",
+    "stage": "Group Stage",
+    "team1": null,
+    "team2": null
+  },
+  {
+    "date": "July 1, 2026",
+    "match": "Round of 32 - 8",
+    "kickoff": "12:00 p.m. UTC\u22124",
+    "ist": "9:30 p.m. (July 1, 2026)",
+    "venue": "Mercedes-Benz Stadium, Atlanta",
+    "stage": "Group Stage",
+    "team1": null,
+    "team2": null
+  },
+  {
+    "date": "July 1, 2026",
+    "match": "Round of 32 - 9",
+    "kickoff": "1:00 p.m. UTC\u22127",
+    "ist": "1:30 a.m. (July 2, 2026)",
+    "venue": "Lumen Field, Seattle",
+    "stage": "Group Stage",
+    "team1": null,
+    "team2": null
+  },
+  {
+    "date": "July 1, 2026",
+    "match": "Round of 32 - 10",
+    "kickoff": "5:00 p.m. UTC\u22127",
+    "ist": "5:30 a.m. (July 2, 2026)",
+    "venue": "Levi's Stadium, San Francisco Bay Area",
+    "stage": "Group Stage",
+    "team1": null,
+    "team2": null
+  },
+  {
+    "date": "July 2, 2026",
+    "match": "Round of 32 - 11",
+    "kickoff": "12:00 p.m. UTC\u22127",
+    "ist": "12:30 a.m. (July 3, 2026)",
+    "venue": "SoFi Stadium, Los Angeles",
+    "stage": "Group Stage",
+    "team1": null,
+    "team2": null
+  },
+  {
+    "date": "July 2, 2026",
+    "match": "Round of 32 - 12",
+    "kickoff": "7:00 p.m. UTC\u22124",
+    "ist": "4:30 a.m. (July 3, 2026)",
+    "venue": "BMO Field, Toronto",
+    "stage": "Group Stage",
+    "team1": null,
+    "team2": null
+  },
+  {
+    "date": "July 2, 2026",
+    "match": "Round of 32 - 13",
+    "kickoff": "8:00 p.m. UTC\u22127",
+    "ist": "8:30 a.m. (July 3, 2026)",
+    "venue": "BC Place, Vancouver",
+    "stage": "Group Stage",
+    "team1": null,
+    "team2": null
+  },
+  {
+    "date": "July 3, 2026",
+    "match": "Round of 32 - 14",
+    "kickoff": "1:00 p.m. UTC\u22125",
+    "ist": "11:30 p.m. (July 3, 2026)",
+    "venue": "AT&T Stadium, Dallas",
+    "stage": "Group Stage",
+    "team1": null,
+    "team2": null
+  },
+  {
+    "date": "July 3, 2026",
+    "match": "Round of 32 - 15",
+    "kickoff": "6:00 p.m. UTC\u22124",
+    "ist": "3:30 a.m. (July 4, 2026)",
+    "venue": "Hard Rock Stadium, Miami",
+    "stage": "Group Stage",
+    "team1": null,
+    "team2": null
+  },
+  {
+    "date": "July 3, 2026",
+    "match": "Round of 32 - 16",
+    "kickoff": "8:30 p.m. UTC\u22125",
+    "ist": "7:00 a.m. (July 4, 2026)",
+    "venue": "Arrowhead Stadium, Kansas City",
+    "stage": "Group Stage",
+    "team1": null,
+    "team2": null
+  },
+  {
+    "date": "July 4, 2026",
+    "match": "Round of 16 - 1",
+    "kickoff": "12:00 p.m. UTC\u22125",
+    "ist": "10:30 a.m. (July 4, 2026)",
+    "venue": "NRG Stadium, Houston",
+    "stage": "Round of 16",
+    "team1": null,
+    "team2": null
+  },
+  {
+    "date": "July 4, 2026",
+    "match": "Round of 16 - 2",
+    "kickoff": "5:00 p.m. UTC\u22124",
+    "ist": "2:30 a.m. (July 5, 2026)",
+    "venue": "Lincoln Financial Field, Philadelphia",
+    "stage": "Round of 16",
+    "team1": null,
+    "team2": null
+  },
+  {
+    "date": "July 5, 2026",
+    "match": "Round of 16 - 3",
+    "kickoff": "4:00 p.m. UTC\u22124",
+    "ist": "1:30 a.m. (July 6, 2026)",
+    "venue": "MetLife Stadium, New Jersey",
+    "stage": "Round of 16",
+    "team1": null,
+    "team2": null
+  },
+  {
+    "date": "July 5, 2026",
+    "match": "Round of 16 - 4",
+    "kickoff": "6:00 p.m. UTC\u22126",
+    "ist": "5:30 a.m. (July 6, 2026)",
+    "venue": "Estadio Azteca, Mexico City",
+    "stage": "Round of 16",
+    "team1": null,
+    "team2": null
+  },
+  {
+    "date": "July 6, 2026",
+    "match": "Round of 16 - 5",
+    "kickoff": "2:00 p.m. UTC\u22125",
+    "ist": "12:30 a.m. (July 7, 2026)",
+    "venue": "AT&T Stadium, Dallas",
+    "stage": "Round of 16",
+    "team1": null,
+    "team2": null
+  },
+  {
+    "date": "July 6, 2026",
+    "match": "Round of 16 - 6",
+    "kickoff": "5:00 p.m. UTC\u22127",
+    "ist": "5:30 a.m. (July 7, 2026)",
+    "venue": "Lumen Field, Seattle",
+    "stage": "Round of 16",
+    "team1": null,
+    "team2": null
+  },
+  {
+    "date": "July 7, 2026",
+    "match": "Round of 16 - 7",
+    "kickoff": "12:00 p.m. UTC\u22124",
+    "ist": "9:30 p.m. (July 7, 2026)",
+    "venue": "Mercedes-Benz Stadium, Atlanta",
+    "stage": "Round of 16",
+    "team1": null,
+    "team2": null
+  },
+  {
+    "date": "July 7, 2026",
+    "match": "Round of 16 - 8",
+    "kickoff": "1:00 p.m. UTC\u22127",
+    "ist": "1:30 a.m. (July 8, 2026)",
+    "venue": "BC Place, Vancouver",
+    "stage": "Round of 16",
+    "team1": null,
+    "team2": null
+  },
+  {
+    "date": "July 9, 2026",
+    "match": "Quarterfinal - 1",
+    "kickoff": "4:00 p.m. UTC\u22124",
+    "ist": "1:30 a.m. (July 10, 2026)",
+    "venue": "Gillette Stadium, Boston",
+    "stage": "Final",
+    "team1": null,
+    "team2": null
+  },
+  {
+    "date": "July 10, 2026",
+    "match": "Quarterfinal - 2",
+    "kickoff": "12:00 p.m. UTC\u22127",
+    "ist": "12:30 a.m. (July 11, 2026)",
+    "venue": "SoFi Stadium, Los Angeles",
+    "stage": "Final",
+    "team1": null,
+    "team2": null
+  },
+  {
+    "date": "July 11, 2026",
+    "match": "Quarterfinal - 3",
+    "kickoff": "5:00 p.m. UTC\u22124",
+    "ist": "2:30 a.m. (July 12, 2026)",
+    "venue": "Hard Rock Stadium, Miami",
+    "stage": "Final",
+    "team1": null,
+    "team2": null
+  },
+  {
+    "date": "July 11, 2026",
+    "match": "Quarterfinal - 4",
+    "kickoff": "8:00 p.m. UTC\u22125",
+    "ist": "6:30 a.m. (July 12, 2026)",
+    "venue": "Arrowhead Stadium, Kansas City",
+    "stage": "Final",
+    "team1": null,
+    "team2": null
+  },
+  {
+    "date": "July 14, 2026",
+    "match": "Semifinal - 1",
+    "kickoff": "2:00 p.m. UTC\u22125",
+    "ist": "12:30 a.m. (July 15, 2026)",
+    "venue": "AT&T Stadium, Dallas",
+    "stage": "Semifinal",
+    "team1": null,
+    "team2": null
+  },
+  {
+    "date": "July 15, 2026",
+    "match": "Semifinal - 2",
+    "kickoff": "3:00 p.m. UTC\u22124",
+    "ist": "12:30 a.m. (July 16, 2026)",
+    "venue": "Mercedes-Benz Stadium, Atlanta",
+    "stage": "Semifinal",
+    "team1": null,
+    "team2": null
+  },
+  {
+    "date": "July 18, 2026",
+    "match": "Third-place play-off",
+    "kickoff": "5:00 p.m. UTC\u22124",
+    "ist": "2:30 a.m. (July 19, 2026)",
+    "venue": "Hard Rock Stadium, Miami",
+    "stage": "Third Place",
+    "team1": null,
+    "team2": null
+  },
+  {
+    "date": "July 19, 2026",
+    "match": "Final",
+    "kickoff": "3:00 p.m. UTC\u22124",
+    "ist": "12:30 a.m. (July 20, 2026)",
+    "venue": "MetLife Stadium, New Jersey",
+    "stage": "Final",
+    "team1": null,
+    "team2": null
+  }
+]
