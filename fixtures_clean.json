@@ -1,28 +1,28 @@
 [
   {
     "date": "June 11, 2026",
-    "match": "Mexico v/s South Africa",
+    "match": "Mexico v/s South Africa(2-0)",
     "kickoff": "1:00 p.m. UTC-6",
     "ist": "12:30 a.m. (June 12, 2026)",
     "venue": "Estadio Azteca, Mexico City",
     "stage": "Group Stage",
     "team1": "Mexico",
     "team2": "South Africa",
-    "team1Result": 0,
-    "team2Result": 0,
+    "team1Result": 1,
+    "team2Result": 2,
     "status": "scheduled"
   },
   {
     "date": "June 11, 2026",
-    "match": "South Korea v/s Czechia",
+    "match": "South Korea v/s Czechia (2-1)",
     "kickoff": "8:00 p.m. UTC-6",
     "ist": "7:30 a.m. (June 12, 2026)",
     "venue": "Estadio Akron, Guadalajara",
     "stage": "Group Stage",
     "team1": "South Korea",
     "team2": "Czechia",
-    "team1Result": 0,
-    "team2Result": 0,
+    "team1Result": 1,
+    "team2Result": 2,
     "status": "scheduled"
   },
   {
