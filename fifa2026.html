@@ -501,12 +501,17 @@ function todayTomorrowMatches(){
 
 function renderToday(){
   const now = new Date();
+  const shifted = new Date(now.getTime() - (5 * 60 * 60 * 1000));
+
+  const start = new Date(shifted);
+  start.setHours(0, 0, 0, 0);
+
+  const end = new Date(start);
+  end.setDate(end.getDate() + 2);
 
   let list = DATA.filter(m => {
     const matchDate = new Date(m.date);
-    if (isNaN(matchDate)) return false;
-    const diffDays = Math.floor((matchDate - now) / (1000 * 60 * 60 * 24));
-    return diffDays >= 0 && diffDays <= 1;
+    return !isNaN(matchDate) && matchDate >= start && matchDate < end;
   });
 
   if (!list.length) {
