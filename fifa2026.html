@@ -340,19 +340,22 @@ button{
       <h1>FIFA World Cup 2026 Tracker</h1>
       <div class="pill" id="stamp">Updated: —</div>
     </div>
+
     <div class="pills">
       <span class="pill">104 fixtures</span>
       <span class="pill">IST times</span>
       <span class="pill" id="liveStat">Live matches: 0</span>
-      <div style="margin-top:12px;">
-  <div id="sfc8sfhn3qursurzyj42wdy55hzm68h2fge"></div>
-  <script type="text/javascript" src="https://counter11.optistats.ovh/private/counter.js?c=8sfhn3qursurzyj42wdy55hzm68h2fge&down=async" async></script>
-  <noscript>
-    <a href="https://www.freecounterstat.com" title="hit counter">
-      <img src="https://counter11.optistats.ovh/private/freecounterstat.php?c=8sfhn3qursurzyj42wdy55hzm68h2fge" border="0" title="hit counter" alt="hit counter">
-    </a>
-  </noscript>
-</div>
+      <span class="pill" id="sourceStat">Source: Google Sheets</span>
+    </div>
+
+    <div style="margin-top:12px;">
+      <div id="sfc8sfhn3qursurzyj42wdy55hzm68h2fge"></div>
+      <script type="text/javascript" src="https://counter11.optistats.ovh/private/counter.js?c=8sfhn3qursurzyj42wdy55hzm68h2fge&down=async" async></script>
+      <noscript>
+        <a href="https://www.freecounterstat.com" title="hit counter">
+          <img src="https://counter11.optistats.ovh/private/freecounterstat.php?c=8sfhn3qursurzyj42wdy55hzm68h2fge" border="0" title="hit counter" alt="hit counter">
+        </a>
+      </noscript>
     </div>
   </section>
 
@@ -432,8 +435,8 @@ button{
 </div>
 
 <script>
-const FIXTURES_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ_b6XTcnB9me_OlphhWbvaL0ybbNLP2_bYLzmwX_TNnt9Y_F8pMSIToqIOvZReV244nFxL4w-O7sC9/pub?gid=0&single=true&output=csv';
-const GROUPS_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ_b6XTcnB9me_OlphhWbvaL0ybbNLP2_bYLzmwX_TNnt9Y_F8pMSIToqIOvZReV244nFxL4w-O7sC9/pub?gid=1023019982&single=true&output=csv';
+const FIXTURES_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ_b6XTcnB9me_OlphhWbvaL0ybbNLP2_bYLzmwX_TNnt9Y_F8pMSIToqIOvZReV244nFxL4w-O7S9/pub?gid=0&single=true&output=csv';
+const GROUPS_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ_b6XTcnB9me_OlphhWbvaL0ybbNLP2_bYLzmwX_TNnt9Y_F8pMSIToqIOvZReV244nFxL4w-O7S9/pub?gid=1023019982&single=true&output=csv';
 
 let DATA = [];
 let GROUPS = [];
@@ -679,20 +682,20 @@ async function load(){
     const groupRows = csvToRows(groupsText);
 
     DATA = fixtureRows.map(r => ({
-  match: r.match || `${r.team1 || ''} vs ${r.team2 || ''}`,
-  team1: r.team1 || '',
-  team2: r.team2 || '',
-  homeGoals: r.homeGoals !== '' ? (r.homeGoals == null ? null : Number(r.homeGoals)) : null,
-  awayGoals: r.awayGoals !== '' ? (r.awayGoals == null ? null : Number(r.awayGoals)) : null,
-  team1Result: Number(r.team1Result || 0),
-  team2Result: Number(r.team2Result || 0),
-  stage: r.stage || 'Group Stage',
-  date: r.date || '',
-  ist: r.ist || '',
-  kickoff: r.kickoff || '',
-  venue: r.venue || '',
-  status: r.status || 'scheduled'
-}));
+      match: r.match || `${r.team1 || ''} vs ${r.team2 || ''}`,
+      team1: r.team1 || '',
+      team2: r.team2 || '',
+      homeGoals: r.homeGoals !== '' ? (r.homeGoals == null ? null : Number(r.homeGoals)) : null,
+      awayGoals: r.awayGoals !== '' ? (r.awayGoals == null ? null : Number(r.awayGoals)) : null,
+      team1Result: Number(r.team1Result || 0),
+      team2Result: Number(r.team2Result || 0),
+      stage: r.stage || 'Group Stage',
+      date: r.date || '',
+      ist: r.ist || '',
+      kickoff: r.kickoff || '',
+      venue: r.venue || '',
+      status: r.status || 'scheduled'
+    }));
 
     GROUPS = groupRowsToGroups(groupRows);
 
