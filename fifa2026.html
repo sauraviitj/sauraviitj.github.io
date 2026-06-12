@@ -345,7 +345,7 @@ button{
       <span class="pill">104 fixtures</span>
       <span class="pill">IST times</span>
       <span class="pill" id="liveStat">Live matches: 0</span>
-      <span class="pill" id="sourceStat">Source: Google Sheets</span>
+      
     </div>
 
     <div style="margin-top:12px;">
@@ -499,15 +499,31 @@ function todayTomorrowMatches(){
 }
 
 function renderToday(){
-  let list = todayTomorrowMatches();
-  if (!list.length) list = [...DATA].slice(0, 2);
+  const now = new Date();
+
+  let list = DATA.filter(m => {
+    const matchDate = new Date(m.date);
+    if (isNaN(matchDate)) return false;
+    const diffDays = Math.floor((matchDate - now) / (1000 * 60 * 60 * 24));
+    return diffDays >= 0 && diffDays <= 1;
+  });
+
+  if (!list.length) {
+    list = [...DATA]
+      .filter(m => {
+        const matchDate = new Date(m.date);
+        return !isNaN(matchDate) && matchDate >= now;
+      })
+      .sort((a, b) => new Date(a.date) - new Date(b.date))
+      .slice(0, 2);
+  }
 
   E.sameDayMeta.textContent = list.length
-    ? `Showing ${list.length} match${list.length > 1 ? 'es' : ''} for today and tomorrow.`
-    : 'No matches found.';
+    ? `Showing ${list.length} upcoming match${list.length > 1 ? 'es' : ''}.`
+    : 'No upcoming matches found.';
   E.sameDayCount.textContent = `${list.length} match${list.length !== 1 ? 'es' : ''}`;
 
-  E.todayGrid.innerHTML = list.map(m => `
+  E.todayGrid.innerHTML = list.length ? list.map(m => `
     <article class="card">
       <div class="top">
         <div>
@@ -529,9 +545,8 @@ function renderToday(){
         <div><strong>Kickoff:</strong> ${m.kickoff || '—'}</div>
       </div>
     </article>
-  `).join('');
+  `).join('') : '<div class="empty">No upcoming matches found.</div>';
 }
-
 function card(m){
   return `
     <article class="card">
