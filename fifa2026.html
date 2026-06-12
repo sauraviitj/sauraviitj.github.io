@@ -687,7 +687,7 @@ function groupRowsToGroups(rows){
 }
 
 async function load(){
-  E.sourceStat.textContent = 'Source: Google Sheets';
+  
   try {
     const [fixturesText, groupsText] = await Promise.all([
       fetchCSV(FIXTURES_CSV_URL),
