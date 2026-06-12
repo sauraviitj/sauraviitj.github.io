@@ -262,7 +262,6 @@ button{
   color:#fca5a5
 }
 .team.neutral{background:rgba(255,255,255,.03)}
-
 .stacked-controls{
   display:grid;
   gap:12px;
@@ -334,6 +333,15 @@ button{
     top:24px;
   }
 }
+.api-error{
+  padding:12px 16px;
+  background:rgba(239,68,68,.12);
+  border:1px solid rgba(239,68,68,.3);
+  border-radius:12px;
+  color:#fca5a5;
+  font-size:.9rem;
+  margin-bottom:8px
+}
 </style>
 </head>
 <body>
@@ -343,22 +351,21 @@ button{
       <h1>FIFA World Cup 2026 Tracker</h1>
       <div class="pill" id="stamp">Updated: —</div>
     </div>
-    
     <div class="pills">
-  <span class="pill">104 fixtures</span>
-  <span class="pill">IST times</span>
-  <span class="pill" id="liveStat">Live matches: 0</span>
-</div>
-
-<div style="margin-top:12px;">
-  <div id="sfcgfkg3ynxjju5k31g9klyusx5ysde5bjr"></div>
-  <script type="text/javascript" src="https://counter11.optistats.ovh/private/counter.js?c=gfkg3ynxjju5k31g9klyusx5ysde5bjr&down=async" async></script>
-  <noscript>
-    <a href="https://www.freecounterstat.com" title="free web counters">
-      <img src="https://counter11.optistats.ovh/private/freecounterstat.php?c=gfkg3ynxjju5k31g9klyusx5ysde5bjr" border="0" title="free web counters" alt="free web counters">
-    </a>
-  </noscript>
-</div>
+      <span class="pill">104 fixtures</span>
+      <span class="pill">IST times</span>
+      <span class="pill" id="liveStat">Live matches: 0</span>
+      <span class="pill" id="apiStatus">⏳ Loading API…</span>
+    </div>
+    <div style="margin-top:12px;">
+      <div id="sfcgfkg3ynxjju5k31g9klyusx5ysde5bjr"></div>
+      <script type="text/javascript" src="https://counter11.optistats.ovh/private/counter.js?c=gfkg3ynxjju5k31g9klyusx5ysde5bjr&down=async" async></script>
+      <noscript>
+        <a href="https://www.freecounterstat.com" title="free web counters">
+          <img src="https://counter11.optistats.ovh/private/freecounterstat.php?c=gfkg3ynxjju5k31g9klyusx5ysde5bjr" border="0" title="free web counters" alt="free web counters">
+        </a>
+      </noscript>
+    </div>
   </section>
 
   <section class="grid">
@@ -375,6 +382,7 @@ button{
               <select id="stageFilter">
                 <option value="all">All stages</option>
                 <option>Group Stage</option>
+                <option>Round of 32</option>
                 <option>Round of 16</option>
                 <option>Quarterfinal</option>
                 <option>Semifinal</option>
@@ -395,7 +403,7 @@ button{
               </select>
               <select id="dateFilter"></select>
             </div>
-            <button id="reloadBtn">Reload schedule</button>
+            <button id="reloadBtn">🔄 Reload from API</button>
           </div>
 
           <div class="stats">
@@ -436,31 +444,182 @@ button{
 </div>
 
 <script>
-let DATA = [];
-let GROUPS = [];
+// ─── CONFIG ──────────────────────────────────────────────────────────────────
+const API_BASE = 'https://worldcup26.ir';
+// For local JSON fallback if API is down:
+const FALLBACK_FIXTURES = './fixtures_clean.json';
+const FALLBACK_GROUPS   = './groups.json';
 
+// Stadium lookup (id → name) — built from API or static fallback
+const STADIUM_MAP = {};
+// Team lookup (id → name_en) — built from API
+const TEAM_MAP = {};
+
+let DATA   = [];  // normalised fixtures
+let GROUPS = [];  // normalised group standings
+
+// ─── TOKEN STORE ─────────────────────────────────────────────────────────────
+// worldcup26.ir requires a JWT. We auto-register once per session and cache
+// the token in sessionStorage so we never block re-renders.
+const TOKEN_KEY = 'wc26_token';
+
+async function getToken() {
+  const cached = sessionStorage.getItem(TOKEN_KEY);
+  if (cached) return cached;
+
+  // Generate a throw-away guest account for read-only access
+  const uid = Math.random().toString(36).slice(2, 10);
+  try {
+    const res = await fetch(`${API_BASE}/auth/register`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name: `guest_${uid}`,
+        email: `guest_${uid}@wc26.local`,
+        password: `Pwd_${uid}_2026!`
+      })
+    });
+    if (!res.ok) throw new Error('register failed');
+    const { token } = await res.json();
+    sessionStorage.setItem(TOKEN_KEY, token);
+    return token;
+  } catch {
+    // If register fails (e.g. email taken), try login with same uid — won't
+    // work, but we'll gracefully fall through to local JSON.
+    return null;
+  }
+}
+
+async function apiFetch(path) {
+  const token = await getToken();
+  if (!token) throw new Error('No token');
+  const res = await fetch(`${API_BASE}${path}`, {
+    headers: { 'Authorization': `Bearer ${token}` }
+  });
+  if (!res.ok) throw new Error(`${res.status} ${path}`);
+  return res.json();
+}
+
+// ─── TYPE → STAGE LABEL ──────────────────────────────────────────────────────
+function typeToStage(type) {
+  const map = {
+    group: 'Group Stage',
+    r32:   'Round of 32',
+    r16:   'Round of 16',
+    qf:    'Quarterfinal',
+    sf:    'Semifinal',
+    third: 'Third Place',
+    final: 'Final'
+  };
+  return map[type] || 'Group Stage';
+}
+
+// Convert UTC/local_date string to IST display
+function toIST(localDate) {
+  if (!localDate) return '';
+  // local_date format: "06/11/2026 13:00"  (local time at venue)
+  // We'll treat it as UTC for a simple conversion; in production you'd
+  // apply proper timezone offsets per stadium country.
+  const [datePart, timePart] = localDate.split(' ');
+  if (!datePart || !timePart) return localDate;
+  const [month, day, year] = datePart.split('/');
+  const d = new Date(`${year}-${month}-${day}T${timePart}:00Z`);
+  if (isNaN(d)) return localDate;
+  return d.toLocaleTimeString('en-IN', {
+    hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Kolkata'
+  }) + ' IST';
+}
+
+function toDateLabel(localDate) {
+  if (!localDate) return '';
+  const [datePart] = localDate.split(' ');
+  const [month, day, year] = datePart.split('/');
+  const d = new Date(`${year}-${month}-${day}T00:00:00Z`);
+  return isNaN(d) ? localDate : d.toLocaleDateString('en-US', {
+    month: 'long', day: 'numeric', year: 'numeric', timeZone: 'Asia/Kolkata'
+  });
+}
+
+// ─── NORMALISE API MATCHES → internal DATA format ────────────────────────────
+function normaliseMatches(apiMatches) {
+  return apiMatches.map(m => {
+    const home = TEAM_MAP[m.home_team_id] || m.home_team_label || `Team ${m.home_team_id}`;
+    const away = TEAM_MAP[m.away_team_id] || m.away_team_label || `Team ${m.away_team_id}`;
+    const stage = typeToStage(m.type);
+    const dateLabel = toDateLabel(m.local_date);
+    const ist  = toIST(m.local_date);
+    const statusRaw = m.finished === 'TRUE' || m.finished === true ? 'finished' : 'scheduled';
+
+    const homeGoals = (m.home_score != null && m.home_score !== '') ? Number(m.home_score) : null;
+    const awayGoals = (m.away_score != null && m.away_score !== '') ? Number(m.away_score) : null;
+
+    let team1Result = 0, team2Result = 0;
+    if (statusRaw === 'finished' && homeGoals != null && awayGoals != null) {
+      if (homeGoals > awayGoals) { team1Result = 1; team2Result = 2; }
+      else if (awayGoals > homeGoals) { team1Result = 2; team2Result = 1; }
+    }
+
+    return {
+      match:       `${home} vs ${away}`,
+      team1:       home,
+      team2:       away,
+      homeGoals,
+      awayGoals,
+      team1Result,
+      team2Result,
+      stage,
+      date:        dateLabel,
+      ist,
+      kickoff:     m.local_date ? m.local_date.split(' ')[1] : '',
+      venue:       STADIUM_MAP[m.stadium_id] || `Stadium ${m.stadium_id}`,
+      status:      statusRaw,
+      _raw:        m
+    };
+  });
+}
+
+// ─── NORMALISE API GROUPS → internal GROUPS format ───────────────────────────
+function normaliseGroups(apiGroups) {
+  return apiGroups.map(g => ({
+    group: `Group ${g.group}`,
+    teams: (g.teams || []).map(t => ({
+      team:          TEAM_MAP[t.team_id] || `Team ${t.team_id}`,
+      played:        Number(t.mp  ?? t.played  ?? 0),
+      wins:          Number(t.w   ?? t.wins    ?? 0),
+      draws:         Number(t.d   ?? t.draws   ?? 0),
+      losses:        Number(t.l   ?? t.losses  ?? 0),
+      goalsFor:      Number(t.gf  ?? t.goalsFor      ?? 0),
+      goalsAgainst:  Number(t.ga  ?? t.goalsAgainst  ?? 0),
+      goalDifference:Number(t.gd  ?? t.goalDifference ?? 0),
+      points:        Number(t.pts ?? t.points  ?? 0)
+    }))
+  }));
+}
+
+// ─── DOM HELPERS ─────────────────────────────────────────────────────────────
 const E = {
-  searchInput: document.getElementById('searchInput'),
-  stageFilter: document.getElementById('stageFilter'),
-  sortFilter: document.getElementById('sortFilter'),
-  statusFilter: document.getElementById('statusFilter'),
-  dateFilter: document.getElementById('dateFilter'),
-  reloadBtn: document.getElementById('reloadBtn'),
-  matches: document.getElementById('matches'),
-  visibleCount: document.getElementById('visibleCount'),
-  liveCount: document.getElementById('liveCount'),
+  searchInput:   document.getElementById('searchInput'),
+  stageFilter:   document.getElementById('stageFilter'),
+  sortFilter:    document.getElementById('sortFilter'),
+  statusFilter:  document.getElementById('statusFilter'),
+  dateFilter:    document.getElementById('dateFilter'),
+  reloadBtn:     document.getElementById('reloadBtn'),
+  matches:       document.getElementById('matches'),
+  visibleCount:  document.getElementById('visibleCount'),
+  liveCount:     document.getElementById('liveCount'),
   finishedCount: document.getElementById('finishedCount'),
-  stamp: document.getElementById('stamp'),
-  sameDayMeta: document.getElementById('sameDayMeta'),
-  sameDayCount: document.getElementById('sameDayCount'),
-  todayGrid: document.getElementById('todayGrid'),
-  liveStat: document.getElementById('liveStat'),
-  sameDayBox: document.getElementById('sameDayBox'),
-  filterToggle: document.getElementById('filterToggle'),
-  filterPanel: document.getElementById('filterPanel'),
-  groupToggle: document.getElementById('groupToggle'),
-  groupPanel: document.getElementById('groupPanel'),
-  groupSection: document.getElementById('groupSection')
+  stamp:         document.getElementById('stamp'),
+  sameDayMeta:   document.getElementById('sameDayMeta'),
+  sameDayCount:  document.getElementById('sameDayCount'),
+  todayGrid:     document.getElementById('todayGrid'),
+  liveStat:      document.getElementById('liveStat'),
+  sameDayBox:    document.getElementById('sameDayBox'),
+  filterToggle:  document.getElementById('filterToggle'),
+  filterPanel:   document.getElementById('filterPanel'),
+  groupToggle:   document.getElementById('groupToggle'),
+  groupPanel:    document.getElementById('groupPanel'),
+  groupSection:  document.getElementById('groupSection'),
+  apiStatus:     document.getElementById('apiStatus')
 };
 
 function n(s){ return (s || '').toString().toLowerCase().replace(/\s+/g, ' ').trim(); }
@@ -476,6 +635,7 @@ function badge(s){
 }
 function dkey(d){ const t = new Date(d); return isNaN(t) ? d : t.getTime(); }
 function ikey(i){ const m = /\(([^)]+)\)/.exec(i || ''); const t = new Date(m ? m[1] : i); return isNaN(t) ? i : t.getTime(); }
+function teamClass(r){ return r === 1 ? 'winner' : r === 2 ? 'loser' : 'neutral'; }
 
 function options(){
   const ds = ['all', ...new Set(DATA.map(x => x.date))];
@@ -491,17 +651,13 @@ function todayTomorrowMatches(){
   return DATA.filter(x => (x.date || '').includes(today) || (x.date || '').includes(tomorrow));
 }
 
-function teamClass(result){ return result === 1 ? 'winner' : result === 2 ? 'loser' : 'neutral'; }
-
 function renderToday(){
   let list = todayTomorrowMatches();
   if (!list.length) list = [...DATA].slice(0, 2);
-
   E.sameDayMeta.textContent = list.length
     ? `Showing ${list.length} match${list.length > 1 ? 'es' : ''} for today and tomorrow.`
     : 'No matches found.';
   E.sameDayCount.textContent = `${list.length} match${list.length !== 1 ? 'es' : ''}`;
-
   E.todayGrid.innerHTML = list.map(m => `
     <article class="card">
       <div class="top">
@@ -549,7 +705,6 @@ function card(m){
         <div><strong>Venue:</strong> ${m.venue || '—'}</div>
         <div><strong>Kickoff:</strong> ${m.kickoff || '—'}</div>
         <div><strong>Stage:</strong> ${m.stage || '—'}</div>
-      
       </div>
     </article>
   `;
@@ -563,15 +718,8 @@ function renderGroups(){
         <table class="group-table">
           <thead>
             <tr>
-              <th>Team</th>
-              <th>Pld</th>
-              <th>W</th>
-              <th>D</th>
-              <th>L</th>
-              <th>GF</th>
-              <th>GA</th>
-              <th>GD</th>
-              <th>Pts</th>
+              <th>Team</th><th>Pld</th><th>W</th><th>D</th><th>L</th>
+              <th>GF</th><th>GA</th><th>GD</th><th>Pts</th>
             </tr>
           </thead>
           <tbody>
@@ -596,57 +744,114 @@ function renderGroups(){
 }
 
 function render(){
-  const q = n(E.searchInput.value);
+  const q     = n(E.searchInput.value);
   const stage = E.stageFilter.value;
-  const stat = E.statusFilter.value;
-  const date = E.dateFilter.value;
-  const sort = E.sortFilter.value;
+  const stat  = E.statusFilter.value;
+  const date  = E.dateFilter.value;
+  const sort  = E.sortFilter.value;
 
   let L = [...DATA].filter(m => {
     const hay = n([m.match, m.venue, m.date, m.ist, m.team1, m.team2].join(' '));
     return (!q || hay.includes(q)) &&
       (stage === 'all' || st(m) === stage) &&
-      (stat === 'all' || ss(m) === stat) &&
-      (date === 'all' || m.date === date);
+      (stat  === 'all' || ss(m) === stat)  &&
+      (date  === 'all' || m.date === date);
   });
 
   if (sort === 'date') L.sort((a, b) => dkey(a.date) - dkey(b.date));
-  else L.sort((a, b) => ikey(a.ist) - ikey(b.ist));
+  else                 L.sort((a, b) => ikey(a.ist)  - ikey(b.ist));
 
-  E.visibleCount.textContent = L.length;
-  E.liveCount.textContent = DATA.filter(m => ss(m) === 'live').length;
+  E.visibleCount.textContent  = L.length;
+  E.liveCount.textContent     = DATA.filter(m => ss(m) === 'live').length;
   E.finishedCount.textContent = DATA.filter(m => ss(m) === 'finished').length;
-  E.liveStat.textContent = `Live matches: ${E.liveCount.textContent}`;
+  E.liveStat.textContent      = `Live matches: ${E.liveCount.textContent}`;
 
-  E.matches.innerHTML = L.length ? L.map(card).join('') : '<div class="empty">No fixtures match the current filters.</div>';
+  E.matches.innerHTML = L.length
+    ? L.map(card).join('')
+    : '<div class="empty">No fixtures match the current filters.</div>';
+
   renderToday();
   renderGroups();
 }
 
+// ─── MAIN LOAD ────────────────────────────────────────────────────────────────
 async function load(){
-  const [fixturesRes, groupsRes] = await Promise.all([
-    fetch('./fixtures_clean.json', {cache:'no-store'}),
-    fetch('./groups.json', {cache:'no-store'})
-  ]);
-  DATA = await fixturesRes.json();
-  GROUPS = await groupsRes.json();
-  E.stamp.textContent = 'Updated: ' + new Date().toLocaleString('en-IN');
-  options();
-  render();
+  E.apiStatus.textContent = '⏳ Loading API…';
+
+  try {
+    // 1. Fetch teams & stadiums first (needed to resolve IDs in matches/groups)
+    const [teamsData, stadiumsData] = await Promise.all([
+      apiFetch('/get/teams'),
+      apiFetch('/get/stadiums')
+    ]);
+
+    // Build lookup maps
+    (Array.isArray(teamsData) ? teamsData : teamsData.data || []).forEach(t => {
+      TEAM_MAP[t.id] = t.name_en;
+    });
+    (Array.isArray(stadiumsData) ? stadiumsData : stadiumsData.data || []).forEach(s => {
+      STADIUM_MAP[s.id] = s.name_en || s.fifa_name;
+    });
+
+    // 2. Fetch matches & groups
+    const [matchesData, groupsData] = await Promise.all([
+      apiFetch('/get/games'),
+      apiFetch('/get/groups')
+    ]);
+
+    const rawMatches = Array.isArray(matchesData) ? matchesData : matchesData.data || [];
+    const rawGroups  = Array.isArray(groupsData)  ? groupsData  : groupsData.data  || [];
+
+    DATA   = normaliseMatches(rawMatches);
+    GROUPS = normaliseGroups(rawGroups);
+
+    E.apiStatus.textContent = '✅ Live API';
+    E.stamp.textContent = 'Updated: ' + new Date().toLocaleString('en-IN');
+    options();
+    render();
+
+  } catch (err) {
+    console.warn('API failed, falling back to local JSON:', err);
+    E.apiStatus.textContent = '⚠️ Offline (local data)';
+
+    // Graceful fallback to your local JSON files
+    try {
+      const [fixturesRes, groupsRes] = await Promise.all([
+        fetch(FALLBACK_FIXTURES, {cache:'no-store'}),
+        fetch(FALLBACK_GROUPS,   {cache:'no-store'})
+      ]);
+      DATA   = await fixturesRes.json();
+      GROUPS = await groupsRes.json();
+      E.stamp.textContent = 'Updated: ' + new Date().toLocaleString('en-IN') + ' (local)';
+      options();
+      render();
+    } catch (e2) {
+      E.matches.innerHTML = `<div class="api-error">⚠️ Could not load data from API or local files. Check your connection.</div>`;
+    }
+  }
 }
 
-['input','change'].forEach(ev => [E.searchInput,E.stageFilter,E.sortFilter,E.statusFilter,E.dateFilter].forEach(el => el.addEventListener(ev, render)));
+// ─── EVENT LISTENERS ─────────────────────────────────────────────────────────
+['input','change'].forEach(ev =>
+  [E.searchInput, E.stageFilter, E.sortFilter, E.statusFilter, E.dateFilter]
+    .forEach(el => el.addEventListener(ev, render))
+);
 E.reloadBtn.addEventListener('click', load);
 
 E.filterToggle.addEventListener('click', () => {
   const open = E.filterPanel.classList.toggle('open');
   E.filterToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
 });
-
 E.groupToggle.addEventListener('click', () => {
   const open = E.groupPanel.classList.toggle('open');
   E.groupToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
 });
+
+// Auto-refresh every 90 seconds during a live match window
+setInterval(() => {
+  const liveCount = DATA.filter(m => m.status === 'live').length;
+  if (liveCount > 0) load();
+}, 90000);
 
 load();
 </script>
