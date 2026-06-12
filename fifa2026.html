@@ -345,6 +345,7 @@ button{
       <span class="pill">104 fixtures</span>
       <span class="pill">IST times</span>
       <span class="pill" id="liveStat">Live matches: 0</span>
+       
       
     </div>
 
@@ -435,6 +436,7 @@ button{
 </div>
 
 <script>
+
 const FIXTURES_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ_b6XTcnB9me_OlphhWbvaL0ybbNLP2_bYLzmwX_TNnt9Y_F8pMSIToqIOvZReV244nFxL4w-O7sC9/pub?gid=0&single=true&output=csv';
 const GROUPS_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ_b6XTcnB9me_OlphhWbvaL0ybbNLP2_bYLzmwX_TNnt9Y_F8pMSIToqIOvZReV244nFxL4w-O7sC9/pub?gid=1023019982&single=true&output=csv';
 
@@ -457,7 +459,6 @@ const E = {
   sameDayCount: document.getElementById('sameDayCount'),
   todayGrid: document.getElementById('todayGrid'),
   liveStat: document.getElementById('liveStat'),
-  sourceStat: document.getElementById('sourceStat'),
   filterToggle: document.getElementById('filterToggle'),
   filterPanel: document.getElementById('filterPanel'),
   groupToggle: document.getElementById('groupToggle'),
@@ -719,7 +720,7 @@ async function load(){
     render();
   } catch (err) {
     console.warn(err);
-    E.sourceStat.textContent = 'Source: load failed';
+    
     E.matches.innerHTML = '<div class="api-error">Could not load Google Sheet data. Make sure the sheet is published to the web as CSV and the URLs are pasted correctly.</div>';
   }
 }
