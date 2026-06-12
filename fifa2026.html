@@ -344,7 +344,15 @@ button{
       <span class="pill">104 fixtures</span>
       <span class="pill">IST times</span>
       <span class="pill" id="liveStat">Live matches: 0</span>
-      <span class="pill" id="sourceStat">Source: Google Sheets</span>
+      <div style="margin-top:12px;">
+  <div id="sfc8sfhn3qursurzyj42wdy55hzm68h2fge"></div>
+  <script type="text/javascript" src="https://counter11.optistats.ovh/private/counter.js?c=8sfhn3qursurzyj42wdy55hzm68h2fge&down=async" async></script>
+  <noscript>
+    <a href="https://www.freecounterstat.com" title="hit counter">
+      <img src="https://counter11.optistats.ovh/private/freecounterstat.php?c=8sfhn3qursurzyj42wdy55hzm68h2fge" border="0" title="hit counter" alt="hit counter">
+    </a>
+  </noscript>
+</div>
     </div>
   </section>
 
@@ -447,7 +455,6 @@ const E = {
   todayGrid: document.getElementById('todayGrid'),
   liveStat: document.getElementById('liveStat'),
   sourceStat: document.getElementById('sourceStat'),
-  sameDayBox: document.getElementById('sameDayBox'),
   filterToggle: document.getElementById('filterToggle'),
   filterPanel: document.getElementById('filterPanel'),
   groupToggle: document.getElementById('groupToggle'),
@@ -468,7 +475,11 @@ function badge(s){
 }
 function dkey(d){ const t = new Date(d); return isNaN(t) ? d : t.getTime(); }
 function ikey(i){ const m = /\(([^)]+)\)/.exec(i || ''); const t = new Date(m ? m[1] : i); return isNaN(t) ? i : t.getTime(); }
-function teamClass(result){ return result === 1 ? 'winner' : result === 2 ? 'loser' : 'neutral'; }
+function teamClass(result){
+  if (result === 1) return 'winner';
+  if (result === 2) return 'loser';
+  return 'neutral';
+}
 
 function options(){
   const ds = ['all', ...new Set(DATA.map(x => x.date))];
@@ -553,15 +564,8 @@ function renderGroups(){
         <table class="group-table">
           <thead>
             <tr>
-              <th>Team</th>
-              <th>Pld</th>
-              <th>W</th>
-              <th>D</th>
-              <th>L</th>
-              <th>GF</th>
-              <th>GA</th>
-              <th>GD</th>
-              <th>Pts</th>
+              <th>Team</th><th>Pld</th><th>W</th><th>D</th><th>L</th>
+              <th>GF</th><th>GA</th><th>GD</th><th>Pts</th>
             </tr>
           </thead>
           <tbody>
@@ -675,27 +679,20 @@ async function load(){
     const groupRows = csvToRows(groupsText);
 
     DATA = fixtureRows.map(r => ({
-      match: r.match || `${r.team1 || ''} vs ${r.team2 || ''}`,
-      team1: r.team1 || '',
-      team2: r.team2 || '',
-      homeGoals: r.homeGoals !== '' ? (r.homeGoals == null ? null : Number(r.homeGoals)) : null,
-      awayGoals: r.awayGoals !== '' ? (r.awayGoals == null ? null : Number(r.awayGoals)) : null,
-      team1Result: 0,
-      team2Result: 0,
-      stage: r.stage || 'Group Stage',
-      date: r.date || '',
-      ist: r.ist || '',
-      kickoff: r.kickoff || '',
-      venue: r.venue || '',
-      status: r.status || 'scheduled'
-    }));
-
-    DATA.forEach(m => {
-      if (m.status === 'finished' && m.homeGoals != null && m.awayGoals != null) {
-        if (m.homeGoals > m.awayGoals) { m.team1Result = 1; m.team2Result = 2; }
-        else if (m.awayGoals > m.homeGoals) { m.team1Result = 2; m.team2Result = 1; }
-      }
-    });
+  match: r.match || `${r.team1 || ''} vs ${r.team2 || ''}`,
+  team1: r.team1 || '',
+  team2: r.team2 || '',
+  homeGoals: r.homeGoals !== '' ? (r.homeGoals == null ? null : Number(r.homeGoals)) : null,
+  awayGoals: r.awayGoals !== '' ? (r.awayGoals == null ? null : Number(r.awayGoals)) : null,
+  team1Result: Number(r.team1Result || 0),
+  team2Result: Number(r.team2Result || 0),
+  stage: r.stage || 'Group Stage',
+  date: r.date || '',
+  ist: r.ist || '',
+  kickoff: r.kickoff || '',
+  venue: r.venue || '',
+  status: r.status || 'scheduled'
+}));
 
     GROUPS = groupRowsToGroups(groupRows);
 
@@ -705,7 +702,7 @@ async function load(){
   } catch (err) {
     console.warn(err);
     E.sourceStat.textContent = 'Source: load failed';
-    E.matches.innerHTML = '<div class="api-error">Could not load Google Sheet data. Make sure the sheet is published to web as CSV and the URLs are pasted correctly.</div>';
+    E.matches.innerHTML = '<div class="api-error">Could not load Google Sheet data. Make sure the sheet is published to the web as CSV and the URLs are pasted correctly.</div>';
   }
 }
 
