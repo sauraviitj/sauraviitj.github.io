@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IPC Node Visualizer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root, [data-theme="light"] {
+      --color-bg:#f7f6f2; --color-surface:#f9f8f5; --color-surface-2:#fbfbf9; --color-surface-offset:#f3f0ec;
+      --color-border:#d4d1ca; --color-text:#28251d; --color-text-muted:#7a7974; --color-primary:#01696f;
+      --color-primary-highlight:#cedcd8; --color-blue:#006494; --color-purple:#7a39bb; --color-success:#437a22;
+      --radius-lg:0.75rem; --radius-xl:1rem; --shadow-md:0 4px 12px rgba(0,0,0,0.08); --shadow-lg:0 12px 32px rgba(0,0,0,0.12);
+      --text-xs:clamp(0.75rem,0.7rem + 0.25vw,0.875rem); --text-sm:clamp(0.875rem,0.8rem + 0.35vw,1rem); --text-base:clamp(1rem,0.95rem + 0.25vw,1.125rem); --text-lg:clamp(1.125rem,1rem + 0.75vw,1.5rem); --text-xl:clamp(1.5rem,1.2rem + 1.25vw,2.25rem); --text-2xl:clamp(2rem,1.2rem + 2.5vw,3.5rem);
+    }
+    [data-theme="dark"] {
+      --color-bg:#171614; --color-surface:#1c1b19; --color-surface-2:#201f1d; --color-surface-offset:#22211f;
+      --color-border:#393836; --color-text:#cdccca; --color-text-muted:#797876; --color-primary:#4f98a3;
+      --color-primary-highlight:#313b3b; --color-blue:#5591c7; --color-purple:#a86fdf; --color-success:#6daa45;
+      --radius-lg:0.75rem; --radius-xl:1rem; --shadow-md:0 4px 12px rgba(0,0,0,0.3); --shadow-lg:0 12px 32px rgba(0,0,0,0.4);
+      --text-xs:clamp(0.75rem,0.7rem + 0.25vw,0.875rem); --text-sm:clamp(0.875rem,0.8rem + 0.35vw,1rem); --text-base:clamp(1rem,0.95rem + 0.25vw,1.125rem); --text-lg:clamp(1.125rem,1rem + 0.75vw,1.5rem); --text-xl:clamp(1.5rem,1.2rem + 1.25vw,2.25rem); --text-2xl:clamp(2rem,1.2rem + 2.5vw,3.5rem);
+    }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family:'Inter',sans-serif; background:radial-gradient(circle at top right, rgba(79,152,163,.12), transparent 22%), var(--color-bg); color:var(--color-text); }
+    .wrap { max-width: 1280px; margin: 0 auto; padding: 24px; }
+    .hero { display:flex; justify-content:space-between; gap:24px; align-items:flex-start; padding: 20px 0 28px; }
+    .eyebrow { font-size: var(--text-xs); letter-spacing:.18em; text-transform:uppercase; color:var(--color-text-muted); margin-bottom:10px; }
+    h1 { margin:0 0 10px; font-family:'Instrument Serif',serif; font-size:var(--text-2xl); line-height:1; }
+    .lead { max-width: 70ch; color:var(--color-text-muted); font-size:var(--text-base); }
+    .toolbar { display:flex; gap:12px; flex-wrap:wrap; align-items:center; }
+    button, select { background:var(--color-surface); color:var(--color-text); border:1px solid var(--color-border); border-radius:999px; padding:10px 14px; font-size:var(--text-sm); cursor:pointer; }
+    .grid { display:grid; grid-template-columns: 320px 1fr; gap:20px; }
+    .panel { background:linear-gradient(180deg, var(--color-surface), var(--color-surface-2)); border:1px solid var(--color-border); border-radius:var(--radius-xl); box-shadow:var(--shadow-md); }
+    .panel-head { padding:18px 18px 12px; border-bottom:1px solid rgba(255,255,255,.06); }
+    .panel-body { padding:16px 18px 18px; }
+    .node-list { display:flex; flex-direction:column; gap:10px; }
+    .node-btn { width:100%; text-align:left; border-radius:16px; padding:14px 16px; background:var(--color-surface-offset); border:1px solid transparent; }
+    .node-btn.active { background:var(--color-primary-highlight); border-color:var(--color-primary); color:var(--color-text); }
+    .node-title { font-weight:700; font-size:var(--text-base); }
+    .node-meta { color:var(--color-text-muted); font-size:var(--text-xs); margin-top:4px; }
+    .stats { display:grid; grid-template-columns: repeat(3, 1fr); gap:14px; margin-bottom:18px; }
+    .stat { padding:16px; background:var(--color-surface-offset); border:1px solid var(--color-border); border-radius:18px; }
+    .stat .k { font-size:var(--text-xl); font-weight:800; }
+    .stat .l { color:var(--color-text-muted); font-size:var(--text-xs); text-transform:uppercase; letter-spacing:.12em; }
+    .tree { padding:18px; background:linear-gradient(180deg, rgba(79,152,163,.08), transparent 42%), var(--color-surface-offset); border:1px solid var(--color-border); border-radius:20px; margin-bottom:18px; overflow:auto; }
+    .tree-root { display:flex; align-items:center; gap:16px; min-width:max-content; }
+    .root-pill { min-width:170px; text-align:center; padding:16px 18px; border-radius:18px; background:linear-gradient(135deg, var(--color-primary), var(--color-blue)); color:white; font-weight:800; box-shadow:var(--shadow-lg); }
+    .branch-line { width:56px; height:2px; background:linear-gradient(90deg, var(--color-primary), var(--color-blue)); border-radius:999px; }
+    .leaves { display:flex; gap:14px; flex-wrap:wrap; }
+    .leaf { width:260px; padding:14px; background:var(--color-surface); border:1px solid var(--color-border); border-radius:18px; }
+    .leaf small { display:block; color:var(--color-text-muted); margin-bottom:8px; }
+    .leaf p { margin:0; font-size:var(--text-sm); line-height:1.45; }
+    .sample-grid { display:grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap:14px; }
+    .sample { background:var(--color-surface-offset); border:1px solid var(--color-border); border-radius:18px; padding:16px; }
+    .sample .doc { color:var(--color-primary); font-size:var(--text-xs); font-weight:700; letter-spacing:.08em; text-transform:uppercase; margin-bottom:8px; }
+    .sample .text { color:var(--color-text); font-size:var(--text-sm); line-height:1.5; }
+    code { background:rgba(127,127,127,.12); padding:2px 6px; border-radius:8px; }
+    .footer-note { margin-top:16px; color:var(--color-text-muted); font-size:var(--text-sm); }
+    @media (max-width: 900px) { .grid { grid-template-columns: 1fr; } .stats, .sample-grid { grid-template-columns: 1fr; } .hero { flex-direction:column; } }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="hero">
+      <div>
+        <div class="eyebrow">Training structure visualizer</div>
+        <h1>IPC nodes and annotated leaves</h1>
+        <div class="lead">This view shows how your training data can be reorganized into a node-leaf structure where each IPC section is a node and each annotated sentence becomes a leaf connected to that section.</div>
+      </div>
+      <div class="toolbar">
+        <button id="themeToggle" aria-label="Toggle theme">Toggle theme</button>
+        <select id="sectionSelect"></select>
+      </div>
+    </div>
+
+    <div class="grid">
+      <section class="panel">
+        <div class="panel-head"><strong>Sections</strong></div>
+        <div class="panel-body">
+          <div class="node-list" id="nodeList"></div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head"><strong>Selected structure</strong></div>
+        <div class="panel-body">
+          <div class="stats" id="stats"></div>
+          <div class="tree" id="tree"></div>
+          <div class="sample-grid" id="samples"></div>
+          <div class="footer-note">Suggested saved format: <code>node_index.json</code> for the readable graph, then <code>leaf_index.faiss</code> and <code>leaf_labels.json</code> for retrieval.</div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <script>
+    let nodeIndex = {};
+
+    fetch('node_index.json')
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Failed to load node_index.json');
+        }
+        return response.json();
+      })
+      .then(data => {
+        nodeIndex = data;
+
+        const nodeList = document.getElementById('nodeList');
+        const sectionSelect = document.getElementById('sectionSelect');
+        const stats = document.getElementById('stats');
+        const tree = document.getElementById('tree');
+        const samples = document.getElementById('samples');
+        const sections = Object.keys(nodeIndex);
+        let current = sections[0];
+
+        function renderList() {
+          nodeList.innerHTML = '';
+          sectionSelect.innerHTML = '';
+          sections.forEach(section => {
+            const meta = nodeIndex[section];
+            const btn = document.createElement('button');
+            btn.className = 'node-btn' + (section === current ? ' active' : '');
+            btn.innerHTML = `<div class="node-title">${section}</div><div class="node-meta">${meta.leaves.length} leaves · ${meta.docs.length} docs</div>`;
+            btn.onclick = () => { current = section; renderList(); renderDetails(); };
+            nodeList.appendChild(btn);
+
+            const opt = document.createElement('option');
+            opt.value = section;
+            opt.textContent = section;
+            opt.selected = section === current;
+            sectionSelect.appendChild(opt);
+          });
+        }
+
+        function uniqDocs(leaves) {
+          return [...new Set(leaves.map(x => x.doc_id))];
+        }
+
+        function renderDetails() {
+          const data = nodeIndex[current];
+          const docs = uniqDocs(data.leaves);
+
+          stats.innerHTML = [
+            { k: current, l: 'Selected node' },
+            { k: data.leaves.length, l: 'Leaf sentences' },
+            { k: docs.length, l: 'Source documents' }
+          ].map(x => `<div class="stat"><div class="k">${x.k}</div><div class="l">${x.l}</div></div>`).join('');
+
+          const previewLeaves = data.leaves.slice(0, 5);
+          tree.innerHTML = `
+            <div class="tree-root">
+              <div class="root-pill">${current}</div>
+              <div class="branch-line"></div>
+              <div class="leaves">
+                ${previewLeaves.map(l => `<div class="leaf"><small>${l.doc_id}</small><p>${l.sentence}</p></div>`).join('')}
+              </div>
+            </div>`;
+
+          samples.innerHTML = data.leaves.map(l => `
+            <div class="sample">
+              <div class="doc">${l.doc_id}</div>
+              <div class="text">${l.sentence}</div>
+            </div>
+          `).join('');
+        }
+
+        sectionSelect.addEventListener('change', e => {
+          current = e.target.value;
+          renderList();
+          renderDetails();
+        });
+
+        document.getElementById('themeToggle').addEventListener('click', () => {
+          const root = document.documentElement;
+          root.setAttribute('data-theme', root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+        });
+
+        renderList();
+        renderDetails();
+      })
+      .catch(err => {
+        console.error(err);
+        document.body.innerHTML = '<div style="padding:20px;color:#ff6b6b;font-family:sans-serif;">Could not load node_index.json. Run this file using a local server, not by double-clicking it.</div>';
+      });
+  </script>
+</body>
+</html>
