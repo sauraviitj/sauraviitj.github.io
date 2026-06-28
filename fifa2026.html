@@ -267,7 +267,7 @@ button.reload{
 
 <script>
 const FIXTURES_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ_b6XTcnB9me_OlphhWbvaL0ybbNLP2_bYLzmwX_TNnt9Y_F8pMSIToqIOvZReV244nFxL4w-O7sC9/pub?gid=0&single=true&output=csv';
-const GROUPS_CSV_URL   = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ_b6XTcnB9me_OlphhWbvaL0ybbNLP2_bYLzmwX_TNnt9Y_F8pMSIToqIOvZReV244nFxL4w-O7sC9/pub?gid=1.023019982e+09&single=true&output=csv';
+const GROUPS_CSV_URL   = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ_b6XTcnB9me_OlphhWbvaL0ybbNLP2_bYLzmwX_TNnt9Y_F8pMSIToqIOvZReV244nFxL4w-O7sC9/pub?gid=1023019982&single=true&output=csv';
 
 let DATA = [], GROUPS = [];
 
@@ -468,9 +468,36 @@ function csvToRows(text){
   });
 }
 async function fetchCSV(url){
-  const res = await fetch(url,{cache:'no-store'});
-  if(!res.ok) throw new Error('CSV fetch failed: '+res.status);
-  return res.text();
+  // Strategy 1: direct fetch
+  try {
+    const res = await fetch(url + '&t=' + Date.now(), {cache:'no-store'});
+    if(res.ok){
+      const text = await res.text();
+      if(text.includes(',') && !text.includes('<html')) return text;
+    }
+  } catch(e){ /* fall through */ }
+
+  // Strategy 2: allorigins proxy
+  try {
+    const proxy = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(url);
+    const res = await fetch(proxy, {cache:'no-store'});
+    if(res.ok){
+      const text = await res.text();
+      if(text.includes(',') && !text.includes('<html')) return text;
+    }
+  } catch(e){ /* fall through */ }
+
+  // Strategy 3: corsproxy.io
+  try {
+    const proxy2 = 'https://corsproxy.io/?' + encodeURIComponent(url);
+    const res = await fetch(proxy2, {cache:'no-store'});
+    if(res.ok){
+      const text = await res.text();
+      if(text.includes(',') && !text.includes('<html')) return text;
+    }
+  } catch(e){ /* fall through */ }
+
+  throw new Error('All fetch strategies failed for: ' + url);
 }
 function groupRowsToGroups(rows){
   const map={};
@@ -504,10 +531,14 @@ async function load(){
     options(); render(); renderBracket(); renderGroups();
   } catch(err){
     console.warn(err);
-    document.getElementById('bracketWrap').innerHTML =
-      '<div class="empty" style="color:#fca5a5">Could not load data. Check that the Google Sheet is published to the web as CSV.</div>';
-    document.getElementById('matches').innerHTML =
-      '<div class="empty" style="color:#fca5a5">Could not load fixtures.</div>';
+    const errMsg = '<div class="empty" style="color:#fca5a5;padding:20px">⚠️ Could not load Google Sheet data.<br><br>' +
+      '<strong>Fix checklist:</strong><br>' +
+      '1. In your Sheet: File → Share → Publish to web → confirm CSV is published<br>' +
+      '2. Make sure sheet is set to <em>Anyone with the link can view</em><br>' +
+      '3. Try clicking ↺ Reload<br><br>' +
+      '<span style="color:#94a3b8;font-size:.85rem">Error: ' + err.message + '</span></div>';
+    document.getElementById('bracketWrap').innerHTML = errMsg;
+    document.getElementById('matches').innerHTML = errMsg;
   }
 }
 
