@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>FIFA 2026 Tracker</title>
+<title>FIFA 2026 – Knockout Bracket</title>
 <style>
 :root{
   --bg:#0b1220;
@@ -20,731 +20,507 @@
 body{
   margin:0;
   font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-  background:radial-gradient(circle at top, rgba(34,197,94,.12), transparent 30%), linear-gradient(180deg,#07111f 0%, var(--bg) 100%);
+  background:radial-gradient(circle at top,rgba(34,197,94,.12),transparent 30%),
+             linear-gradient(180deg,#07111f 0%,var(--bg) 100%);
   color:var(--text)
 }
-.wrap{max-width:1280px;margin:0 auto;padding:24px}
+.wrap{max-width:1440px;margin:0 auto;padding:24px}
+/* ── hero ── */
 .hero{
-  background:linear-gradient(180deg, rgba(17,24,39,.94), rgba(15,23,42,.88));
-  border:1px solid var(--border);
-  border-radius:26px;
-  padding:24px;
-  box-shadow:var(--shadow);
-  display:grid;
-  gap:12px;
-  margin-bottom:20px
+  background:linear-gradient(180deg,rgba(17,24,39,.94),rgba(15,23,42,.88));
+  border:1px solid var(--border);border-radius:26px;padding:24px;
+  box-shadow:var(--shadow);display:grid;gap:12px;margin-bottom:20px
 }
-.head{
+.head{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+h1{margin:0;font-size:clamp(1.9rem,3vw,3rem);letter-spacing:-.03em}
+.pill{padding:8px 12px;border-radius:999px;background:rgba(255,255,255,.04);
+      border:1px solid var(--border);color:var(--text);font-size:.9rem}
+/* ── tabs ── */
+.tabs{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap}
+.tab-btn{
+  padding:10px 20px;border-radius:12px;border:1px solid var(--border);
+  background:rgba(255,255,255,.04);color:var(--muted);cursor:pointer;
+  font-size:.95rem;font-weight:600;transition:all .2s
+}
+.tab-btn.active{
+  background:linear-gradient(90deg,var(--accent),var(--accent2));
+  color:#04111a;border-color:transparent
+}
+.tab-pane{display:none}
+.tab-pane.active{display:block}
+/* ── bracket ── */
+.bracket-wrap{overflow-x:auto;padding-bottom:16px}
+.bracket{
   display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:16px;
-  flex-wrap:wrap
+  flex-direction:row;
+  gap:0;
+  align-items:stretch;
+  min-width:max-content;
 }
-h1{
-  margin:0;
-  font-size:clamp(1.9rem,3vw,3rem);
-  letter-spacing:-.03em
+.round{
+  display:flex;
+  flex-direction:column;
+  justify-content:space-around;
+  min-width:190px;
+  padding:0 8px;
+  position:relative;
 }
-.pills{display:flex;flex-wrap:wrap;gap:10px}
-.pill{
-  padding:8px 12px;
-  border-radius:999px;
-  background:rgba(255,255,255,.04);
-  border:1px solid var(--border);
-  color:var(--text);
-  font-size:.9rem
+.round-title{
+  text-align:center;font-size:.78rem;font-weight:700;
+  color:var(--accent2);text-transform:uppercase;letter-spacing:.06em;
+  padding:6px 0 10px;position:sticky;top:0;background:transparent
 }
-.grid{
-  display:grid;
-  grid-template-columns:340px minmax(0,1fr);
-  gap:18px;
-  align-items:start
+.match-slot{
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  margin:6px 0;
 }
-@media(max-width:980px){
-  .grid{grid-template-columns:1fr}
-}
-.panel{
+.match-box{
   background:rgba(17,24,39,.92);
   border:1px solid var(--border);
-  border-radius:22px;
-  padding:18px;
-  box-shadow:var(--shadow);
-  min-width:0
+  border-radius:14px;
+  overflow:hidden;
+  width:178px;
 }
+.match-box .team-row{
+  display:flex;align-items:center;gap:8px;
+  padding:8px 10px;font-size:.82rem;font-weight:600;
+  border-bottom:1px solid var(--border);
+  min-height:36px;
+}
+.match-box .team-row:last-child{border-bottom:none}
+.team-row.winner{background:rgba(34,197,94,.18);color:#86efac}
+.team-row.loser{background:rgba(239,68,68,.13);color:#fca5a5}
+.team-row .name{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.team-row .sc{
+  font-size:.9rem;font-weight:900;min-width:22px;text-align:right
+}
+.match-label{
+  font-size:.7rem;color:var(--muted);text-align:center;padding:2px 4px 4px;
+}
+/* connector lines */
+.match-slot::after{
+  content:'';
+  position:absolute;
+  right:-8px;top:50%;transform:translateY(-50%);
+  width:8px;height:2px;background:rgba(148,163,184,.25)
+}
+.round:last-child .match-slot::after{display:none}
+/* ── schedule panel ── */
+.panel{background:rgba(17,24,39,.92);border:1px solid var(--border);
+       border-radius:22px;padding:18px;box-shadow:var(--shadow)}
 .panel h2{margin:0 0 14px;font-size:1.06rem}
 .controls{display:grid;gap:12px}
 input,select{
-  width:100%;
-  padding:12px 14px;
-  border-radius:12px;
-  border:1px solid var(--border);
-  background:var(--panel2);
-  color:var(--text);
-  outline:none
+  width:100%;padding:12px 14px;border-radius:12px;
+  border:1px solid var(--border);background:var(--panel2);color:var(--text);outline:none
 }
 input::placeholder{color:#64748b}
-.row{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px
-}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 @media(max-width:640px){.row{grid-template-columns:1fr}}
-button{
-  border:0;
-  border-radius:12px;
-  padding:12px 14px;
-  font-weight:700;
-  cursor:pointer;
-  color:#04111a;
-  background:linear-gradient(90deg,var(--accent),var(--accent2))
-}
-.stats{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:10px;
-  margin-top:12px
-}
-@media(max-width:640px){.stats{grid-template-columns:1fr}}
-.stat{
-  background:rgba(255,255,255,.03);
-  border:1px solid var(--border);
-  border-radius:16px;
-  padding:12px
-}
-.stat .label{color:var(--muted);font-size:.84rem}
-.stat .value{font-size:1.45rem;font-weight:800;margin-top:4px}
-.livewrap{
-  display:grid;
-  gap:14px;
-  min-width:0
-}
-.livebox{
-  border:1px solid rgba(34,197,94,.25);
-  background:linear-gradient(180deg, rgba(34,197,94,.12), rgba(17,24,39,.9));
-  border-radius:20px;
-  padding:18px;
-  position:relative;
-  overflow:hidden
-}
-.livebox::before{
-  content:'';
-  position:absolute;
-  inset:-30%;
-  background:radial-gradient(circle, rgba(34,197,94,.16) 0%, transparent 55%);
-  animation:pulse 2s infinite
-}
-@keyframes pulse{
-  0%{transform:scale(.92);opacity:.45}
-  70%{transform:scale(1);opacity:1}
-  100%{transform:scale(1.04);opacity:0}
-}
-.livekicker{
-  display:flex;
-  justify-content:space-between;
-  gap:14px;
-  align-items:flex-start;
-  position:relative;
-  z-index:1
-}
-.livebadge{
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-  padding:6px 10px;
-  border-radius:999px;
-  background:rgba(34,197,94,.16);
-  color:#86efac;
-  font-weight:800;
-  font-size:.8rem
-}
-.dot{
-  width:8px;
-  height:8px;
-  border-radius:50%;
-  background:#22c55e;
-  box-shadow:0 0 0 0 rgba(34,197,94,.65);
-  animation:beat 1.5s infinite
-}
-@keyframes beat{
-  0%{box-shadow:0 0 0 0 rgba(34,197,94,.55)}
-  70%{box-shadow:0 0 0 12px rgba(34,197,94,0)}
-  100%{box-shadow:0 0 0 0 rgba(34,197,94,0)}
+button.reload{
+  border:0;border-radius:12px;padding:12px 14px;font-weight:700;cursor:pointer;
+  color:#04111a;background:linear-gradient(90deg,var(--accent),var(--accent2))
 }
 .cards{display:grid;gap:14px}
-.today-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit, minmax(300px, 1fr));
-  gap:14px;
-  margin-top:14px
-}
-.card{
-  background:rgba(17,24,39,.88);
-  border:1px solid var(--border);
-  border-radius:18px;
-  padding:16px;
-  min-width:0
-}
-.top{
-  display:flex;
-  justify-content:space-between;
-  gap:10px;
-  align-items:flex-start
-}
-.title{
-  font-weight:800;
-  font-size:1.03rem;
-  word-break:break-word
-}
-.meta{
-  color:var(--muted);
-  font-size:.92rem;
-  margin-top:6px;
-  line-height:1.5
-}
-.badge{
-  padding:6px 10px;
-  border-radius:999px;
-  font-size:.78rem;
-  font-weight:800
-}
+.card{background:rgba(17,24,39,.88);border:1px solid var(--border);
+      border-radius:18px;padding:16px}
+.top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+.title{font-weight:800;font-size:1.03rem;word-break:break-word}
+.meta{color:var(--muted);font-size:.92rem;margin-top:6px;line-height:1.5}
+.badge{padding:6px 10px;border-radius:999px;font-size:.78rem;font-weight:800}
 .sched{background:rgba(59,130,246,.14);color:#93c5fd}
 .finished{background:rgba(34,197,94,.14);color:#86efac}
 .live{background:rgba(239,68,68,.14);color:#fca5a5}
-.teams{
-  display:grid;
-  grid-template-columns:1fr auto 1fr;
-  gap:10px;
-  align-items:center;
-  margin:12px 0
-}
-.team{
-  background:rgba(255,255,255,.03);
-  border:1px solid var(--border);
-  border-radius:14px;
-  padding:12px;
-  text-align:center;
-  min-width:0;
-  overflow:hidden;
-  text-overflow:ellipsis
-}
+.teams{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:center;margin:12px 0}
+.team{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:14px;
+      padding:12px;text-align:center;min-width:0;overflow:hidden;text-overflow:ellipsis}
 .score2{text-align:center;min-width:90px}
-.details{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:8px;
-  color:var(--muted);
-  font-size:.92rem
-}
-@media(max-width:640px){.details{grid-template-columns:1fr}}
-.empty{
-  padding:26px;
-  text-align:center;
-  color:var(--muted);
-  border:1px dashed var(--border);
-  border-radius:16px;
-  background:rgba(255,255,255,.03)
-}
-.team.winner{
-  background:rgba(34,197,94,.18);
-  border-color:rgba(34,197,94,.35);
-  color:#86efac
-}
-.team.loser{
-  background:rgba(239,68,68,.16);
-  border-color:rgba(239,68,68,.30);
-  color:#fca5a5
-}
-.team.neutral{background:rgba(255,255,255,.03)}
-.stacked-controls{
-  display:grid;
-  gap:12px;
-  width:100%
-}
-.filter-toggle{
-  width:100%;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:8px
-}
-.filter-panel{
-  display:none;
-  margin-top:12px;
-  padding-top:12px;
-  border-top:1px solid var(--border)
-}
+.details{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;color:var(--muted);font-size:.92rem}
+.team.winner{background:rgba(34,197,94,.18);border-color:rgba(34,197,94,.35);color:#86efac}
+.team.loser{background:rgba(239,68,68,.16);border-color:rgba(239,68,68,.30);color:#fca5a5}
+.empty{padding:26px;text-align:center;color:var(--muted);border:1px dashed var(--border);
+       border-radius:16px;background:rgba(255,255,255,.03)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+.stat{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:16px;padding:12px}
+.stat .label{color:var(--muted);font-size:.84rem}
+.stat .value{font-size:1.45rem;font-weight:800;margin-top:4px}
+/* groups */
+.group-table{width:100%;border-collapse:collapse;overflow:hidden;border-radius:16px;
+             border:1px solid var(--border);min-width:640px}
+.group-table th,.group-table td{padding:10px 8px;text-align:left;
+  border-bottom:1px solid rgba(148,163,184,.12);vertical-align:top;font-size:.88rem}
+.group-table th{background:rgba(255,255,255,.04);color:#cbd5e1;font-weight:700}
+.group-wrap{overflow:auto;border-radius:16px}
+.group-section{display:grid;gap:14px}
+.group-stage-title{margin:0 0 10px;font-size:1rem;color:#cbd5e1}
+.stacked-controls{display:grid;gap:12px;width:100%}
+.filter-toggle{width:100%;display:flex;align-items:center;justify-content:space-between;gap:8px;
+  border:1px solid var(--border);border-radius:12px;padding:12px 14px;
+  background:rgba(255,255,255,.04);color:var(--text);cursor:pointer;font-weight:600}
+.filter-panel{display:none;margin-top:12px;padding-top:12px;border-top:1px solid var(--border)}
 .filter-panel.open{display:block}
-.chev{
-  display:inline-block;
-  transition:transform .2s ease
-}
-.filter-toggle[aria-expanded="true"] .chev{
-  transform:rotate(180deg)
-}
-.group-table{
-  width:100%;
-  border-collapse:collapse;
-  overflow:hidden;
-  border-radius:16px;
-  border:1px solid var(--border);
-  min-width:640px
-}
-.group-table th,
-.group-table td{
-  padding:10px 8px;
-  text-align:left;
-  border-bottom:1px solid rgba(148,163,184,.12);
-  vertical-align:top;
-  font-size:.88rem
-}
-.group-table th{
-  background:rgba(255,255,255,.04);
-  color:#cbd5e1;
-  font-weight:700
-}
-.group-wrap{
-  overflow:auto;
-  border-radius:16px
-}
-.group-section{
-  display:grid;
-  gap:14px
-}
-.group-stage-title{
-  margin:0 0 10px;
-  font-size:1rem;
-  color:#cbd5e1
-}
-@media(min-width:981px){
-  .panel{
-    position:sticky;
-    top:24px;
-  }
-}
-.api-error{
-  padding:12px 16px;
-  background:rgba(239,68,68,.12);
-  border:1px solid rgba(239,68,68,.3);
-  border-radius:12px;
-  color:#fca5a5;
-  font-size:.9rem;
-  margin-bottom:8px
-}
+.chev{display:inline-block;transition:transform .2s ease}
+.filter-toggle[aria-expanded="true"] .chev{transform:rotate(180deg)}
+.grid-layout{display:grid;grid-template-columns:320px minmax(0,1fr);gap:18px;align-items:start}
+@media(max-width:960px){.grid-layout{grid-template-columns:1fr}}
+@media(min-width:961px){.sidebar{position:sticky;top:24px}}
 </style>
 </head>
 <body>
 <div class="wrap">
   <section class="hero">
     <div class="head">
-      <h1>FIFA World Cup 2026 Tracker</h1>
+      <h1>⚽ FIFA World Cup 2026</h1>
       <div class="pill" id="stamp">Updated: —</div>
     </div>
-
-    <div class="pills">
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
       <span class="pill">104 fixtures</span>
       <span class="pill">IST times</span>
-      <span class="pill" id="liveStat">Live matches: 0</span>
-       
-      
-    </div>
-
-    <div style="margin-top:12px;">
-      <div id="sfc8sfhn3qursurzyj42wdy55hzm68h2fge"></div>
-      <script type="text/javascript" src="https://counter11.optistats.ovh/private/counter.js?c=8sfhn3qursurzyj42wdy55hzm68h2fge&down=async" async></script>
-      <noscript>
-        <a href="https://www.freecounterstat.com" title="hit counter">
-          <img src="https://counter11.optistats.ovh/private/freecounterstat.php?c=8sfhn3qursurzyj42wdy55hzm68h2fge" border="0" title="hit counter" alt="hit counter">
-        </a>
-      </noscript>
+      <span class="pill" id="finPill">Finished: —</span>
     </div>
   </section>
 
-  <section class="grid">
-    <aside class="panel">
-      <div class="stacked-controls">
-        <button class="filter-toggle" id="filterToggle" aria-expanded="false" aria-controls="filterPanel">
-          <span>Filters</span><span class="chev">▾</span>
-        </button>
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="bracket">🏆 Knockout Bracket</button>
+    <button class="tab-btn" data-tab="schedule">📅 Full Schedule</button>
+    <button class="tab-btn" data-tab="groups">📊 Group Tables</button>
+  </div>
 
-        <div class="filter-panel" id="filterPanel">
-          <div class="controls">
-            <input id="searchInput" placeholder="Search team, match, venue…" />
-            <div class="row">
-              <select id="stageFilter">
-                <option value="all">All stages</option>
-                <option>Group Stage</option>
-                <option>Round of 32</option>
-                <option>Round of 16</option>
-                <option>Quarterfinal</option>
-                <option>Semifinal</option>
-                <option>Third Place</option>
-                <option>Final</option>
-              </select>
-              <select id="sortFilter">
-                <option value="date">Sort by date</option>
-                <option value="ist">Sort by IST</option>
-              </select>
-            </div>
-            <div class="row">
-              <select id="statusFilter">
-                <option value="all">All statuses</option>
-                <option value="scheduled">Scheduled</option>
-                <option value="live">Live</option>
-                <option value="finished">Finished</option>
-              </select>
-              <select id="dateFilter"></select>
-            </div>
-            <button id="reloadBtn">Reload schedule</button>
-          </div>
-
-          <div class="stats">
-            <div class="stat"><div class="label">Visible</div><div class="value" id="visibleCount">0</div></div>
-            <div class="stat"><div class="label">Live now</div><div class="value" id="liveCount">0</div></div>
-            <div class="stat"><div class="label">Finished</div><div class="value" id="finishedCount">0</div></div>
-          </div>
-        </div>
-
-        <button class="filter-toggle" id="groupToggle" aria-expanded="false" aria-controls="groupPanel">
-          <span>Group-wise Table</span><span class="chev">▾</span>
-        </button>
-
-        <div class="filter-panel" id="groupPanel">
-          <div id="groupSection"></div>
-        </div>
+  <!-- ════════ BRACKET TAB ════════ -->
+  <div class="tab-pane active" id="tab-bracket">
+    <div class="panel">
+      <h2>Knockout Stage Bracket</h2>
+      <p style="color:var(--muted);font-size:.9rem;margin:0 0 16px">
+        Rounds auto-populate from your Google Sheet as results are entered.
+        TBD = winner not yet determined.
+      </p>
+      <div class="bracket-wrap" id="bracketWrap">
+        <div class="empty">Loading bracket…</div>
       </div>
-    </aside>
+    </div>
+  </div>
 
-    <main class="livewrap">
-      <section class="livebox" id="sameDayBox">
-        <div class="livekicker">
-          <div>
-            <div class="livebadge"><span class="dot"></span><span>Today + Tomorrow</span></div>
-            <div class="meta" id="sameDayMeta">Loading…</div>
+  <!-- ════════ SCHEDULE TAB ════════ -->
+  <div class="tab-pane" id="tab-schedule">
+    <div class="grid-layout">
+      <aside class="sidebar">
+        <div class="panel stacked-controls">
+          <button class="filter-toggle" id="filterToggle" aria-expanded="false">
+            <span>Filters</span><span class="chev">▾</span>
+          </button>
+          <div class="filter-panel" id="filterPanel">
+            <div class="controls">
+              <input id="searchInput" placeholder="Search team, venue…" />
+              <div class="row">
+                <select id="stageFilter">
+                  <option value="all">All stages</option>
+                  <option>Group Stage</option>
+                  <option>Round of 32</option>
+                  <option>Round of 16</option>
+                  <option>Quarterfinal</option>
+                  <option>Semifinal</option>
+                  <option>Third Place</option>
+                  <option>Final</option>
+                </select>
+                <select id="sortFilter">
+                  <option value="date">Sort by date</option>
+                  <option value="ist">Sort by IST</option>
+                </select>
+              </div>
+              <div class="row">
+                <select id="statusFilter">
+                  <option value="all">All statuses</option>
+                  <option value="scheduled">Scheduled</option>
+                  <option value="finished">Finished</option>
+                </select>
+                <select id="dateFilter"></select>
+              </div>
+              <button class="reload" id="reloadBtn">↺ Reload</button>
+            </div>
+            <div class="stats">
+              <div class="stat"><div class="label">Visible</div><div class="value" id="visibleCount">0</div></div>
+              <div class="stat"><div class="label">Finished</div><div class="value" id="finishedCount">0</div></div>
+              <div class="stat"><div class="label">Scheduled</div><div class="value" id="schedCount">0</div></div>
+            </div>
           </div>
-          <div class="pill" id="sameDayCount">0 matches</div>
         </div>
-        <div id="todayGrid" class="today-grid"></div>
-      </section>
+      </aside>
+      <main>
+        <div class="panel">
+          <h2>All Fixtures</h2>
+          <div id="matches" class="cards"></div>
+        </div>
+      </main>
+    </div>
+  </div>
 
-      <section class="panel">
-        <h2>Schedule</h2>
-        <div id="matches" class="cards"></div>
-      </section>
-    </main>
-  </section>
+  <!-- ════════ GROUPS TAB ════════ -->
+  <div class="tab-pane" id="tab-groups">
+    <div class="panel">
+      <h2>Group Stage Tables</h2>
+      <div id="groupSection" class="group-section"></div>
+    </div>
+  </div>
 </div>
 
 <script>
-
 const FIXTURES_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ_b6XTcnB9me_OlphhWbvaL0ybbNLP2_bYLzmwX_TNnt9Y_F8pMSIToqIOvZReV244nFxL4w-O7sC9/pub?gid=0&single=true&output=csv';
-const GROUPS_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ_b6XTcnB9me_OlphhWbvaL0ybbNLP2_bYLzmwX_TNnt9Y_F8pMSIToqIOvZReV244nFxL4w-O7sC9/pub?gid=1023019982&single=true&output=csv';
+const GROUPS_CSV_URL   = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ_b6XTcnB9me_OlphhWbvaL0ybbNLP2_bYLzmwX_TNnt9Y_F8pMSIToqIOvZReV244nFxL4w-O7sC9/pub?gid=1.023019982e+09&single=true&output=csv';
 
-let DATA = [];
-let GROUPS = [];
+let DATA = [], GROUPS = [];
 
-const E = {
-  searchInput: document.getElementById('searchInput'),
-  stageFilter: document.getElementById('stageFilter'),
-  sortFilter: document.getElementById('sortFilter'),
-  statusFilter: document.getElementById('statusFilter'),
-  dateFilter: document.getElementById('dateFilter'),
-  reloadBtn: document.getElementById('reloadBtn'),
-  matches: document.getElementById('matches'),
-  visibleCount: document.getElementById('visibleCount'),
-  liveCount: document.getElementById('liveCount'),
-  finishedCount: document.getElementById('finishedCount'),
-  stamp: document.getElementById('stamp'),
-  sameDayMeta: document.getElementById('sameDayMeta'),
-  sameDayCount: document.getElementById('sameDayCount'),
-  todayGrid: document.getElementById('todayGrid'),
-  liveStat: document.getElementById('liveStat'),
-  filterToggle: document.getElementById('filterToggle'),
-  filterPanel: document.getElementById('filterPanel'),
-  groupToggle: document.getElementById('groupToggle'),
-  groupPanel: document.getElementById('groupPanel'),
-  groupSection: document.getElementById('groupSection')
+// ── Tabs ──────────────────────────────────────────────
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+  });
+});
+
+// ── Helpers ───────────────────────────────────────────
+const n  = s => (s||'').toString().toLowerCase().replace(/\s+/g,' ').trim();
+const st = m => m.stage || 'Group Stage';
+const ss = m => m.status || 'scheduled';
+const sc = m => (m.homeGoals!=null&&m.awayGoals!=null) ? `${m.homeGoals}–${m.awayGoals}` : '';
+const dkey = d => { const t=new Date(d); return isNaN(t)?d:t.getTime(); };
+const ikey = i => { const m=/\(([^)]+)\)/.exec(i||''); const t=new Date(m?m[1]:i); return isNaN(t)?i:t.getTime(); };
+function badge(s){
+  if(s==='finished') return '<span class="badge finished">FT</span>';
+  return '<span class="badge sched">Scheduled</span>';
+}
+function tc(r){ return r===1?'winner':r===2?'loser':''; }
+
+// ── BRACKET ───────────────────────────────────────────
+const ROUND_ORDER = ['Round of 32','Round of 16','Quarterfinal','Semifinal','Third Place','Final'];
+const ROUND_LABELS = {
+  'Round of 32': 'Round of 32',
+  'Round of 16': 'Round of 16',
+  'Quarterfinal': 'Quarterfinals',
+  'Semifinal': 'Semifinals',
+  'Third Place': '3rd Place',
+  'Final': 'Final'
 };
 
-function n(s){ return (s || '').toString().toLowerCase().replace(/\s+/g, ' ').trim(); }
-function st(m){ return m.stage || 'Group Stage'; }
-function ss(m){ return m.status || 'scheduled'; }
-function score(m){ return (m.homeGoals != null && m.awayGoals != null) ? `${m.homeGoals} - ${m.awayGoals}` : 'vs'; }
-function badge(s){
-  return s === 'live'
-    ? '<span class="badge live">LIVE</span>'
-    : s === 'finished'
-      ? '<span class="badge finished">FT</span>'
-      : '<span class="badge sched">Scheduled</span>';
-}
-function dkey(d){ const t = new Date(d); return isNaN(t) ? d : t.getTime(); }
-function ikey(i){ const m = /\(([^)]+)\)/.exec(i || ''); const t = new Date(m ? m[1] : i); return isNaN(t) ? i : t.getTime(); }
-function teamClass(result){
-  if (result === 1) return 'winner';
-  if (result === 2) return 'loser';
-  return 'neutral';
-}
-
-function options(){
-  const ds = ['all', ...new Set(DATA.map(x => x.date))];
-  E.dateFilter.innerHTML = ds.map(d => `<option value="${d}">${d === 'all' ? 'All dates' : d}</option>`).join('');
-}
-
-function todayTomorrowMatches(){
-  const now = new Date();
-  const today = now.toLocaleDateString('en-US', {month:'long', day:'numeric', year:'numeric'});
-  const t = new Date(now);
-  t.setDate(now.getDate() + 1);
-  const tomorrow = t.toLocaleDateString('en-US', {month:'long', day:'numeric', year:'numeric'});
-  return DATA.filter(x => (x.date || '').includes(today) || (x.date || '').includes(tomorrow));
-}
-
-function renderToday(){
-  const now = new Date();
-  const shifted = new Date(now.getTime() - (5 * 60 * 60 * 1000));
-
-  const start = new Date(shifted);
-  start.setHours(0, 0, 0, 0);
-
-  const end = new Date(start);
-  end.setDate(end.getDate() + 2);
-
-  let list = DATA.filter(m => {
-    const matchDate = new Date(m.date);
-    return !isNaN(matchDate) && matchDate >= start && matchDate < end;
-  });
-
-  if (!list.length) {
-    list = [...DATA]
-      .filter(m => {
-        const matchDate = new Date(m.date);
-        return !isNaN(matchDate) && matchDate >= now;
-      })
-      .sort((a, b) => new Date(a.date) - new Date(b.date))
-      .slice(0, 2);
+function renderBracket(){
+  const wrap = document.getElementById('bracketWrap');
+  const koMatches = DATA.filter(m => ROUND_ORDER.includes(st(m)));
+  if(!koMatches.length){
+    wrap.innerHTML = '<div class="empty">No knockout fixtures found in data yet.</div>';
+    return;
   }
 
-  E.sameDayMeta.textContent = list.length
-    ? `Showing ${list.length} upcoming match${list.length > 1 ? 'es' : ''}.`
-    : 'No upcoming matches found.';
-  E.sameDayCount.textContent = `${list.length} match${list.length !== 1 ? 'es' : ''}`;
+  // Group by round
+  const byRound = {};
+  ROUND_ORDER.forEach(r => byRound[r] = []);
+  koMatches.forEach(m => { const r = st(m); if(byRound[r]) byRound[r].push(m); });
 
-  E.todayGrid.innerHTML = list.length ? list.map(m => `
-    <article class="card">
-      <div class="top">
-        <div>
-          <div class="title">${m.match || ''}</div>
-          <div class="meta">${st(m)} · ${m.date || ''}</div>
+  // Build bracket HTML — only rounds that have at least 1 match
+  const activeRounds = ROUND_ORDER.filter(r => byRound[r].length > 0);
+
+  const bracketEl = document.createElement('div');
+  bracketEl.className = 'bracket';
+
+  activeRounds.forEach(roundName => {
+    const roundDiv = document.createElement('div');
+    roundDiv.className = 'round';
+    roundDiv.innerHTML = `<div class="round-title">${ROUND_LABELS[roundName]}</div>`;
+
+    byRound[roundName].forEach(m => {
+      const slot = document.createElement('div');
+      slot.className = 'match-slot';
+
+      const h = m.homeGoals != null ? m.homeGoals : '';
+      const a = m.awayGoals != null ? m.awayGoals : '';
+      const t1 = m.team1 || 'TBD';
+      const t2 = m.team2 || 'TBD';
+      const t1c = tc(m.team1Result);
+      const t2c = tc(m.team2Result);
+      const dateStr = m.date ? `<div class="match-label">${m.date.replace(/,.*$/,'')} · ${m.ist||''}</div>` : '';
+
+      slot.innerHTML = `
+        <div class="match-box">
+          <div class="team-row ${t1c}">
+            <span class="name">${t1}</span>
+            <span class="sc">${h}</span>
+          </div>
+          <div class="team-row ${t2c}">
+            <span class="name">${t2}</span>
+            <span class="sc">${a}</span>
+          </div>
         </div>
-        ${badge(ss(m))}
-      </div>
-      <div class="teams">
-        <div class="team ${teamClass(m.team1Result)}"><strong>${m.team1 || ''}</strong></div>
-        <div class="score2">
-          <div style="font-size:1.45rem;font-weight:900">${score(m)}</div>
-          <div class="meta">${m.ist || ''}</div>
-        </div>
-        <div class="team ${teamClass(m.team2Result)}"><strong>${m.team2 || ''}</strong></div>
-      </div>
-      <div class="details">
-        <div><strong>Venue:</strong> ${m.venue || '—'}</div>
-        <div><strong>Kickoff:</strong> ${m.kickoff || '—'}</div>
-      </div>
-    </article>
-  `).join('') : '<div class="empty">No upcoming matches found.</div>';
+        ${dateStr}
+      `;
+      roundDiv.appendChild(slot);
+    });
+
+    bracketEl.appendChild(roundDiv);
+  });
+
+  wrap.innerHTML = '';
+  wrap.appendChild(bracketEl);
 }
+
+// ── SCHEDULE ──────────────────────────────────────────
+function options(){
+  const ds = ['all', ...new Set(DATA.map(x=>x.date))];
+  document.getElementById('dateFilter').innerHTML =
+    ds.map(d=>`<option value="${d}">${d==='all'?'All dates':d}</option>`).join('');
+}
+
 function card(m){
   return `
     <article class="card">
       <div class="top">
         <div>
-          <div class="title">${m.match || ''}</div>
-          <div class="meta">${st(m)} · ${m.date || ''}</div>
+          <div class="title">${m.match||''}</div>
+          <div class="meta">${st(m)} · ${m.date||''}</div>
         </div>
         ${badge(ss(m))}
       </div>
       <div class="teams">
-        <div class="team ${teamClass(m.team1Result)}"><strong>${m.team1 || ''}</strong></div>
+        <div class="team ${tc(m.team1Result)?tc(m.team1Result):''}"><strong>${m.team1||''}</strong></div>
         <div class="score2">
-          <div style="font-size:1.45rem;font-weight:900">${score(m)}</div>
-          <div class="meta">${m.ist || ''}</div>
+          <div style="font-size:1.45rem;font-weight:900">${sc(m)||'vs'}</div>
+          <div class="meta">${m.ist||''}</div>
         </div>
-        <div class="team ${teamClass(m.team2Result)}"><strong>${m.team2 || ''}</strong></div>
+        <div class="team ${tc(m.team2Result)?tc(m.team2Result):''}"><strong>${m.team2||''}</strong></div>
       </div>
       <div class="details">
-        <div><strong>Venue:</strong> ${m.venue || '—'}</div>
-        <div><strong>Kickoff:</strong> ${m.kickoff || '—'}</div>
-        <div><strong>Stage:</strong> ${m.stage || '—'}</div>
+        <div><strong>Venue:</strong> ${m.venue||'—'}</div>
+        <div><strong>Kickoff:</strong> ${m.kickoff||'—'}</div>
+        <div><strong>Stage:</strong> ${m.stage||'—'}</div>
       </div>
-    </article>
-  `;
+    </article>`;
 }
 
+function render(){
+  const q     = n(document.getElementById('searchInput').value);
+  const stage = document.getElementById('stageFilter').value;
+  const stat  = document.getElementById('statusFilter').value;
+  const date  = document.getElementById('dateFilter').value;
+  const sort  = document.getElementById('sortFilter').value;
+
+  let L = [...DATA].filter(m => {
+    const hay = n([m.match,m.venue,m.date,m.ist,m.team1,m.team2].join(' '));
+    return (!q||hay.includes(q)) &&
+           (stage==='all'||st(m)===stage) &&
+           (stat==='all'||ss(m)===stat) &&
+           (date==='all'||m.date===date);
+  });
+
+  if(sort==='date') L.sort((a,b)=>dkey(a.date)-dkey(b.date));
+  else L.sort((a,b)=>ikey(a.ist)-ikey(b.ist));
+
+  document.getElementById('visibleCount').textContent  = L.length;
+  document.getElementById('finishedCount').textContent = DATA.filter(m=>ss(m)==='finished').length;
+  document.getElementById('schedCount').textContent    = DATA.filter(m=>ss(m)==='scheduled').length;
+  document.getElementById('finPill').textContent       = 'Finished: '+DATA.filter(m=>ss(m)==='finished').length;
+
+  document.getElementById('matches').innerHTML =
+    L.length ? L.map(card).join('') : '<div class="empty">No fixtures match the current filters.</div>';
+}
+
+// ── GROUPS ────────────────────────────────────────────
 function renderGroups(){
-  E.groupSection.innerHTML = GROUPS.map(g => `
+  document.getElementById('groupSection').innerHTML = GROUPS.map(g=>`
     <div>
       <h3 class="group-stage-title">${g.group}</h3>
       <div class="group-wrap">
         <table class="group-table">
           <thead>
-            <tr>
-              <th>Team</th><th>Pld</th><th>W</th><th>D</th><th>L</th>
-              <th>GF</th><th>GA</th><th>GD</th><th>Pts</th>
-            </tr>
+            <tr><th>Team</th><th>Pld</th><th>W</th><th>D</th><th>L</th>
+                <th>GF</th><th>GA</th><th>GD</th><th>Pts</th></tr>
           </thead>
           <tbody>
-            ${(g.teams || []).map(t => `
+            ${(g.teams||[]).map(t=>`
               <tr>
-                <td>${t.team || ''}</td>
-                <td>${t.played ?? 0}</td>
-                <td>${t.wins ?? 0}</td>
-                <td>${t.draws ?? 0}</td>
-                <td>${t.losses ?? 0}</td>
-                <td>${t.goalsFor ?? 0}</td>
-                <td>${t.goalsAgainst ?? 0}</td>
-                <td>${t.goalDifference ?? 0}</td>
-                <td>${t.points ?? 0}</td>
-              </tr>
-            `).join('')}
+                <td>${t.team}</td><td>${t.played}</td><td>${t.wins}</td>
+                <td>${t.draws}</td><td>${t.losses}</td><td>${t.goalsFor}</td>
+                <td>${t.goalsAgainst}</td><td>${t.goalDifference}</td><td>${t.points}</td>
+              </tr>`).join('')}
           </tbody>
         </table>
       </div>
-    </div>
-  `).join('');
+    </div>`).join('');
 }
 
-function render(){
-  const q = n(E.searchInput.value);
-  const stage = E.stageFilter.value;
-  const stat = E.statusFilter.value;
-  const date = E.dateFilter.value;
-  const sort = E.sortFilter.value;
-
-  let L = [...DATA].filter(m => {
-    const hay = n([m.match, m.venue, m.date, m.ist, m.team1, m.team2].join(' '));
-    return (!q || hay.includes(q)) &&
-      (stage === 'all' || st(m) === stage) &&
-      (stat === 'all' || ss(m) === stat) &&
-      (date === 'all' || m.date === date);
-  });
-
-  if (sort === 'date') L.sort((a, b) => dkey(a.date) - dkey(b.date));
-  else L.sort((a, b) => ikey(a.ist) - ikey(b.ist));
-
-  E.visibleCount.textContent = L.length;
-  E.liveCount.textContent = DATA.filter(m => ss(m) === 'live').length;
-  E.finishedCount.textContent = DATA.filter(m => ss(m) === 'finished').length;
-  E.liveStat.textContent = `Live matches: ${E.liveCount.textContent}`;
-
-  E.matches.innerHTML = L.length ? L.map(card).join('') : '<div class="empty">No fixtures match the current filters.</div>';
-  renderToday();
-  renderGroups();
-}
-
+// ── CSV helpers ───────────────────────────────────────
 function csvToRows(text){
-  const rows = [];
-  const lines = text.replace(/\r/g, '').trim().split('\n');
-  if (!lines.length) return rows;
-  const headers = lines[0].split(',').map(h => h.trim());
-  for (let i = 1; i < lines.length; i++) {
-    if (!lines[i].trim()) continue;
-    const vals = [];
-    let cur = '';
-    let inQ = false;
-    for (let j = 0; j < lines[i].length; j++) {
-      const ch = lines[i][j];
-      if (ch === '"') inQ = !inQ;
-      else if (ch === ',' && !inQ) { vals.push(cur); cur = ''; }
-      else cur += ch;
+  const lines = text.replace(/\r/g,'').trim().split('\n');
+  if(!lines.length) return [];
+  const headers = lines[0].split(',').map(h=>h.trim());
+  return lines.slice(1).filter(l=>l.trim()).map(line => {
+    const vals=[]; let cur='',inQ=false;
+    for(let j=0;j<line.length;j++){
+      const ch=line[j];
+      if(ch==='"') inQ=!inQ;
+      else if(ch===','&&!inQ){vals.push(cur);cur='';}
+      else cur+=ch;
     }
     vals.push(cur);
-    const obj = {};
-    headers.forEach((h, idx) => obj[h] = (vals[idx] || '').trim().replace(/^"|"$/g, ''));
-    rows.push(obj);
-  }
-  return rows;
-}
-
-async function fetchCSV(url){
-  const res = await fetch(url, { cache: 'no-store' });
-  if (!res.ok) throw new Error(`CSV fetch failed: ${res.status}`);
-  return await res.text();
-}
-
-function groupRowsToGroups(rows){
-  const map = {};
-  rows.forEach(r => {
-    const g = r.group || 'Group';
-    if (!map[g]) map[g] = [];
-    map[g].push({
-      team: r.team || '',
-      played: Number(r.played || 0),
-      wins: Number(r.wins || 0),
-      draws: Number(r.draws || 0),
-      losses: Number(r.losses || 0),
-      goalsFor: Number(r.goalsFor || 0),
-      goalsAgainst: Number(r.goalsAgainst || 0),
-      goalDifference: Number(r.goalDifference || 0),
-      points: Number(r.points || 0)
-    });
+    const obj={};
+    headers.forEach((h,i)=>obj[h]=(vals[i]||'').trim().replace(/^"|"$/g,''));
+    return obj;
   });
-  return Object.entries(map).map(([group, teams]) => ({ group, teams }));
+}
+async function fetchCSV(url){
+  const res = await fetch(url,{cache:'no-store'});
+  if(!res.ok) throw new Error('CSV fetch failed: '+res.status);
+  return res.text();
+}
+function groupRowsToGroups(rows){
+  const map={};
+  rows.forEach(r=>{
+    const g=r.group||'Group';
+    if(!map[g]) map[g]=[];
+    map[g].push({team:r.team||'',played:+r.played||0,wins:+r.wins||0,draws:+r.draws||0,
+      losses:+r.losses||0,goalsFor:+r.goalsFor||0,goalsAgainst:+r.goalsAgainst||0,
+      goalDifference:+r.goalDifference||0,points:+r.points||0});
+  });
+  return Object.entries(map).map(([group,teams])=>({group,teams}));
 }
 
+// ── Load ──────────────────────────────────────────────
 async function load(){
-  
-  try {
+  try{
     const [fixturesText, groupsText] = await Promise.all([
-      fetchCSV(FIXTURES_CSV_URL),
-      fetchCSV(GROUPS_CSV_URL)
+      fetchCSV(FIXTURES_CSV_URL), fetchCSV(GROUPS_CSV_URL)
     ]);
-
-    const fixtureRows = csvToRows(fixturesText);
-    const groupRows = csvToRows(groupsText);
-
-    DATA = fixtureRows.map(r => ({
-      match: r.match || `${r.team1 || ''} vs ${r.team2 || ''}`,
-      team1: r.team1 || '',
-      team2: r.team2 || '',
-      homeGoals: r.homeGoals !== '' ? (r.homeGoals == null ? null : Number(r.homeGoals)) : null,
-      awayGoals: r.awayGoals !== '' ? (r.awayGoals == null ? null : Number(r.awayGoals)) : null,
-      team1Result: Number(r.team1Result || 0),
-      team2Result: Number(r.team2Result || 0),
-      stage: r.stage || 'Group Stage',
-      date: r.date || '',
-      ist: r.ist || '',
-      kickoff: r.kickoff || '',
-      venue: r.venue || '',
-      status: r.status || 'scheduled'
+    DATA = csvToRows(fixturesText).map(r=>({
+      match:      r.match||`${r.team1||''} vs ${r.team2||''}`,
+      team1:      r.team1||'', team2: r.team2||'',
+      homeGoals:  r.homeGoals!==''?(r.homeGoals==null?null:Number(r.homeGoals)):null,
+      awayGoals:  r.awayGoals!==''?(r.awayGoals==null?null:Number(r.awayGoals)):null,
+      team1Result:Number(r.team1Result||0), team2Result:Number(r.team2Result||0),
+      stage:r.stage||'Group Stage', date:r.date||'', ist:r.ist||'',
+      kickoff:r.kickoff||'', venue:r.venue||'', status:r.status||'scheduled'
     }));
-
-    GROUPS = groupRowsToGroups(groupRows);
-
-    E.stamp.textContent = 'Updated: ' + new Date().toLocaleString('en-IN');
-    options();
-    render();
-  } catch (err) {
+    GROUPS = groupRowsToGroups(csvToRows(groupsText));
+    document.getElementById('stamp').textContent = 'Updated: '+new Date().toLocaleString('en-IN');
+    options(); render(); renderBracket(); renderGroups();
+  } catch(err){
     console.warn(err);
-    
-    E.matches.innerHTML = '<div class="api-error">Could not load Google Sheet data. Make sure the sheet is published to the web as CSV and the URLs are pasted correctly.</div>';
+    document.getElementById('bracketWrap').innerHTML =
+      '<div class="empty" style="color:#fca5a5">Could not load data. Check that the Google Sheet is published to the web as CSV.</div>';
+    document.getElementById('matches').innerHTML =
+      '<div class="empty" style="color:#fca5a5">Could not load fixtures.</div>';
   }
 }
 
+// ── Event listeners ───────────────────────────────────
 ['input','change'].forEach(ev =>
-  [E.searchInput, E.stageFilter, E.sortFilter, E.statusFilter, E.dateFilter]
-    .forEach(el => el.addEventListener(ev, render))
+  ['searchInput','stageFilter','sortFilter','statusFilter','dateFilter']
+    .forEach(id => document.getElementById(id).addEventListener(ev, render))
 );
-
-E.reloadBtn.addEventListener('click', load);
-
-E.filterToggle.addEventListener('click', () => {
-  const open = E.filterPanel.classList.toggle('open');
-  E.filterToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
-});
-
-E.groupToggle.addEventListener('click', () => {
-  const open = E.groupPanel.classList.toggle('open');
-  E.groupToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+document.getElementById('reloadBtn').addEventListener('click', load);
+document.getElementById('filterToggle').addEventListener('click', () => {
+  const fp = document.getElementById('filterPanel');
+  const open = fp.classList.toggle('open');
+  document.getElementById('filterToggle').setAttribute('aria-expanded', open?'true':'false');
 });
 
 load();
